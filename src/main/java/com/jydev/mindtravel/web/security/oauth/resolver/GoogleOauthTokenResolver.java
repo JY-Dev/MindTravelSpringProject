@@ -1,6 +1,7 @@
 package com.jydev.mindtravel.web.security.oauth.resolver;
 
 import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
+import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
@@ -9,15 +10,16 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Collections;
 import java.util.Map;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class GoogleOauthTokenResolver {
+public class GoogleOauthTokenResolver implements OauthTokenResolver{
     private final RestTemplate restTemplate;
-    public OauthInfo getGoogleOauthInfo(String token) {
+
+    @Override
+    public OauthInfo resolve(String token) {
         URI uri = UriComponentsBuilder
                 .fromUriString("https://oauth2.googleapis.com/tokeninfo")
                 .queryParam("id_token", token)
@@ -31,12 +33,8 @@ public class GoogleOauthTokenResolver {
         return new OauthInfo(sub,email);
     }
 
-
-
-
-    public void setHeaders(String accessToken, HttpHeaders headers) {
-        headers.set("Authorization", "Bearer " + accessToken);
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+    @Override
+    public boolean supports(OauthServerType type) {
+        return type.equals(OauthServerType.GOOGLE);
     }
 }
