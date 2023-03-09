@@ -10,7 +10,6 @@ import java.util.Collection;
 @Getter
 @ToString
 public class Oauth2AuthenticationToken extends AbstractAuthenticationToken {
-    private Object principal;
     private String accessToken;
     private OauthServerType type;
 
@@ -18,13 +17,6 @@ public class Oauth2AuthenticationToken extends AbstractAuthenticationToken {
         super(null);
         this.accessToken = accessToken;
         this.type = type;
-        setAuthenticated(false);
-    }
-
-    public Oauth2AuthenticationToken(Object principal,Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
-        this.principal = principal;
-        super.setAuthenticated(true);
     }
 
     @Override
@@ -34,6 +26,6 @@ public class Oauth2AuthenticationToken extends AbstractAuthenticationToken {
 
     @Override
     public Object getPrincipal() {
-        return this.principal;
+        return null;
     }
 }
