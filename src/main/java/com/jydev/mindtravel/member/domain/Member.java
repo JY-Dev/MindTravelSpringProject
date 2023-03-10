@@ -36,6 +36,6 @@ public class Member extends BaseEntity {
         this.oauthServerType = type;
         this.email = info.getEmail();
         this.oauthId = info.getId();
-        this.role = MemberRole.USER;
+        this.role = MemberRole.NEW_USER;
     }
 }
