@@ -27,7 +27,7 @@ public class Member extends BaseEntity {
 
     private String oauthId;
 
-    private String profileImage = "";
+    private String profileImgUrl;
 
     @Enumerated(value = EnumType.STRING)
     private MemberRole role;
@@ -37,5 +37,7 @@ public class Member extends BaseEntity {
         this.email = info.getEmail();
         this.oauthId = info.getId();
         this.role = MemberRole.NEW_USER;
+        this.nickname = "";
+        this.profileImgUrl = "";
     }
 }

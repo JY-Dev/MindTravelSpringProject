@@ -13,11 +13,13 @@ public class MemberDto {
 
     private String nickname;
 
+    private String profileImgUrl;
     private MemberRole role;
 
     public MemberDto(Member member){
         this.email = member.getEmail();
         this.nickname = member.getNickname();
+        this.profileImgUrl = member.getProfileImgUrl();
         this.role = member.getRole();
     }
 }
