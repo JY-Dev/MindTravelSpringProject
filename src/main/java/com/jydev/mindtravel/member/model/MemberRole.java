@@ -1,5 +1,5 @@
 package com.jydev.mindtravel.member.model;
 
 public enum MemberRole {
-    USER,COUNSELOR
+    USER,NEW_USER,COUNSELOR
 }
