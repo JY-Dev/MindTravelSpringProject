@@ -20,4 +20,10 @@ public class MemberService {
                 .orElseGet(() -> repository.save(new Member(type, info)));
         return new MemberDto(member);
     }
+
+    public MemberDto findMemberByEmail(String email){
+        return repository.findByEmail(email)
+                .map(MemberDto::new)
+                .orElse(null);
+    }
 }
