@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(email, null,
                             claimsInfo.getAuthorities().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())));
-
+            request.setAttribute("member",member);
             doFilter(request, response, filterChain);
         } catch (ExpiredJwtException e) {
             httpUtils.sendResponse(response, HttpServletResponse.SC_FORBIDDEN, "토큰 만료", null);
