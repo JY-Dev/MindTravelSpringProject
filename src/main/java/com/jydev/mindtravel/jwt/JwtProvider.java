@@ -1,6 +1,5 @@
 package com.jydev.mindtravel.jwt;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -15,12 +14,10 @@ import java.util.Map;
 public class JwtProvider {
     public final byte[] secretByte;
     private final Key key;
-    private final ObjectMapper mapper;
 
-    public JwtProvider(@Value("${jwt.secret}") String secret, ObjectMapper mapper) {
+    public JwtProvider(@Value("${jwt.secret}") String secret) {
         secretByte = secret.getBytes();
         key = Keys.hmacShaKeyFor(secretByte);
-        this.mapper = mapper;
     }
 
     public static final String authKey = "auth";
