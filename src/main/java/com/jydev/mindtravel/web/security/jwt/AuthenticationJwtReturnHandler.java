@@ -31,9 +31,9 @@ public class AuthenticationJwtReturnHandler implements AuthenticationSuccessHand
         log.info("로그인 성공 : {}", authentication);
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
         JwtClaimsInfo jwtClaimsInfo = new JwtClaimsInfo(token);
-        String test = mapper.writeValueAsString(jwtClaimsInfo);
+        String json = mapper.writeValueAsString(jwtClaimsInfo);
         Map<String, Object> claims = new HashMap<>();
-        claims.put(JwtProvider.authKey, test);
+        claims.put(JwtProvider.authKey, json);
         Jwt jwt = jwtProvider.createJwt(claims);
         httpUtils.sendResponse(response, HttpServletResponse.SC_OK, "토큰 발급", jwt);
     }
