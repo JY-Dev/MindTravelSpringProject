@@ -3,15 +3,10 @@ package com.jydev.mindtravel.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.jackson.io.JacksonDeserializer;
-import io.jsonwebtoken.jackson.io.JacksonSerializer;
-import io.jsonwebtoken.lang.Maps;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
@@ -22,7 +17,7 @@ public class JwtProvider {
     private final Key key;
     private final ObjectMapper mapper;
 
-    public JwtProvider(@Value("${jwt.secret}") String secret, ObjectMapper mapper){
+    public JwtProvider(@Value("${jwt.secret}") String secret, ObjectMapper mapper) {
         secretByte = secret.getBytes();
         key = Keys.hmacShaKeyFor(secretByte);
         this.mapper = mapper;
