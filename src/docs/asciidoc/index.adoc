@@ -32,10 +32,18 @@
 | 토큰 만료
 |===
 === 소셜 로그인
-include::{snippets}/social-login/curl-request.adoc[]
 ==== Request
+include::{snippets}/social-login/http-request.adoc[]
 include::{snippets}/social-login/path-parameters.adoc[]
 include::{snippets}/social-login/request-headers.adoc[]
 ==== Response
 include::{snippets}/social-login/response-body.adoc[]
 include::{snippets}/social-login/response-fields.adoc[]
+
+=== 멤버 조회
+==== Request
+include::{snippets}/get-member/http-request.adoc[]
+include::{snippets}/get-member/request-headers.adoc[]
+==== Response
+include::{snippets}/get-member/response-body.adoc[]
+include::{snippets}/get-member/response-fields.adoc[]

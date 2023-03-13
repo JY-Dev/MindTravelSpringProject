@@ -21,6 +21,6 @@ public class MemberController {
 
     @GetMapping
     public ResponseEntity<HttpResponse<MemberDto>> getMember(@RequestAttribute("member") MemberDto member) {
-        return httpUtils.makeHttpResponse(HttpStatus.OK.value(), "응답 완료",member);
+        return httpUtils.makeHttpResponse(HttpStatus.OK.value(), "",member);
     }
 }

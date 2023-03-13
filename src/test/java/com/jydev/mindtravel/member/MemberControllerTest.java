@@ -1,8 +1,10 @@
 package com.jydev.mindtravel.member;
 
+
 import com.jydev.mindtravel.ControllerTest;
-import com.jydev.mindtravel.jwt.Jwt;
-import com.jydev.mindtravel.web.controller.AuthController;
+import com.jydev.mindtravel.member.model.MemberDto;
+import com.jydev.mindtravel.member.model.MemberRole;
+import com.jydev.mindtravel.web.controller.MemberController;
 import com.jydev.mindtravel.web.http.HttpResponse;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import org.junit.jupiter.api.Test;
@@ -23,51 +25,55 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ControllerTest
-@WebMvcTest(AuthController.class)
-public class AuthControllerTest {
+@WebMvcTest(MemberController.class)
+public class MemberControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
     @MockBean
     private HttpUtils httpUtils;
 
     @Test
-    public void socialLoginTest() throws Exception {
-        //given
-        given(httpUtils.makeHttpResponse(eq(200), eq(""), any(Jwt.class)))
-                .willReturn(
-                        ResponseEntity.ok(new HttpResponse<>(200, "", new Jwt("accessToken", "refreshToken")))
-                );
+    public void getMember() throws Exception {
+        //Given
+        MemberDto memberDto = MemberDto.builder()
+                .memberIdx(0L)
+                .email("test@naver.com")
+                .nickname("nickname")
+                .profileImgUrl("image-url")
+                .role(MemberRole.USER)
+                .build();
+        given(httpUtils.makeHttpResponse(eq(200), eq(""), any(MemberDto.class))).willReturn(
+                ResponseEntity.ok(new HttpResponse<>(200, "", memberDto)
+        ));
 
         //when
         ResultActions result = this.mockMvc.perform(
-                post("/v1/login/oauth2/{oauthServerType}", "google")
+                get("/v1/member")
                         .header("Authorization", "Bearer Token")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
+                        .requestAttr("member",memberDto)
         );
         result.andExpect(status().isOk())
-                .andDo(document("social-login", getDocumentRequest(),
+                .andDo(document("get-member", getDocumentRequest(),
                         getDocumentResponse(),
-                        pathParameters(
-                                parameterWithName("oauthServerType").description("Oauth 종류")
-                        ),
                         requestHeaders(
-                                headerWithName("Authorization").description("Oauth Access Token")
+                                headerWithName("Authorization").description("Access Token")
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
-                                fieldWithPath("data.accessToken").type(JsonFieldType.STRING).description("AccessToken"),
-                                fieldWithPath("data.refreshToken").type(JsonFieldType.STRING).description("RefreshToken")
+                                fieldWithPath("data.memberIdx").type(JsonFieldType.NUMBER).description("memberIdx"),
+                                fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
+                                fieldWithPath("data.nickname").type(JsonFieldType.STRING).description("닉네임"),
+                                fieldWithPath("data.profileImgUrl").type(JsonFieldType.STRING).description("프로필 이미지 Url"),
+                                fieldWithPath("data.role").type(JsonFieldType.STRING).description("권한")
                         )));
     }
 }
