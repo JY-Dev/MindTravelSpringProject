@@ -1,13 +1,14 @@
 package com.jydev.mindtravel.member.model;
 
 import com.jydev.mindtravel.member.domain.Member;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @EqualsAndHashCode
+@AllArgsConstructor
+@Builder
 public class MemberDto {
     private Long memberIdx;
     private String email;
