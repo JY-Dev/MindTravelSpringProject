@@ -55,7 +55,7 @@ public class AuthControllerTest {
 
         //when
         ResultActions result = this.mockMvc.perform(
-                post("/login/oauth2/{oauthServerType}","google")
+                post("/v1/login/oauth2/{oauthServerType}","google")
                         .header("Authorization","Bearer testToken")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)

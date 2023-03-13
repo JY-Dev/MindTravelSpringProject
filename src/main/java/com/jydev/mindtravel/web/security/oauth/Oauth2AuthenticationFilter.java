@@ -20,7 +20,7 @@ import java.util.Arrays;
 
 @Slf4j
 public class Oauth2AuthenticationFilter extends AbstractAuthenticationProcessingFilter {
-    private static final String MATCH_URL_PREFIX = "/login/oauth2/";
+    private static final String MATCH_URL_PREFIX = "/v1/login/oauth2/";
     private static final String ACCESS_TOKEN_HEADER = "Authorization";
     private static final String tokenType = "Bearer ";
 
