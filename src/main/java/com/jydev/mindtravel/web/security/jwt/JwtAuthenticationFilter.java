@@ -29,13 +29,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
     private final HttpUtils httpUtils;
     private final MemberService memberService;
-
     private final ObjectMapper mapper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {
-        String accessToken = extractToken(request);
         try {
+            String accessToken = extractToken(request);
             Claims claims = jwtProvider.getClaims(accessToken);
             String json = claims.get(JwtProvider.authKey, String.class);
             JwtClaimsInfo claimsInfo = mapper.readValue(json, JwtClaimsInfo.class);
