@@ -1,21 +1,17 @@
 package com.jydev.mindtravel.member;
 
+import com.jydev.mindtravel.ControllerTest;
 import com.jydev.mindtravel.jwt.Jwt;
 import com.jydev.mindtravel.web.controller.AuthController;
 import com.jydev.mindtravel.web.http.HttpResponse;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -34,9 +30,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc(addFilters = false)
-@AutoConfigureRestDocs
-@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
+@ControllerTest
 @WebMvcTest(AuthController.class)
 public class AuthControllerTest {
     @Autowired
@@ -48,20 +42,20 @@ public class AuthControllerTest {
     @Test
     public void socialLoginTest() throws Exception {
         //given
-        given(httpUtils.makeHttpResponse(eq(200),eq(""),any(Jwt.class)))
+        given(httpUtils.makeHttpResponse(eq(200), eq(""), any(Jwt.class)))
                 .willReturn(
-                        ResponseEntity.ok(new HttpResponse<>(200,"",new Jwt("accessToken","refreshToken")))
+                        ResponseEntity.ok(new HttpResponse<>(200, "", new Jwt("accessToken", "refreshToken")))
                 );
 
         //when
         ResultActions result = this.mockMvc.perform(
-                post("/v1/login/oauth2/{oauthServerType}","google")
-                        .header("Authorization","Bearer testToken")
+                post("/v1/login/oauth2/{oauthServerType}", "google")
+                        .header("Authorization", "Bearer testToken")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         );
         result.andExpect(status().isOk())
-                .andDo(document("social-login",getDocumentRequest(),
+                .andDo(document("social-login", getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("oauthServerType").description("Oauth 종류")
