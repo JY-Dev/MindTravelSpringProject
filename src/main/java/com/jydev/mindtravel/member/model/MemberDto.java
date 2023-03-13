@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode
 public class MemberDto {
+    private Long memberIdx;
     private String email;
 
     private String nickname;
@@ -17,6 +18,7 @@ public class MemberDto {
     private MemberRole role;
 
     public MemberDto(Member member){
+        this.memberIdx = member.getId();
         this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.profileImgUrl = member.getProfileImgUrl();
