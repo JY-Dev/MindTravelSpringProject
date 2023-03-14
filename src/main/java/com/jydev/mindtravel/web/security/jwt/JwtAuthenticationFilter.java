@@ -24,8 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private static final String ACCESS_TOKEN_HEADER = "Authorization";
-    private static final String tokenType = "Bearer ";
+
     private final JwtProvider jwtProvider;
     private final HttpUtils httpUtils;
     private final MemberService memberService;
@@ -34,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {
         try {
-            String accessToken = extractToken(request);
+            String accessToken = jwtProvider.extractToken(request);
             Claims claims = jwtProvider.getClaims(accessToken);
             String json = claims.get(JwtProvider.authKey, String.class);
             JwtClaimsInfo claimsInfo = mapper.readValue(json, JwtClaimsInfo.class);
@@ -53,12 +52,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.error("ErrorMessage : {}", e.getMessage());
             httpUtils.sendResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "인증 실패", null);
         }
-    }
-
-    public String extractToken(HttpServletRequest request) {
-        String header = request.getHeader(ACCESS_TOKEN_HEADER);
-        if (!header.startsWith(tokenType))
-            throw new AuthenticationServiceException("토큰이 존재하지 않습니다.");
-        return header.substring(tokenType.length());
     }
 }

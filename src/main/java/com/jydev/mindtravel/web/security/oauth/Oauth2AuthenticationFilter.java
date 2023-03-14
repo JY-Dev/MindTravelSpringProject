@@ -1,5 +1,6 @@
 package com.jydev.mindtravel.web.security.oauth;
 
+import com.jydev.mindtravel.jwt.JwtProvider;
 import com.jydev.mindtravel.web.security.oauth.model.Oauth2AuthenticationToken;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 import jakarta.servlet.ServletException;
@@ -21,12 +22,12 @@ import java.util.Arrays;
 @Slf4j
 public class Oauth2AuthenticationFilter extends AbstractAuthenticationProcessingFilter {
     private static final String MATCH_URL_PREFIX = "/v1/login/oauth2/";
-    private static final String ACCESS_TOKEN_HEADER = "Authorization";
-    private static final String tokenType = "Bearer ";
+    private final JwtProvider jwtProvider;
 
-    public Oauth2AuthenticationFilter(AuthenticationSuccessHandler authenticationSuccessHandler,
+    public Oauth2AuthenticationFilter(JwtProvider jwtProvider, AuthenticationSuccessHandler authenticationSuccessHandler,
                                       AuthenticationProvider... authenticationProvider) {
         super(new AntPathRequestMatcher(MATCH_URL_PREFIX + "*"));
+        this.jwtProvider = jwtProvider;
         this.setAuthenticationManager(new ProviderManager(authenticationProvider));
         this.setAuthenticationSuccessHandler(authenticationSuccessHandler);
     }
@@ -34,15 +35,8 @@ public class Oauth2AuthenticationFilter extends AbstractAuthenticationProcessing
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         OauthServerType serverType = extractOauthServerType(request);
-        String accessToken = extractToken(request);
+        String accessToken = jwtProvider.extractToken(request);
         return getAuthenticationManager().authenticate(new Oauth2AuthenticationToken(accessToken, serverType));
-    }
-
-    public String extractToken(HttpServletRequest request){
-        String header = request.getHeader(ACCESS_TOKEN_HEADER);
-        if(!header.startsWith(tokenType))
-            throw new AuthenticationServiceException("토큰이 존재하지 않습니다.");
-        return header.substring(tokenType.length());
     }
 
     public OauthServerType extractOauthServerType(HttpServletRequest request) {

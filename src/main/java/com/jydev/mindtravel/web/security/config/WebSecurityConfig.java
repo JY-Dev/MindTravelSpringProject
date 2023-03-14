@@ -41,7 +41,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 .anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(entryPoint);
-        http.addFilterBefore(new Oauth2AuthenticationFilter(jwtReturnHandler, provider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new Oauth2AuthenticationFilter(jwtProvider,jwtReturnHandler, provider), UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(new JwtAuthenticationFilter(jwtProvider,httpUtils,memberService,mapper), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

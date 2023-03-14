@@ -3,7 +3,9 @@ package com.jydev.mindtravel.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -49,12 +51,21 @@ public class JwtProvider {
 
 
     public Date getExpireDateAccessToken() {
-        long expireTimeMils = 1000 * 60 * 60;
+        long expireTimeMils = 1000 * 6;
         return new Date(System.currentTimeMillis() + expireTimeMils);
     }
 
     public Date getExpireDateRefreshToken() {
         long expireTimeMils = 1000L * 60 * 60 * 24 * 60;
         return new Date(System.currentTimeMillis() + expireTimeMils);
+    }
+
+    public String extractToken(HttpServletRequest request) {
+        String ACCESS_TOKEN_HEADER = "Authorization";
+        String header = request.getHeader(ACCESS_TOKEN_HEADER);
+        String tokenType = "Bearer ";
+        if (!header.startsWith(tokenType))
+            throw new AuthenticationServiceException("토큰이 존재하지 않습니다.");
+        return header.substring(tokenType.length());
     }
 }
