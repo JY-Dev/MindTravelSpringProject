@@ -31,6 +31,14 @@
 | `403`
 | 토큰 만료
 |===
+=== 토큰 갱신
+==== Request
+include::{snippets}/refresh-token/http-request.adoc[]
+include::{snippets}/refresh-token/request-headers.adoc[]
+==== Response
+include::{snippets}/refresh-token/response-body.adoc[]
+include::{snippets}/refresh-token/response-fields.adoc[]
+
 === 소셜 로그인
 ==== Request
 include::{snippets}/social-login/http-request.adoc[]

@@ -21,4 +21,10 @@ public class AuthController {
     public ResponseEntity<HttpResponse<Jwt>> socialLogin(@PathVariable String oauthServerType){
         return httpUtils.makeHttpResponse(HttpStatus.OK.value(),"",new Jwt("accessToken","refreshToken"));
     }
+
+    @PostMapping("/reissue/token")
+    public ResponseEntity<HttpResponse<Jwt>> refreshToken(){
+        return httpUtils.makeHttpResponse(HttpStatus.OK.value(),"",new Jwt("accessToken","refreshToken"));
+    }
+
 }

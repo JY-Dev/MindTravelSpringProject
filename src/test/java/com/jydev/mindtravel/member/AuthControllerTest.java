@@ -70,4 +70,33 @@ public class AuthControllerTest {
                                 fieldWithPath("data.refreshToken").type(JsonFieldType.STRING).description("RefreshToken")
                         )));
     }
+
+    @Test
+    public void refreshToken() throws Exception {
+        //given
+        given(httpUtils.makeHttpResponse(eq(200), eq(""), any(Jwt.class)))
+                .willReturn(
+                        ResponseEntity.ok(new HttpResponse<>(200, "", new Jwt("accessToken", "refreshToken")))
+                );
+
+        //when
+        ResultActions result = this.mockMvc.perform(
+                post("/v1/reissue/token")
+                        .header("Authorization", "Bearer Token")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+        );
+        result.andExpect(status().isOk())
+                .andDo(document("refresh-token", getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Oauth Access Token")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
+                                fieldWithPath("data.accessToken").type(JsonFieldType.STRING).description("AccessToken"),
+                                fieldWithPath("data.refreshToken").type(JsonFieldType.STRING).description("RefreshToken")
+                        )));
+    }
 }
