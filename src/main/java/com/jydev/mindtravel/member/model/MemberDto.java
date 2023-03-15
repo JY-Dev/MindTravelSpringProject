@@ -3,6 +3,8 @@ package com.jydev.mindtravel.member.model;
 import com.jydev.mindtravel.member.domain.Member;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,11 +20,14 @@ public class MemberDto {
     private String profileImgUrl;
     private MemberRole role;
 
+    private LocalDateTime createdDate;
+
     public MemberDto(Member member){
         this.memberIdx = member.getId();
         this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.profileImgUrl = member.getProfileImgUrl();
         this.role = member.getRole();
+        this.createdDate = member.getCreatedDate();
     }
 }
