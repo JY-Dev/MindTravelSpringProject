@@ -2,7 +2,8 @@ package com.jydev.mindtravel.member;
 
 import com.jydev.mindtravel.member.domain.Member;
 import com.jydev.mindtravel.member.model.MemberDto;
-import com.jydev.mindtravel.member.repository.MemberRepository;
+import com.jydev.mindtravel.member.repository.member.MemberCommandRepository;
+import com.jydev.mindtravel.member.repository.member.MemberQueryRepository;
 import com.jydev.mindtravel.member.service.MemberService;
 import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
@@ -21,10 +22,12 @@ import static org.mockito.Mockito.doReturn;
 @ExtendWith(MockitoExtension.class)
 public class MemberServiceTest {
     @Mock
-    private MemberRepository memberRepository;
+    private MemberCommandRepository memberCommandRepository;
+
+    @Mock
+    private MemberQueryRepository memberQueryRepository;
 
     @InjectMocks
-
     private MemberService memberService;
 
     @Test
@@ -34,8 +37,8 @@ public class MemberServiceTest {
         OauthInfo oauthInfo = new OauthInfo(id, email);
         Member member = new Member(OauthServerType.GOOGLE, oauthInfo);
         MemberDto memberDto = new MemberDto(member);
-        doReturn(Optional.empty()).when(memberRepository).findByEmail(email);
-        doReturn(member).when(memberRepository).save(any(Member.class));
+        doReturn(Optional.empty()).when(memberQueryRepository).findByEmail(email);
+        doReturn(member).when(memberCommandRepository).save(any(Member.class));
         MemberDto result = memberService.socialLogin(OauthServerType.GOOGLE, oauthInfo);
         Assertions.assertThat(result).isEqualTo(memberDto);
     }
@@ -47,7 +50,7 @@ public class MemberServiceTest {
         OauthInfo oauthInfo = new OauthInfo(id, email);
         Member member = new Member(OauthServerType.GOOGLE, oauthInfo);
         MemberDto memberDto = new MemberDto(member);
-        doReturn(Optional.of(member)).when(memberRepository).findByEmail(email);
+        doReturn(Optional.of(member)).when(memberQueryRepository).findByEmail(email);
         MemberDto result = memberService.socialLogin(OauthServerType.GOOGLE, oauthInfo);
         Assertions.assertThat(result).isEqualTo(memberDto);
     }
