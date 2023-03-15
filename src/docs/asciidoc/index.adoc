@@ -55,3 +55,12 @@ include::{snippets}/get-member/request-headers.adoc[]
 ==== Response
 include::{snippets}/get-member/response-body.adoc[]
 include::{snippets}/get-member/response-fields.adoc[]
+
+=== 닉네임 수정
+==== Request
+include::{snippets}/edit-nickname/http-request.adoc[]
+include::{snippets}/edit-nickname/form-parameters.adoc[]
+include::{snippets}/edit-nickname/request-headers.adoc[]
+==== Response
+include::{snippets}/edit-nickname/response-body.adoc[]
+include::{snippets}/edit-nickname/response-fields.adoc[]
