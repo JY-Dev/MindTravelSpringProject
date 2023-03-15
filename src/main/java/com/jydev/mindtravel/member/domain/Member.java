@@ -7,9 +7,11 @@ import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
 @Entity
 public class Member extends BaseEntity {
     @Id
@@ -39,5 +41,13 @@ public class Member extends BaseEntity {
         this.role = MemberRole.NEW_USER;
         this.nickname = "";
         this.profileImgUrl = "";
+    }
+
+    public void editNickname(String nickname){
+        this.nickname = nickname;
+    }
+
+    public void updateRole(MemberRole role){
+        this.role = role;
     }
 }
