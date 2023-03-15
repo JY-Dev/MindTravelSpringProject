@@ -34,7 +34,7 @@ public class MemberService {
 
     public MemberDto editNickname(String email, String nickname) {
         Member member = queryRepository.findByEmail(email)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new HttpErrorException(HttpServletResponse.SC_BAD_REQUEST, "멤버 검색 실패"));
         member.updateRole(MemberRole.USER);
         validationDuplicationNickname(email, nickname, member);
         return new MemberDto(member);
