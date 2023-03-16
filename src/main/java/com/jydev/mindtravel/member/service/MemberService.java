@@ -1,14 +1,14 @@
 package com.jydev.mindtravel.member.service;
 
+import com.jydev.mindtravel.exception.ClientException;
+import com.jydev.mindtravel.exception.ConflictException;
 import com.jydev.mindtravel.member.domain.Member;
 import com.jydev.mindtravel.member.model.MemberDto;
 import com.jydev.mindtravel.member.model.MemberRole;
 import com.jydev.mindtravel.member.repository.member.MemberCommandRepository;
 import com.jydev.mindtravel.member.repository.member.MemberQueryRepository;
-import com.jydev.mindtravel.web.http.HttpErrorException;
 import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,18 +34,18 @@ public class MemberService {
 
     public MemberDto editNickname(String email, String nickname) {
         Member member = queryRepository.findByEmail(email)
-                .orElseThrow(() -> new HttpErrorException(HttpServletResponse.SC_BAD_REQUEST, "멤버 검색 실패"));
+                .orElseThrow(() -> new ClientException("멤버 검색 실패"));
         member.updateRole(MemberRole.USER);
         validationDuplicationNickname(email, nickname, member);
         return new MemberDto(member);
     }
 
     private void validationDuplicationNickname(String email, String nickname, Member member) {
-        if(!member.getNickname().equals(nickname)){
-            if(nickname.isEmpty() || nickname.length() > 16)
-                throw new HttpErrorException(HttpServletResponse.SC_BAD_REQUEST, "유효 하지 않은 닉네임 입니다.");
-            if(queryRepository.isDuplicationNickname(email, nickname))
-                throw new HttpErrorException(HttpServletResponse.SC_CONFLICT,"중복된 닉네임 입니다.");
+        if (!member.getNickname().equals(nickname)) {
+            if (nickname.isEmpty() || nickname.length() > 16)
+                throw new ClientException("유효 하지 않은 닉네임 입니다.");
+            if (queryRepository.isDuplicationNickname(email, nickname))
+                throw new ConflictException("중복된 닉네임 입니다.");
             member.editNickname(nickname);
         }
     }
