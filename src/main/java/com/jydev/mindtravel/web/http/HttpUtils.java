@@ -22,6 +22,10 @@ public class HttpUtils {
         response.getWriter().write(json);
     }
 
+    public ResponseEntity<HttpResponse<EmptyResponse>> makeEmptyResponse(){
+        return makeHttpResponse(HttpServletResponse.SC_OK,"",new EmptyResponse());
+    }
+
     public <R> ResponseEntity<HttpResponse<R>> makeHttpResponse(int code , String message, R data){
         HttpResponse<R> httpResponse = new HttpResponse<>(code,message,data);
         return ResponseEntity.status(code)
