@@ -3,7 +3,7 @@ package com.jydev.mindtravel.mind.travel.model;
 import lombok.Getter;
 
 @Getter
-public class RecordFeelingRequest {
+public class RecordMoodRequest {
     private String content;
-    private Feeling feeling;
+    private Mood mood;
 }
