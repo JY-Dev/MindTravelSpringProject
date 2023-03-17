@@ -3,6 +3,7 @@ package com.jydev.mindtravel.mind.travel.domain;
 import com.jydev.mindtravel.base.BaseEntity;
 import com.jydev.mindtravel.member.domain.Member;
 import com.jydev.mindtravel.mind.travel.model.Mood;
+import com.jydev.mindtravel.mind.travel.model.MoodRecordRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,10 @@ public class MoodRecord extends BaseEntity {
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    public MoodRecord(MoodRecordRequest request, Member member){
+        this.content = request.getContent();
+        this.mood = request.getMood();
+        this.member = member;
+    }
 }
