@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
-public class memberQueryRepositoryImpl implements MemberQueryRepository {
+public class MemberQueryRepositoryImpl implements MemberQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
