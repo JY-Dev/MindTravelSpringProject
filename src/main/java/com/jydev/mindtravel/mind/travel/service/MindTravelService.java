@@ -7,10 +7,10 @@ import com.jydev.mindtravel.mind.travel.domain.MoodRecord;
 import com.jydev.mindtravel.mind.travel.model.MoodRecordRequest;
 import com.jydev.mindtravel.mind.travel.repository.MoodRecordCommandRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Controller
+@Service
 public class MindTravelService {
     private final MemberQueryRepository memberQueryRepository;
     private final MoodRecordCommandRepository moodRecordCommandRepository;
