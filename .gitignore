@@ -35,3 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+/BOOT-INF/classes/static/docs/index.html
+/src/main/resources/static/docs/index.html

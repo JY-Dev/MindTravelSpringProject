@@ -1,0 +1,75 @@
+= Natural REST API Guide
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
+
+[[overview]]
+= 개요
+[[overview-http-status-codes]]
+== HTTP 상태 코드
+
+|===
+| 상태 코드 | 내용
+
+| `200`
+| 요청을 성공적으로 처리함
+
+| `400`
+| 클라이언트 오류
+
+| `409`
+| 닉네임 중복
+
+| `401`
+| 인증 실패
+
+| `403`
+| 토큰 만료
+|===
+=== 토큰 갱신
+==== Request
+include::{snippets}/refresh-token/http-request.adoc[]
+include::{snippets}/refresh-token/request-headers.adoc[]
+==== Response
+include::{snippets}/refresh-token/response-body.adoc[]
+include::{snippets}/refresh-token/response-fields.adoc[]
+
+=== 소셜 로그인
+==== Request
+include::{snippets}/social-login/http-request.adoc[]
+include::{snippets}/social-login/path-parameters.adoc[]
+include::{snippets}/social-login/request-headers.adoc[]
+==== Response
+include::{snippets}/social-login/response-body.adoc[]
+include::{snippets}/social-login/response-fields.adoc[]
+
+=== 멤버 조회
+==== Request
+include::{snippets}/get-member/http-request.adoc[]
+include::{snippets}/get-member/request-headers.adoc[]
+==== Response
+include::{snippets}/get-member/response-body.adoc[]
+include::{snippets}/get-member/response-fields.adoc[]
+
+=== 닉네임 수정
+==== Request
+include::{snippets}/edit-nickname/http-request.adoc[]
+include::{snippets}/edit-nickname/form-parameters.adoc[]
+include::{snippets}/edit-nickname/request-headers.adoc[]
+==== Response
+include::{snippets}/edit-nickname/response-body.adoc[]
+include::{snippets}/edit-nickname/response-fields.adoc[]
+
+=== 기분 기록하기
+==== Request
+include::{snippets}/record-mood/http-request.adoc[]
+include::{snippets}/record-mood/request-headers.adoc[]
+include::{snippets}/record-mood/request-fields.adoc[]
+==== Response
+include::{snippets}/record-mood/response-body.adoc[]
+include::{snippets}/record-mood/response-fields.adoc[]
