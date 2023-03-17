@@ -2,12 +2,16 @@ package com.jydev.mindtravel.member.domain;
 
 import com.jydev.mindtravel.base.BaseEntity;
 import com.jydev.mindtravel.member.model.MemberRole;
+import com.jydev.mindtravel.mind.travel.domain.MoodRecord;
 import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -16,6 +20,7 @@ import org.hibernate.annotations.DynamicUpdate;
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue
+    @Column(name = "member_id")
     private Long id;
 
     @Column(unique = true,nullable = false)
@@ -33,6 +38,9 @@ public class Member extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private MemberRole role;
+
+    @OneToMany(mappedBy = "member")
+    private List<MoodRecord> moodRecords = new ArrayList<>();
 
     public Member(OauthServerType type , OauthInfo info){
         this.oauthServerType = type;
