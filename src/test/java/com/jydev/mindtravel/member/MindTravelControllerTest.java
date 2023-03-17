@@ -31,8 +31,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ControllerTest
@@ -81,6 +80,11 @@ public class MindTravelControllerTest {
                         getDocumentResponse(),
                         requestHeaders(
                                 headerWithName("Authorization").description("Access Token")
+                        ),
+                        requestFields(
+                                fieldWithPath("content").description("글 내용"),
+                                fieldWithPath("mood").type(JsonFieldType.STRING)
+                                        .description("기분은 : BAD, A_LITTLE_BAD, NORMAL, GOOD 이렇게 구성 되어있습니다.")
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),

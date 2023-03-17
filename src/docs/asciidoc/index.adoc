@@ -64,3 +64,12 @@ include::{snippets}/edit-nickname/request-headers.adoc[]
 ==== Response
 include::{snippets}/edit-nickname/response-body.adoc[]
 include::{snippets}/edit-nickname/response-fields.adoc[]
+
+=== 기분 기록하기
+==== Request
+include::{snippets}/record-mood/http-request.adoc[]
+include::{snippets}/record-mood/request-headers.adoc[]
+include::{snippets}/record-mood/request-fields.adoc[]
+==== Response
+include::{snippets}/record-mood/response-body.adoc[]
+include::{snippets}/record-mood/response-fields.adoc[]

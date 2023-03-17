@@ -20,8 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentRequest;
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentResponse;
