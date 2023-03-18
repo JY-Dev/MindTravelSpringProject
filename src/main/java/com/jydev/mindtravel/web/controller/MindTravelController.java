@@ -1,9 +1,9 @@
 package com.jydev.mindtravel.web.controller;
 
-import com.jydev.mindtravel.member.model.MemberDto;
-import com.jydev.mindtravel.mind.travel.model.MoodRecordRequest;
-import com.jydev.mindtravel.mind.travel.model.MoodRecordResponse;
-import com.jydev.mindtravel.mind.travel.service.MindTravelService;
+import com.jydev.mindtravel.service.member.model.MemberDto;
+import com.jydev.mindtravel.service.mind.travel.model.MoodRecordRequest;
+import com.jydev.mindtravel.service.mind.travel.model.MoodRecordResponse;
+import com.jydev.mindtravel.service.mind.travel.service.MindTravelService;
 import com.jydev.mindtravel.web.http.EmptyResponse;
 import com.jydev.mindtravel.web.http.HttpResponse;
 import com.jydev.mindtravel.web.http.HttpUtils;

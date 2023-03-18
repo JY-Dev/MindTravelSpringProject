@@ -2,8 +2,8 @@ package com.jydev.mindtravel.web.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.auth.repository.RefreshTokenRepository;
-import com.jydev.mindtravel.jwt.JwtProvider;
-import com.jydev.mindtravel.member.service.MemberService;
+import com.jydev.mindtravel.auth.jwt.JwtProvider;
+import com.jydev.mindtravel.service.member.service.MemberService;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import com.jydev.mindtravel.web.security.AuthenticationEntryPoint;
 import com.jydev.mindtravel.web.security.jwt.AuthenticationJwtReturnHandler;

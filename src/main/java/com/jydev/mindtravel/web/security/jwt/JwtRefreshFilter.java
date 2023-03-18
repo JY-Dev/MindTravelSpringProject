@@ -2,8 +2,8 @@ package com.jydev.mindtravel.web.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.auth.repository.RefreshTokenRepository;
-import com.jydev.mindtravel.jwt.Jwt;
-import com.jydev.mindtravel.jwt.JwtProvider;
+import com.jydev.mindtravel.auth.jwt.Jwt;
+import com.jydev.mindtravel.auth.jwt.JwtProvider;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

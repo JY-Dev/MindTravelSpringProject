@@ -1,7 +1,7 @@
 package com.jydev.mindtravel.controller;
 
 import com.jydev.mindtravel.ControllerTest;
-import com.jydev.mindtravel.jwt.Jwt;
+import com.jydev.mindtravel.auth.jwt.Jwt;
 import com.jydev.mindtravel.web.controller.AuthController;
 import com.jydev.mindtravel.web.http.HttpResponse;
 import com.jydev.mindtravel.web.http.HttpUtils;

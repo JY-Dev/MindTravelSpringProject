@@ -2,11 +2,11 @@ package com.jydev.mindtravel.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.ControllerTest;
-import com.jydev.mindtravel.member.model.MemberDto;
-import com.jydev.mindtravel.member.model.MemberRole;
-import com.jydev.mindtravel.mind.travel.model.Mood;
-import com.jydev.mindtravel.mind.travel.model.MoodRecordRequest;
-import com.jydev.mindtravel.mind.travel.service.MindTravelService;
+import com.jydev.mindtravel.service.member.model.MemberDto;
+import com.jydev.mindtravel.service.member.model.MemberRole;
+import com.jydev.mindtravel.service.mind.travel.model.Mood;
+import com.jydev.mindtravel.service.mind.travel.model.MoodRecordRequest;
+import com.jydev.mindtravel.service.mind.travel.service.MindTravelService;
 import com.jydev.mindtravel.web.controller.MindTravelController;
 import com.jydev.mindtravel.web.http.EmptyResponse;
 import com.jydev.mindtravel.web.http.HttpResponse;
