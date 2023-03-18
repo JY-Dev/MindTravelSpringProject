@@ -33,11 +33,9 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ControllerTest
@@ -144,6 +142,44 @@ public class MindTravelControllerTest {
                                         .description("기분은 : BAD, A_LITTLE_BAD, NORMAL, GOOD 이렇게 구성 되어있습니다."),
                                 fieldWithPath("data[].createdDate").type(JsonFieldType.STRING)
                                         .description("작성 날짜 및 시간")
+                        )));
+    }
+
+    @Test
+    public void deleteRecordMood() throws Exception {
+        MemberDto memberDto = MemberDto.builder()
+                .memberIdx(0L)
+                .email("test@naver.com")
+                .nickname("nickname")
+                .profileImgUrl("image-url")
+                .createdDate(LocalDateTime.now())
+                .role(MemberRole.USER)
+                .build();
+
+        given(httpUtils.makeEmptyResponse()).willReturn(
+                ResponseEntity.ok(new HttpResponse<EmptyResponse>(HttpServletResponse.SC_OK, "", null))
+        );
+
+        ResultActions resultActions = this.mockMvc.perform(
+                delete("/v1/mind/travel/record-mood")
+                        .header("Authorization", "Bearer Token")
+                        .requestAttr("member", memberDto)
+                        .param("recordMoodId","0")
+        );
+        resultActions.andExpect(status().isOk())
+                .andDo(document("delete-record-mood",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Access Token")
+                        ),
+                        formParameters(
+                                parameterWithName("recordMoodId").description("RecordMood 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
+                                fieldWithPath("data").type(JsonFieldType.NULL).description("데이터")
                         )));
     }
 }
