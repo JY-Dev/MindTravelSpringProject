@@ -1,7 +1,7 @@
 package com.jydev.mindtravel.mind.travel.domain;
 
 import com.jydev.mindtravel.base.BaseEntity;
-import com.jydev.mindtravel.member.domain.Member;
+import com.jydev.mindtravel.service.domain.Member;
 import com.jydev.mindtravel.mind.travel.model.Mood;
 import com.jydev.mindtravel.mind.travel.model.MoodRecordRequest;
 import jakarta.persistence.*;

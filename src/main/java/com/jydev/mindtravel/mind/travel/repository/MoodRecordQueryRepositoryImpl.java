@@ -17,7 +17,7 @@ public class MoodRecordQueryRepositoryImpl implements MoodRecordQueryRepository 
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<MoodRecord> searchMoodRecord(String email, String date) {
+    public List<MoodRecord> searchMoodRecords(String email, String date) {
         StringExpression formattedDate = Expressions.stringTemplate("FUNCTION('DATE_FORMAT', {0}, '%Y-%m-%d')", moodRecord.createdDate);
         return queryFactory.selectFrom(moodRecord)
                 .where(moodRecord.member.email.eq(email).and(formattedDate.eq(date)))

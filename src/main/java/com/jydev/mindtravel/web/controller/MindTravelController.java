@@ -1,6 +1,6 @@
 package com.jydev.mindtravel.web.controller;
 
-import com.jydev.mindtravel.member.model.MemberDto;
+import com.jydev.mindtravel.service.model.MemberDto;
 import com.jydev.mindtravel.mind.travel.model.MoodRecordRequest;
 import com.jydev.mindtravel.mind.travel.model.MoodRecordResponse;
 import com.jydev.mindtravel.mind.travel.service.MindTravelService;

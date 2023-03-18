@@ -1,6 +1,6 @@
-package com.jydev.mindtravel.member.model;
+package com.jydev.mindtravel.service.model;
 
-import com.jydev.mindtravel.member.domain.Member;
+import com.jydev.mindtravel.service.domain.Member;
 import lombok.*;
 
 import java.time.LocalDateTime;

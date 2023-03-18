@@ -5,5 +5,5 @@ import com.jydev.mindtravel.mind.travel.domain.MoodRecord;
 import java.util.List;
 
 public interface MoodRecordQueryRepository {
-    List<MoodRecord> searchMoodRecord(String email, String date);
+    List<MoodRecord> searchMoodRecords(String email, String date);
 }

@@ -1,7 +1,7 @@
-package com.jydev.mindtravel.member.domain;
+package com.jydev.mindtravel.service.domain;
 
 import com.jydev.mindtravel.base.BaseEntity;
-import com.jydev.mindtravel.member.model.MemberRole;
+import com.jydev.mindtravel.service.model.MemberRole;
 import com.jydev.mindtravel.mind.travel.domain.MoodRecord;
 import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;

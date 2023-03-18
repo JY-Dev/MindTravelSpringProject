@@ -1,4 +1,4 @@
-package com.jydev.mindtravel.member;
+package com.jydev.mindtravel.controller;
 
 import com.jydev.mindtravel.ControllerTest;
 import com.jydev.mindtravel.jwt.Jwt;
