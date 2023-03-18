@@ -1,6 +1,6 @@
 package com.jydev.mindtravel.web.security.oauth;
 
-import com.jydev.mindtravel.jwt.JwtProvider;
+import com.jydev.mindtravel.auth.jwt.JwtProvider;
 import com.jydev.mindtravel.web.security.oauth.model.Oauth2AuthenticationToken;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 import jakarta.servlet.ServletException;

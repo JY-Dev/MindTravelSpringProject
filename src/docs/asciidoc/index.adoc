@@ -73,3 +73,21 @@ include::{snippets}/record-mood/request-fields.adoc[]
 ==== Response
 include::{snippets}/record-mood/response-body.adoc[]
 include::{snippets}/record-mood/response-fields.adoc[]
+
+=== 기분 조회하기
+==== Request
+include::{snippets}/get-record-moods/http-request.adoc[]
+include::{snippets}/get-record-moods/request-headers.adoc[]
+include::{snippets}/get-record-moods/query-parameters.adoc[]
+==== Response
+include::{snippets}/get-record-moods/response-body.adoc[]
+include::{snippets}/get-record-moods/response-fields.adoc[]
+
+=== 기분 삭제하기
+==== Request
+include::{snippets}/delete-record-mood/http-request.adoc[]
+include::{snippets}/delete-record-mood/request-headers.adoc[]
+include::{snippets}/delete-record-mood/form-parameters.adoc[]
+==== Response
+include::{snippets}/delete-record-mood/response-body.adoc[]
+include::{snippets}/delete-record-mood/response-fields.adoc[]
