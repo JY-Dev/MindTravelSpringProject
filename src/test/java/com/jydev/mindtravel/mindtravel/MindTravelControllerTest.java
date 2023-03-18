@@ -164,7 +164,7 @@ public class MindTravelControllerTest {
                 delete("/v1/mind/travel/record-mood")
                         .header("Authorization", "Bearer Token")
                         .requestAttr("member", memberDto)
-                        .param("recordMoodId","0")
+                        .param("moodRecordId","0")
         );
         resultActions.andExpect(status().isOk())
                 .andDo(document("delete-record-mood",
@@ -174,7 +174,7 @@ public class MindTravelControllerTest {
                                 headerWithName("Authorization").description("Access Token")
                         ),
                         formParameters(
-                                parameterWithName("recordMoodId").description("RecordMood 아이디")
+                                parameterWithName("moodRecordId").description("RecordMood 아이디")
                         ),
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),

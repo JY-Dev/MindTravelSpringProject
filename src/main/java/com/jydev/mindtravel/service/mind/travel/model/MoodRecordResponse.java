@@ -13,11 +13,13 @@ import java.time.LocalDateTime;
 @Builder
 @Getter
 public class MoodRecordResponse {
+    private Long moodRecordId;
     private String content;
     private Mood mood;
     private LocalDateTime createdDate;
 
     public MoodRecordResponse(MoodRecord moodRecord) {
+        this.moodRecordId = moodRecord.getId();
         this.content = moodRecord.getContent();
         this.mood = moodRecord.getMood();
         this.createdDate = moodRecord.getCreatedDate();
