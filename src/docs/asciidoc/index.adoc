@@ -76,9 +76,9 @@ include::{snippets}/record-mood/response-fields.adoc[]
 
 === 기분 조회하기
 ==== Request
-include::{snippets}/fetch-record-moods/http-request.adoc[]
-include::{snippets}/fetch-record-moods/request-headers.adoc[]
-include::{snippets}/fetch-record-moods/query-parameters.adoc[]
+include::{snippets}/get-record-moods/http-request.adoc[]
+include::{snippets}/get-record-moods/request-headers.adoc[]
+include::{snippets}/get-record-moods/query-parameters.adoc[]
 ==== Response
-include::{snippets}/fetch-record-moods/response-body.adoc[]
-include::{snippets}/fetch-record-moods/response-fields.adoc[]
+include::{snippets}/get-record-moods/response-body.adoc[]
+include::{snippets}/get-record-moods/response-fields.adoc[]
