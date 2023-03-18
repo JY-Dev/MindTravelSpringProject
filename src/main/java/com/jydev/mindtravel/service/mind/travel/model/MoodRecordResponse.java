@@ -1,10 +1,16 @@
 package com.jydev.mindtravel.service.mind.travel.model;
 
 import com.jydev.mindtravel.service.mind.travel.domain.MoodRecord;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Getter
 public class MoodRecordResponse {
     private String content;
