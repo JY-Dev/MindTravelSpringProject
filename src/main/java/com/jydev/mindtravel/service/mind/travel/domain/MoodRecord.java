@@ -24,7 +24,7 @@ public class MoodRecord extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Mood mood;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
