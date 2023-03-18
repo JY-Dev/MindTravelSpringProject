@@ -29,8 +29,8 @@ public class MindTravelController {
     }
 
     @GetMapping("/record-moods")
-    public ResponseEntity<HttpResponse<List<MoodRecordResponse>>> fetchRecordMoods(@RequestAttribute("member") MemberDto member, String date) {
-        List<MoodRecordResponse> result = mindTravelService.fetchRecordMoods(member.getEmail(), date);
+    public ResponseEntity<HttpResponse<List<MoodRecordResponse>>> getRecordMoods(@RequestAttribute("member") MemberDto member, String date) {
+        List<MoodRecordResponse> result = mindTravelService.getRecordMoods(member.getEmail(), date);
         return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK,"",result);
     }
 }

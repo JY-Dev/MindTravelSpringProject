@@ -2,10 +2,8 @@ package com.jydev.mindtravel.mindtravel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.ControllerTest;
-import com.jydev.mindtravel.service.member.domain.Member;
 import com.jydev.mindtravel.service.member.model.MemberDto;
 import com.jydev.mindtravel.service.member.model.MemberRole;
-import com.jydev.mindtravel.service.mind.travel.domain.MoodRecord;
 import com.jydev.mindtravel.service.mind.travel.model.Mood;
 import com.jydev.mindtravel.service.mind.travel.model.MoodRecordRequest;
 import com.jydev.mindtravel.service.mind.travel.model.MoodRecordResponse;
@@ -14,8 +12,6 @@ import com.jydev.mindtravel.web.controller.MindTravelController;
 import com.jydev.mindtravel.web.http.EmptyResponse;
 import com.jydev.mindtravel.web.http.HttpResponse;
 import com.jydev.mindtravel.web.http.HttpUtils;
-import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
-import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +100,7 @@ public class MindTravelControllerTest {
     }
 
     @Test
-    public void fetchRecordMoods() throws Exception {
+    public void getRecordMoods() throws Exception {
         MemberDto memberDto = MemberDto.builder()
                 .memberIdx(0L)
                 .email("test@naver.com")
@@ -118,7 +114,7 @@ public class MindTravelControllerTest {
                 .content("content")
                 .createdDate(LocalDateTime.now()).build();
         List<MoodRecordResponse> moodRecordResponses = List.of(moodRecordResponse);
-        given(mindTravelService.fetchRecordMoods(any(String.class),any(String.class))).willReturn(moodRecordResponses);
+        given(mindTravelService.getRecordMoods(any(String.class),any(String.class))).willReturn(moodRecordResponses);
         given(httpUtils.makeHttpResponse(any(Integer.class),any(String.class),any(List.class))).willReturn(
                 ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", moodRecordResponses))
         );
@@ -131,7 +127,7 @@ public class MindTravelControllerTest {
                         .queryParam("date","2023-03-02")
         );
         resultActions.andExpect(status().isOk())
-                .andDo(document("fetch-record-moods",
+                .andDo(document("get-record-moods",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestHeaders(

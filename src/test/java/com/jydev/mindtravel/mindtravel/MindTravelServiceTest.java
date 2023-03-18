@@ -48,7 +48,7 @@ public class MindTravelServiceTest {
         MoodRecord moodRecord = new MoodRecord(request,member);
         given(moodRecordQueryRepository.searchMoodRecords(any(String.class),any(String.class))).willReturn(List.of(moodRecord));
 
-        MoodRecordResponse moodRecordResponse = mindTravelService.fetchRecordMoods(email, "2013-02-03").get(0);
+        MoodRecordResponse moodRecordResponse = mindTravelService.getRecordMoods(email, "2013-02-03").get(0);
 
         Assertions.assertThat(moodRecord.getMood()).isEqualTo(moodRecordResponse.getMood());
         Assertions.assertThat(moodRecord.getContent()).isEqualTo(moodRecordResponse.getContent());

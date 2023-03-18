@@ -25,7 +25,7 @@ public class MindTravelService {
         moodRecordCommandRepository.save(new MoodRecord(request, member));
     }
 
-    public List<MoodRecordResponse> fetchRecordMoods(String email, String date) {
+    public List<MoodRecordResponse> getRecordMoods(String email, String date) {
         return moodRecordQueryRepository.searchMoodRecords(email, date)
                 .stream().map(MoodRecordResponse::new)
                 .toList();
