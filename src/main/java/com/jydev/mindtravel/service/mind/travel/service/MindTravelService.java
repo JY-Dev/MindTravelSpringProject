@@ -31,4 +31,7 @@ public class MindTravelService {
                 .toList();
     }
 
+    public void deleteRecordMood(String email, Long recordMoodId){
+        //moodRecordQueryRepository.findMoodRecord(email,recordMoodId)
+    }
 }

@@ -52,7 +52,7 @@ public class MoodRecordQueryRepositoryTest {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         List<MoodRecord> email = repository.searchMoodRecords("email", formatter.format(LocalDateTime.now()));
         Long id = email.get(0).getId();
-        MoodRecord result = repository.findMoodRecord("email", id);
+        MoodRecord result = repository.findMoodRecord("email", id).get();
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result.getId()).isEqualTo(id);
     }

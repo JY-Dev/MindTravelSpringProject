@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.jydev.mindtravel.service.mind.travel.domain.QMoodRecord.moodRecord;
 
@@ -26,9 +27,9 @@ public class MoodRecordQueryRepositoryImpl implements MoodRecordQueryRepository 
     }
 
     @Override
-    public MoodRecord findMoodRecord(String email, Long id) {
-        return queryFactory.selectFrom(moodRecord)
+    public Optional<MoodRecord> findMoodRecord(String email, Long id) {
+        return Optional.ofNullable(queryFactory.selectFrom(moodRecord)
                 .where(moodRecord.member.email.eq(email).and(moodRecord.id.eq(id)))
-                .fetchOne();
+                .fetchOne());
     }
 }
