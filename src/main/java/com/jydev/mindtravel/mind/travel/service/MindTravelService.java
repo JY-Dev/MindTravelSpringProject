@@ -1,8 +1,8 @@
 package com.jydev.mindtravel.mind.travel.service;
 
 import com.jydev.mindtravel.exception.ClientException;
-import com.jydev.mindtravel.service.domain.Member;
-import com.jydev.mindtravel.service.repository.member.MemberQueryRepository;
+import com.jydev.mindtravel.member.domain.Member;
+import com.jydev.mindtravel.member.repository.member.MemberQueryRepository;
 import com.jydev.mindtravel.mind.travel.domain.MoodRecord;
 import com.jydev.mindtravel.mind.travel.model.MoodRecordRequest;
 import com.jydev.mindtravel.mind.travel.model.MoodRecordResponse;

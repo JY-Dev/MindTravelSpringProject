@@ -2,9 +2,9 @@ package com.jydev.mindtravel.controller;
 
 
 import com.jydev.mindtravel.ControllerTest;
-import com.jydev.mindtravel.service.model.MemberDto;
-import com.jydev.mindtravel.service.model.MemberRole;
-import com.jydev.mindtravel.service.service.MemberService;
+import com.jydev.mindtravel.member.model.MemberDto;
+import com.jydev.mindtravel.member.model.MemberRole;
+import com.jydev.mindtravel.member.service.MemberService;
 import com.jydev.mindtravel.web.controller.MemberController;
 import com.jydev.mindtravel.web.http.HttpResponse;
 import com.jydev.mindtravel.web.http.HttpUtils;

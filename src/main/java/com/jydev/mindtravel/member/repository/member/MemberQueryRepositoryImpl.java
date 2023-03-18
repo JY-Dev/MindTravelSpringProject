@@ -1,7 +1,7 @@
-package com.jydev.mindtravel.service.repository.member;
+package com.jydev.mindtravel.member.repository.member;
 
-import com.jydev.mindtravel.service.domain.Member;
-import com.jydev.mindtravel.service.domain.QMember;
+import com.jydev.mindtravel.member.domain.Member;
+import com.jydev.mindtravel.member.domain.QMember;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

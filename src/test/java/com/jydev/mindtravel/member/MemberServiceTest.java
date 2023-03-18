@@ -1,11 +1,11 @@
-package com.jydev.mindtravel.service;
+package com.jydev.mindtravel.member;
 
-import com.jydev.mindtravel.service.domain.Member;
-import com.jydev.mindtravel.service.model.MemberDto;
-import com.jydev.mindtravel.service.model.MemberRole;
-import com.jydev.mindtravel.service.repository.member.MemberCommandRepository;
-import com.jydev.mindtravel.service.repository.member.MemberQueryRepository;
-import com.jydev.mindtravel.service.service.MemberService;
+import com.jydev.mindtravel.member.domain.Member;
+import com.jydev.mindtravel.member.model.MemberDto;
+import com.jydev.mindtravel.member.model.MemberRole;
+import com.jydev.mindtravel.member.repository.member.MemberCommandRepository;
+import com.jydev.mindtravel.member.repository.member.MemberQueryRepository;
+import com.jydev.mindtravel.member.service.MemberService;
 import com.jydev.mindtravel.web.http.HttpErrorException;
 import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
