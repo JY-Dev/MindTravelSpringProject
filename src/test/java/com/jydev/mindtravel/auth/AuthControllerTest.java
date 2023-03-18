@@ -1,4 +1,4 @@
-package com.jydev.mindtravel.controller;
+package com.jydev.mindtravel.auth;
 
 import com.jydev.mindtravel.ControllerTest;
 import com.jydev.mindtravel.auth.jwt.Jwt;

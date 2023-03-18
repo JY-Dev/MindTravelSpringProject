@@ -1,4 +1,4 @@
-package com.jydev.mindtravel.controller;
+package com.jydev.mindtravel.mindtravel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.ControllerTest;
