@@ -32,6 +32,8 @@ public class MindTravelService {
     }
 
     public void deleteRecordMood(String email, Long recordMoodId){
-        //moodRecordQueryRepository.findMoodRecord(email,recordMoodId)
+        MoodRecord moodRecord = moodRecordQueryRepository.findMoodRecord(email, recordMoodId)
+                .orElseThrow(() -> new ClientException("조회 결과가 없습니다"));
+        moodRecordCommandRepository.delete(moodRecord);
     }
 }
