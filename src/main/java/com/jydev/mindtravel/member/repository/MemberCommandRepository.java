@@ -1,4 +1,4 @@
-package com.jydev.mindtravel.member.repository.member;
+package com.jydev.mindtravel.member.repository;
 
 import com.jydev.mindtravel.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
