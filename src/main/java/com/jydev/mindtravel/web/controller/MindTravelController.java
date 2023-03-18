@@ -28,6 +28,13 @@ public class MindTravelController {
         return httpUtils.makeEmptyResponse();
     }
 
+    @DeleteMapping("/record-mood")
+    public ResponseEntity<HttpResponse<EmptyResponse>> deleteRecordMood(@RequestAttribute("member") MemberDto member,
+                                                                  Long recordMoodId) {
+        mindTravelService.deleteRecordMood(member.getEmail(), recordMoodId);
+        return httpUtils.makeEmptyResponse();
+    }
+
     @GetMapping("/record-moods")
     public ResponseEntity<HttpResponse<List<MoodRecordResponse>>> getRecordMoods(@RequestAttribute("member") MemberDto member, String date) {
         List<MoodRecordResponse> result = mindTravelService.getRecordMoods(member.getEmail(), date);
