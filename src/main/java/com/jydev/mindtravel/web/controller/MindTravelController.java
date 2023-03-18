@@ -2,13 +2,17 @@ package com.jydev.mindtravel.web.controller;
 
 import com.jydev.mindtravel.member.model.MemberDto;
 import com.jydev.mindtravel.mind.travel.model.MoodRecordRequest;
+import com.jydev.mindtravel.mind.travel.model.MoodRecordResponse;
 import com.jydev.mindtravel.mind.travel.service.MindTravelService;
 import com.jydev.mindtravel.web.http.EmptyResponse;
 import com.jydev.mindtravel.web.http.HttpResponse;
 import com.jydev.mindtravel.web.http.HttpUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,8 +23,14 @@ public class MindTravelController {
 
     @PostMapping("/record-mood")
     public ResponseEntity<HttpResponse<EmptyResponse>> recordMood(@RequestAttribute("member") MemberDto member,
-                                                                     @RequestBody MoodRecordRequest request) {
-        mindTravelService.recordMood(member.getEmail(),request);
+                                                                  @RequestBody MoodRecordRequest request) {
+        mindTravelService.recordMood(member.getEmail(), request);
         return httpUtils.makeEmptyResponse();
+    }
+
+    @GetMapping("/record-moods")
+    public ResponseEntity<HttpResponse<List<MoodRecordResponse>>> fetchRecordMoods(@RequestAttribute("member") MemberDto member, String date) {
+        List<MoodRecordResponse> result = mindTravelService.fetchRecordMoods(member.getEmail(), date);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK,"",result);
     }
 }
