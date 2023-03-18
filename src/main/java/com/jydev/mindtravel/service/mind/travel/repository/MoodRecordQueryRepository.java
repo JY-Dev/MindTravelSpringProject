@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MoodRecordQueryRepository {
     List<MoodRecord> searchMoodRecords(String email, String date);
+    MoodRecord findMoodRecord(String email, Long id);
 }

@@ -9,10 +9,14 @@ import com.jydev.mindtravel.service.mind.travel.service.MindTravelService;
 import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 import jakarta.transaction.Transactional;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @SpringBootTest
@@ -27,15 +31,29 @@ public class MoodRecordQueryRepositoryTest {
     @Autowired
     private MoodRecordQueryRepository repository;
 
-    @Test
-    public void searchMoodRecordsTest() {
+    @BeforeEach
+    void init(){
         OauthInfo oauthInfo = new OauthInfo("id", "email");
         memberService.socialLogin(OauthServerType.GOOGLE, oauthInfo);
         MoodRecordRequest moodRecordRequest = MoodRecordRequest.builder()
                 .mood(Mood.GOOD)
                 .content("컨텐츠").build();
         mindTravelService.recordMood("email",moodRecordRequest);
-        List<MoodRecord> email = repository.searchMoodRecords("email", "2023-03-18");
-        System.out.println(email.get(0).getMood());
+    }
+    @Test
+    public void searchMoodRecordsTest() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        List<MoodRecord> email = repository.searchMoodRecords("email", formatter.format(LocalDateTime.now()));
+        System.out.println(email.get(0).getId());
+    }
+
+    @Test
+    public void findMoodRecord(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        List<MoodRecord> email = repository.searchMoodRecords("email", formatter.format(LocalDateTime.now()));
+        Long id = email.get(0).getId();
+        MoodRecord result = repository.findMoodRecord("email", id);
+        Assertions.assertThat(result).isNotNull();
+        Assertions.assertThat(result.getId()).isEqualTo(id);
     }
 }

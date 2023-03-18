@@ -24,4 +24,11 @@ public class MoodRecordQueryRepositoryImpl implements MoodRecordQueryRepository 
                 .orderBy(moodRecord.createdDate.desc())
                 .fetch();
     }
+
+    @Override
+    public MoodRecord findMoodRecord(String email, Long id) {
+        return queryFactory.selectFrom(moodRecord)
+                .where(moodRecord.member.email.eq(email).and(moodRecord.id.eq(id)))
+                .fetchOne();
+    }
 }
