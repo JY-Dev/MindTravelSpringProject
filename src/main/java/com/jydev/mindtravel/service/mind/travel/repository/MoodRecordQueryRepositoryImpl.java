@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.jydev.mindtravel.mind.travel.domain.QMoodRecord.moodRecord;
+import static com.jydev.mindtravel.service.mind.travel.domain.QMoodRecord.moodRecord;
 
 @RequiredArgsConstructor
 @Repository
