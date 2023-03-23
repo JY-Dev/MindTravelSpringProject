@@ -8,6 +8,7 @@ import com.jydev.mindtravel.service.mind.travel.model.Mood;
 import com.jydev.mindtravel.service.mind.travel.model.MoodRecordRequest;
 import com.jydev.mindtravel.service.mind.travel.model.MoodRecordResponse;
 import com.jydev.mindtravel.service.mind.travel.service.MindTravelService;
+import com.jydev.mindtravel.util.ControllerTestHelper;
 import com.jydev.mindtravel.web.controller.MindTravelController;
 import com.jydev.mindtravel.web.http.EmptyResponse;
 import com.jydev.mindtravel.web.http.HttpResponse;
@@ -28,6 +29,8 @@ import java.util.List;
 
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentRequest;
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentResponse;
+import static com.jydev.mindtravel.util.ControllerTestHelper.baseRequestBuilder;
+import static com.jydev.mindtravel.util.ControllerTestHelper.memberDto;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -53,14 +56,6 @@ public class MindTravelControllerTest {
 
     @Test
     public void recordMoodTest() throws Exception {
-        MemberDto memberDto = MemberDto.builder()
-                .memberIdx(0L)
-                .email("test@naver.com")
-                .nickname("nickname")
-                .profileImgUrl("image-url")
-                .createdDate(LocalDateTime.now())
-                .role(MemberRole.USER)
-                .build();
         MoodRecordRequest moodRecordRequest = MoodRecordRequest.builder()
                 .mood(Mood.GOOD)
                 .content("기분이 좋았습니다.")
@@ -71,12 +66,10 @@ public class MindTravelControllerTest {
         );
 
         ResultActions resultActions = this.mockMvc.perform(
-                post("/v1/mind/travel/record-mood")
-                        .header("Authorization", "Bearer Token")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .requestAttr("member", memberDto)
-                        .content(json)
+                ControllerTestHelper.baseRequestBuilder(
+                        post("/v1/mind/travel/record-mood")
+                                .content(json)
+                )
         );
         resultActions.andExpect(status().isOk())
                 .andDo(document("record-mood",
@@ -99,30 +92,21 @@ public class MindTravelControllerTest {
 
     @Test
     public void getRecordMoods() throws Exception {
-        MemberDto memberDto = MemberDto.builder()
-                .memberIdx(0L)
-                .email("test@naver.com")
-                .nickname("nickname")
-                .profileImgUrl("image-url")
-                .createdDate(LocalDateTime.now())
-                .role(MemberRole.USER)
-                .build();
         MoodRecordResponse moodRecordResponse = MoodRecordResponse.builder()
+                .moodRecordId(0L)
                 .mood(Mood.GOOD)
                 .content("content")
                 .createdDate(LocalDateTime.now()).build();
         List<MoodRecordResponse> moodRecordResponses = List.of(moodRecordResponse);
-        given(mindTravelService.getRecordMoods(any(String.class),any(String.class))).willReturn(moodRecordResponses);
-        given(httpUtils.makeHttpResponse(any(Integer.class),any(String.class),any(List.class))).willReturn(
+        given(mindTravelService.getRecordMoods(any(String.class), any(String.class))).willReturn(moodRecordResponses);
+        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
                 ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", moodRecordResponses))
         );
         ResultActions resultActions = this.mockMvc.perform(
-                get("/v1/mind/travel/record-moods")
-                        .header("Authorization", "Bearer Token")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .requestAttr("member", memberDto)
-                        .queryParam("date","2023-03-02")
+                baseRequestBuilder(
+                        get("/v1/mind/travel/record-moods")
+                                .queryParam("date","2023-03-02")
+                )
         );
         resultActions.andExpect(status().isOk())
                 .andDo(document("get-record-moods",
@@ -137,6 +121,7 @@ public class MindTravelControllerTest {
                         responseFields(
                                 fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
+                                fieldWithPath("data[].moodRecordId").description("아이디").type(JsonFieldType.NUMBER),
                                 fieldWithPath("data[].content").description("글 내용").type(JsonFieldType.STRING),
                                 fieldWithPath("data[].mood").type(JsonFieldType.STRING)
                                         .description("기분은 : BAD, A_LITTLE_BAD, NORMAL, GOOD 이렇게 구성 되어있습니다."),
@@ -147,14 +132,6 @@ public class MindTravelControllerTest {
 
     @Test
     public void deleteRecordMood() throws Exception {
-        MemberDto memberDto = MemberDto.builder()
-                .memberIdx(0L)
-                .email("test@naver.com")
-                .nickname("nickname")
-                .profileImgUrl("image-url")
-                .createdDate(LocalDateTime.now())
-                .role(MemberRole.USER)
-                .build();
 
         given(httpUtils.makeEmptyResponse()).willReturn(
                 ResponseEntity.ok(new HttpResponse<EmptyResponse>(HttpServletResponse.SC_OK, "", null))
@@ -164,7 +141,7 @@ public class MindTravelControllerTest {
                 delete("/v1/mind/travel/record-mood")
                         .header("Authorization", "Bearer Token")
                         .requestAttr("member", memberDto)
-                        .param("moodRecordId","0")
+                        .param("moodRecordId", "0")
         );
         resultActions.andExpect(status().isOk())
                 .andDo(document("delete-record-mood",

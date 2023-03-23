@@ -22,6 +22,8 @@ import java.time.LocalDateTime;
 
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentRequest;
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentResponse;
+import static com.jydev.mindtravel.util.ControllerTestHelper.baseRequestBuilder;
+import static com.jydev.mindtravel.util.ControllerTestHelper.memberDto;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
@@ -49,25 +51,15 @@ public class MemberControllerTest {
     @Test
     public void getMember() throws Exception {
         //Given
-        MemberDto memberDto = MemberDto.builder()
-                .memberIdx(0L)
-                .email("test@naver.com")
-                .nickname("nickname")
-                .profileImgUrl("image-url")
-                .createdDate(LocalDateTime.now())
-                .role(MemberRole.USER)
-                .build();
         given(httpUtils.makeHttpResponse(eq(200), eq(""), any(MemberDto.class))).willReturn(
                 ResponseEntity.ok(new HttpResponse<>(200, "", memberDto)
         ));
 
         //when
         ResultActions result = this.mockMvc.perform(
-                get("/v1/member")
-                        .header("Authorization", "Bearer Token")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .requestAttr("member",memberDto)
+                baseRequestBuilder(
+                        get("/v1/member")
+                )
         );
         result.andExpect(status().isOk())
                 .andDo(document("get-member", getDocumentRequest(),
@@ -91,14 +83,6 @@ public class MemberControllerTest {
     public void editNickname() throws Exception {
         //Given
         String changeNickname= "changeNickname";
-        MemberDto memberDto = MemberDto.builder()
-                .memberIdx(0L)
-                .email("test@naver.com")
-                .nickname("nickname")
-                .profileImgUrl("image-url")
-                .createdDate(LocalDateTime.now())
-                .role(MemberRole.USER)
-                .build();
         given(memberService.editNickname(any(String.class),any(String.class))).willReturn(memberDto);
         given(httpUtils.makeHttpResponse(eq(200), eq(""), any(MemberDto.class))).willReturn(
                 ResponseEntity.ok(new HttpResponse<>(200, "", memberDto)
