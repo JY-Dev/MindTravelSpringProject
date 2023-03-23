@@ -1,18 +1,19 @@
 package com.jydev.mindtravel.web.controller;
 
 import com.jydev.mindtravel.service.member.model.MemberDto;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostsRequest;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostsResponse;
 import com.jydev.mindtravel.service.mind.share.model.WriteMindSharePostRequest;
 import com.jydev.mindtravel.service.mind.share.service.MindShareService;
 import com.jydev.mindtravel.web.http.EmptyResponse;
 import com.jydev.mindtravel.web.http.HttpResponse;
 import com.jydev.mindtravel.web.http.HttpUtils;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/v1/mind/share")
@@ -23,8 +24,19 @@ public class MindShareController {
 
     @PostMapping("/post")
     public ResponseEntity<HttpResponse<EmptyResponse>> saveMindSharePost(@RequestAttribute("member") MemberDto member,
-                                                                          @RequestBody WriteMindSharePostRequest request) {
-        mindShareService.saveMindSharePost(member.getEmail(),request);
+                                                                         @RequestBody WriteMindSharePostRequest request) {
+        mindShareService.saveMindSharePost(member.getEmail(), request);
         return httpUtils.makeEmptyResponse();
+    }
+
+    @GetMapping("/post")
+    public ResponseEntity<HttpResponse<MindSharePostsResponse>> searchMindSharePosts(Long pageOffset, Integer pageSize, MindSharePostCategory category) {
+        MindSharePostsRequest request = MindSharePostsRequest.builder()
+                .pageOffset(pageOffset)
+                .pageSize(pageSize)
+                .category(category)
+                .build();
+        MindSharePostsResponse data = mindShareService.searchMindSharePosts(request);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK,"",data);
     }
 }
