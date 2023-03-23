@@ -1,0 +1,27 @@
+package com.jydev.mindtravel.service.mind.share.repository;
+
+import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostListRequest;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+import static com.jydev.mindtravel.service.mind.share.domain.QMindSharePost.mindSharePost;
+
+@RequiredArgsConstructor
+@Repository
+public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepository{
+    private final JPAQueryFactory queryFactory;
+
+
+    @Override
+    public List<MindSharePost> searchMindSharePosts(MindSharePostListRequest request) {
+        return queryFactory.selectFrom(mindSharePost)
+                .where(mindSharePost.category.eq(request.getCategory()))
+                .offset(request.getPageOffset())
+                .limit(request.getPageSize())
+                .fetch();
+    }
+}
