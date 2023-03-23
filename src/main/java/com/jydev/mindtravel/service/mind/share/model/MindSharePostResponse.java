@@ -7,11 +7,13 @@ import java.time.LocalDateTime;
 
 @Getter
 public class MindSharePostResponse {
+    private Long postId;
     private String nickname;
     private String title;
     private Long likeCount;
     private Long viewCount;
     private LocalDateTime createdDate;
+
 
     public MindSharePostResponse(MindSharePost mindSharePost) {
         this.nickname = mindSharePost.getMember().getNickname();
@@ -19,5 +21,6 @@ public class MindSharePostResponse {
         this.likeCount = mindSharePost.getLikeCount();
         this.viewCount = mindSharePost.getViewCount();
         this.createdDate = mindSharePost.getCreatedDate();
+        this.postId = mindSharePost.getId();
     }
 }
