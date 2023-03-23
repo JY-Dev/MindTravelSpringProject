@@ -52,6 +52,18 @@ public class MindSharePostQueryRepositoryTest {
     }
 
     @Test
+    public void searchMindSharePostsPagingOffsetTest(){
+        MindSharePostCategory category = MindSharePostCategory.DAILY;
+        saveMindSharePosts(10,category);
+        MindSharePostsRequest request = MindSharePostsRequest.builder()
+                .category(category)
+                .pageOffset(2L)
+                .pageSize(5).build();
+        List<MindSharePost> result = repository.searchMindSharePosts(request);
+        Assertions.assertThat(result.isEmpty()).isEqualTo(true);
+    }
+
+    @Test
     public void searchMindSharePostsTotalSizeTest(){
         MindSharePostCategory category = MindSharePostCategory.DAILY;
         saveMindSharePosts(10,category);

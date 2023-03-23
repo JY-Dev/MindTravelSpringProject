@@ -20,7 +20,7 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
     public List<MindSharePost> searchMindSharePosts(MindSharePostsRequest request) {
         return queryFactory.selectFrom(mindSharePost)
                 .where(mindSharePost.category.eq(request.getCategory()))
-                .offset(request.getPageOffset())
+                .offset(request.getPageOffset()*request.getPageSize())
                 .limit(request.getPageSize())
                 .fetch();
     }
