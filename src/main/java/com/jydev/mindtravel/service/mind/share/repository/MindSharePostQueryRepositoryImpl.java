@@ -1,7 +1,7 @@
 package com.jydev.mindtravel.service.mind.share.repository;
 
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostListRequest;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostsRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -17,7 +17,7 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
 
 
     @Override
-    public List<MindSharePost> searchMindSharePosts(MindSharePostListRequest request) {
+    public List<MindSharePost> searchMindSharePosts(MindSharePostsRequest request) {
         return queryFactory.selectFrom(mindSharePost)
                 .where(mindSharePost.category.eq(request.getCategory()))
                 .offset(request.getPageOffset())

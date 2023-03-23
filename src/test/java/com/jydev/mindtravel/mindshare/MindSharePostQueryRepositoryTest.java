@@ -4,7 +4,7 @@ import com.jydev.mindtravel.service.member.domain.Member;
 import com.jydev.mindtravel.service.member.repository.MemberCommandRepository;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostListRequest;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostsRequest;
 import com.jydev.mindtravel.service.mind.share.model.WriteMindSharePostRequest;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommandRepository;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostQueryRepository;
@@ -44,7 +44,7 @@ public class MindSharePostQueryRepositoryTest {
     public void searchMindSharePostsPagingTest(){
         MindSharePostCategory category = MindSharePostCategory.DAILY;
         saveMindSharePosts(10,category);
-        MindSharePostListRequest request = MindSharePostListRequest.builder()
+        MindSharePostsRequest request = MindSharePostsRequest.builder()
                 .category(category)
                 .pageOffset(0)
                 .pageSize(5).build();
