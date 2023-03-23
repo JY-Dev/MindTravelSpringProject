@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface MindSharePostQueryRepository {
     List<MindSharePost> searchMindSharePosts(MindSharePostsRequest request);
+    Long searchMindSharePostsTotalSize();
 }

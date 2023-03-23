@@ -24,4 +24,11 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
                 .limit(request.getPageSize())
                 .fetch();
     }
+
+    @Override
+    public Long searchMindSharePostsTotalSize() {
+        return queryFactory.select(mindSharePost.count())
+                .from(mindSharePost)
+                .fetchOne();
+    }
 }
