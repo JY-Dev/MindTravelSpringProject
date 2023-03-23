@@ -1,5 +1,6 @@
 package com.jydev.mindtravel.mindshare;
 
+import com.jydev.mindtravel.RepositoryTest;
 import com.jydev.mindtravel.service.member.domain.Member;
 import com.jydev.mindtravel.service.member.repository.MemberCommandRepository;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
@@ -15,12 +16,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-@SpringBootTest
-@Transactional
+@RepositoryTest
 public class MindSharePostQueryRepositoryTest {
     @Autowired
     private MindSharePostQueryRepository repository;
@@ -50,6 +49,14 @@ public class MindSharePostQueryRepositoryTest {
                 .pageSize(5).build();
         List<MindSharePost> result = repository.searchMindSharePosts(request);
         Assertions.assertThat(result.size()).isEqualTo(5);
+    }
+
+    @Test
+    public void searchMindSharePostsTotalSizeTest(){
+        MindSharePostCategory category = MindSharePostCategory.DAILY;
+        saveMindSharePosts(10,category);
+        Long result = repository.searchMindSharePostsTotalSize();
+        Assertions.assertThat(result).isEqualTo(10);
     }
 
     private void saveMindSharePosts(int size,MindSharePostCategory category){
