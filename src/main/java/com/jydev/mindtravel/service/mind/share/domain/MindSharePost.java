@@ -3,7 +3,7 @@ package com.jydev.mindtravel.service.mind.share.domain;
 import com.jydev.mindtravel.service.base.BaseEntity;
 import com.jydev.mindtravel.service.member.domain.Member;
 import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostRequest;
+import com.jydev.mindtravel.service.mind.share.model.WriteMindSharePostRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +29,7 @@ public class MindSharePost extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public MindSharePost(Member member,MindSharePostRequest request){
+    public MindSharePost(Member member, WriteMindSharePostRequest request){
         this.category = request.getCategory();
         this.title = request.getTitle();
         this.content = request.getContent();

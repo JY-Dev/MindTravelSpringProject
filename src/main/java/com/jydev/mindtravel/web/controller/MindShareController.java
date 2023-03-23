@@ -1,7 +1,7 @@
 package com.jydev.mindtravel.web.controller;
 
 import com.jydev.mindtravel.service.member.model.MemberDto;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostRequest;
+import com.jydev.mindtravel.service.mind.share.model.WriteMindSharePostRequest;
 import com.jydev.mindtravel.service.mind.share.service.MindShareService;
 import com.jydev.mindtravel.web.http.EmptyResponse;
 import com.jydev.mindtravel.web.http.HttpResponse;
@@ -23,7 +23,7 @@ public class MindShareController {
 
     @PostMapping("/post")
     public ResponseEntity<HttpResponse<EmptyResponse>> saveMindSharePost(@RequestAttribute("member") MemberDto member,
-                                                                          @RequestBody MindSharePostRequest request) {
+                                                                          @RequestBody WriteMindSharePostRequest request) {
         mindShareService.saveMindSharePost(member.getEmail(),request);
         return httpUtils.makeEmptyResponse();
     }
