@@ -46,7 +46,7 @@ public class MindSharePostQueryRepositoryTest {
         MindSharePostsRequest request = MindSharePostsRequest.builder()
                 .category(category)
                 .pageOffset(0L)
-                .pageSize(5L).build();
+                .pageSize(5).build();
         List<MindSharePost> result = repository.searchMindSharePosts(request);
         Assertions.assertThat(result.size()).isEqualTo(5);
     }

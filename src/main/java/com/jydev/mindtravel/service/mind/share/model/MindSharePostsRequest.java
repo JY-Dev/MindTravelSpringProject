@@ -7,6 +7,6 @@ import lombok.Getter;
 @Getter
 public class MindSharePostsRequest {
     private Long pageOffset;
-    private Long pageSize;
+    private Integer pageSize;
     private MindSharePostCategory category;
 }
