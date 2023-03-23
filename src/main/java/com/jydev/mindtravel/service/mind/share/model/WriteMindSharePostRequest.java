@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class MindSharePostRequest {
+public class WriteMindSharePostRequest {
     private String title;
     private String content;
     private MindSharePostCategory category;
