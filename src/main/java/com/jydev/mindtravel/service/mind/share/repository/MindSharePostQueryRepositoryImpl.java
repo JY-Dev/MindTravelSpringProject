@@ -22,6 +22,7 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
                 .where(mindSharePost.category.eq(request.getCategory()))
                 .offset(request.getPageOffset()*request.getPageSize())
                 .limit(request.getPageSize())
+                .orderBy(mindSharePost.id.desc())
                 .fetch();
     }
 
