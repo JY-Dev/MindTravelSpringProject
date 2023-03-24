@@ -33,8 +33,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.formParameters;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ControllerTest
@@ -88,10 +87,9 @@ public class MemberControllerTest {
                 ResponseEntity.ok(new HttpResponse<>(200, "", memberDto)
                 ));
         ResultActions result = this.mockMvc.perform(
-                patch("/v1/member/nickname")
+                patch("/v1/member/{nickname}",changeNickname)
                         .header("Authorization", "Bearer Token")
                         .requestAttr("member",memberDto)
-                        .param("nickname",changeNickname)
         );
         result.andExpect(status().isOk())
                 .andDo(document("edit-nickname", getDocumentRequest(),
@@ -99,7 +97,7 @@ public class MemberControllerTest {
                         requestHeaders(
                                 headerWithName("Authorization").description("Access Token")
                         ),
-                        formParameters(
+                        pathParameters(
                                 parameterWithName("nickname").description("닉네임")
                         ),
                         responseFields(

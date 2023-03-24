@@ -138,10 +138,9 @@ public class MindTravelControllerTest {
         );
 
         ResultActions resultActions = this.mockMvc.perform(
-                delete("/v1/mind/travel/record-mood")
+                delete("/v1/mind/travel/record-mood/{moodRecordId}","0")
                         .header("Authorization", "Bearer Token")
                         .requestAttr("member", memberDto)
-                        .param("moodRecordId", "0")
         );
         resultActions.andExpect(status().isOk())
                 .andDo(document("delete-record-mood",
@@ -150,7 +149,7 @@ public class MindTravelControllerTest {
                         requestHeaders(
                                 headerWithName("Authorization").description("Access Token")
                         ),
-                        formParameters(
+                        pathParameters(
                                 parameterWithName("moodRecordId").description("RecordMood 아이디")
                         ),
                         responseFields(

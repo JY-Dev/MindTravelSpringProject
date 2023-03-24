@@ -59,7 +59,7 @@ include::{snippets}/get-member/response-fields.adoc[]
 === 닉네임 수정
 ==== Request
 include::{snippets}/edit-nickname/http-request.adoc[]
-include::{snippets}/edit-nickname/form-parameters.adoc[]
+include::{snippets}/edit-nickname/path-parameters.adoc[]
 include::{snippets}/edit-nickname/request-headers.adoc[]
 ==== Response
 include::{snippets}/edit-nickname/response-body.adoc[]
@@ -86,8 +86,18 @@ include::{snippets}/get-record-moods/response-fields.adoc[]
 === 기분 삭제하기
 ==== Request
 include::{snippets}/delete-record-mood/http-request.adoc[]
+include::{snippets}/delete-record-mood/path-parameters.adoc[]
 include::{snippets}/delete-record-mood/request-headers.adoc[]
-include::{snippets}/delete-record-mood/form-parameters.adoc[]
 ==== Response
 include::{snippets}/delete-record-mood/response-body.adoc[]
 include::{snippets}/delete-record-mood/response-fields.adoc[]
+
+=== 마음 공유 글 작성
+==== Request
+include::{snippets}/save-mind-share-post/http-request.adoc[]
+include::{snippets}/save-mind-share-post/request-headers.adoc[]
+include::{snippets}/save-mind-share-post/request-body.adoc[]
+include::{snippets}/save-mind-share-post/request-fields.adoc[]
+==== Response
+include::{snippets}/save-mind-share-post/response-body.adoc[]
+include::{snippets}/save-mind-share-post/response-fields.adoc[]
