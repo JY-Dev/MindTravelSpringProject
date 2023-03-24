@@ -101,3 +101,12 @@ include::{snippets}/save-mind-share-post/request-fields.adoc[]
 ==== Response
 include::{snippets}/save-mind-share-post/response-body.adoc[]
 include::{snippets}/save-mind-share-post/response-fields.adoc[]
+
+=== 마음 공유 글 목록 조회
+==== Request
+include::{snippets}/search-mind-share-posts/http-request.adoc[]
+include::{snippets}/search-mind-share-posts/request-headers.adoc[]
+include::{snippets}/search-mind-share-posts/query-parameters.adoc[]
+==== Response
+include::{snippets}/search-mind-share-posts/response-body.adoc[]
+include::{snippets}/search-mind-share-posts/response-fields.adoc[]
