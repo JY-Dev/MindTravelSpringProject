@@ -4,10 +4,7 @@ import com.jydev.mindtravel.service.exception.ClientException;
 import com.jydev.mindtravel.service.member.domain.Member;
 import com.jydev.mindtravel.service.member.repository.MemberQueryRepository;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostResponse;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostsRequest;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostsResponse;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostRequest;
+import com.jydev.mindtravel.service.mind.share.model.*;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommandRepository;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +17,6 @@ import java.util.List;
 public class MindShareService {
     private final MemberQueryRepository memberQueryRepository;
     private final MindSharePostCommandRepository mindSharePostCommandRepository;
-
     private final MindSharePostQueryRepository mindSharePostQueryRepository;
 
     public void saveMindSharePost(String email, MindSharePostRequest request) {
@@ -36,5 +32,10 @@ public class MindShareService {
         return new MindSharePostsResponse(totalSize, mindSharePosts);
     }
 
+    public MindSharePostDetailResponse searchMindSharePost(long postId){
+        MindSharePost post = mindSharePostQueryRepository
+                .searchMindSharePost(postId).orElseThrow(() -> new ClientException("글 정보가 없습니다."));
+        return new MindSharePostDetailResponse(post);
+    }
 
 }
