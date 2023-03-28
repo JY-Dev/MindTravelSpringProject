@@ -80,4 +80,15 @@ public class MindShareMockFactory {
         }
         return result;
     }
+
+    public static List<MindSharePostComment> getMindSharePostCommentsWithChildComments(Member member, long postId, int size){
+        List<MindSharePostComment> result = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            MindSharePostComment comment = new MindSharePostComment(member,getMindSharePostCommentRequest(postId));
+            List<MindSharePostChildComment> childComment = getMindSharePostChildComments(member,i,size);
+            comment.addChildComment(childComment);
+            result.add(comment);
+        }
+        return result;
+    }
 }
