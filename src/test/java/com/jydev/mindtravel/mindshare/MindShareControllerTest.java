@@ -2,7 +2,6 @@ package com.jydev.mindtravel.mindshare;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.ControllerTest;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.model.*;
 import com.jydev.mindtravel.service.mind.share.service.MindShareService;
 import com.jydev.mindtravel.util.ControllerTestHelper;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -55,7 +53,7 @@ public class MindShareControllerTest {
 
     @Test
     public void saveMindSharePostTest() throws Exception {
-        WriteMindSharePostRequest request = WriteMindSharePostRequest.builder()
+        MindSharePostRequest request = MindSharePostRequest.builder()
                 .title("title")
                 .content("content")
                 .category(MindSharePostCategory.TROUBLE_COUNSELING)

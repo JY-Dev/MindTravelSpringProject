@@ -6,12 +6,11 @@ import com.jydev.mindtravel.service.member.repository.MemberCommandRepository;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
 import com.jydev.mindtravel.service.mind.share.model.MindSharePostsRequest;
-import com.jydev.mindtravel.service.mind.share.model.WriteMindSharePostRequest;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostRequest;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommandRepository;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostQueryRepository;
 import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
-import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,7 +71,7 @@ public class MindSharePostQueryRepositoryTest {
     }
 
     private void saveMindSharePosts(int size,MindSharePostCategory category){
-        WriteMindSharePostRequest request = WriteMindSharePostRequest
+        MindSharePostRequest request = MindSharePostRequest
                 .builder()
                 .category(category)
                 .title("title")

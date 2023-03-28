@@ -7,7 +7,7 @@ import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.model.MindSharePostResponse;
 import com.jydev.mindtravel.service.mind.share.model.MindSharePostsRequest;
 import com.jydev.mindtravel.service.mind.share.model.MindSharePostsResponse;
-import com.jydev.mindtravel.service.mind.share.model.WriteMindSharePostRequest;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostRequest;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommandRepository;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class MindShareService {
 
     private final MindSharePostQueryRepository mindSharePostQueryRepository;
 
-    public void saveMindSharePost(String email, WriteMindSharePostRequest request) {
+    public void saveMindSharePost(String email, MindSharePostRequest request) {
         Member member = memberQueryRepository.findByEmail(email)
                 .orElseThrow(() -> new ClientException("유저 정보가 없습니다."));
         MindSharePost mindSharePost = new MindSharePost(member, request);
