@@ -11,8 +11,6 @@ import com.jydev.mindtravel.service.mind.share.repository.MindSharePostChildComm
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommandRepository;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommentCommandRepository;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostQueryRepository;
-import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
-import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.jydev.mindtravel.member.MemberMockFactory.getMember;
+import static com.jydev.mindtravel.mindshare.MindShareMockFactory.*;
 
 @RepositoryTest
 public class MindSharePostQueryRepositoryTest {
@@ -38,19 +39,16 @@ public class MindSharePostQueryRepositoryTest {
     @Autowired
     private MindSharePostChildCommentCommandRepository childCommentCommandRepository;
     private Member member;
+
     @BeforeEach
-    public void init(){
-        String email = "test@naver.com";
-        String id = "id";
-        OauthInfo oauthInfo = new OauthInfo(id, email);
-        member = new Member(OauthServerType.GOOGLE, oauthInfo);
-        memberCommandRepository.save(member);
+    public void init() {
+        member = memberCommandRepository.save(getMember());
     }
 
     @Test
-    public void searchMindSharePostsPagingTest(){
+    public void searchMindSharePostsPagingTest() {
         MindSharePostCategory category = MindSharePostCategory.DAILY;
-        saveMindSharePosts(10,category);
+        saveMindSharePosts(10, category);
         MindSharePostsRequest request = MindSharePostsRequest.builder()
                 .category(category)
                 .pageOffset(0L)
@@ -60,9 +58,9 @@ public class MindSharePostQueryRepositoryTest {
     }
 
     @Test
-    public void searchMindSharePostsPagingOffsetTest(){
+    public void searchMindSharePostsPagingOffsetTest() {
         MindSharePostCategory category = MindSharePostCategory.DAILY;
-        saveMindSharePosts(10,category);
+        saveMindSharePosts(10, category);
         MindSharePostsRequest request = MindSharePostsRequest.builder()
                 .category(category)
                 .pageOffset(2L)
@@ -72,114 +70,72 @@ public class MindSharePostQueryRepositoryTest {
     }
 
     @Test
-    public void searchMindSharePostsTotalSizeTest(){
+    public void searchMindSharePostsTotalSizeTest() {
         MindSharePostCategory category = MindSharePostCategory.DAILY;
-        saveMindSharePosts(10,category);
+        saveMindSharePosts(10, category);
         Long result = repository.searchMindSharePostsTotalSize();
         Assertions.assertThat(result).isEqualTo(10);
     }
 
 
     @Test
-    public void searchMindSharePostCommentFetchJoinTest(){
-        MindSharePostRequest request = MindSharePostRequest
-                .builder()
-                .category(MindSharePostCategory.DAILY)
-                .title("title")
-                .content("content")
-                .build();
-        MindSharePost result = commandRepository.save(new MindSharePost(member,request));
-        MindSharePostCommentRequest commentRequest = MindSharePostCommentRequest.builder()
-                .postId(result.getId())
-                .content("content")
-                .build();
-        List<MindSharePostComment> comments = new ArrayList<>();
+    public void searchMindSharePostCommentFetchJoinTest() {
+        MindSharePostRequest request = getMindSharePostRequest(MindSharePostCategory.DAILY);
+        MindSharePost post = commandRepository.save(new MindSharePost(member, request));
         int commentSize = 20;
-        for (int i = 0; i < commentSize; i++) {
-            comments.add(commentCommandRepository.save(new MindSharePostComment(member,commentRequest)));
+        List<MindSharePostComment> comments = getMindSharePostComments(member, post.getId(), commentSize);
+        for (MindSharePostComment comment : comments) {
+            commentCommandRepository.save(comment);
         }
-        result.addChildComment(comments);
-        MindSharePost searchResult = repository.searchMindSharePost(result.getId()).get();
+        post.addChildComment(comments);
+        MindSharePost searchResult = repository.searchMindSharePost(post.getId()).get();
         Assertions.assertThat(searchResult.getComments().size()).isEqualTo(commentSize);
     }
 
     @Test
-    public void searchMindSharePostChildCommentFetchJoinTest(){
-        MindSharePostRequest request = MindSharePostRequest
-                .builder()
-                .category(MindSharePostCategory.DAILY)
-                .title("title")
-                .content("content")
-                .build();
-        MindSharePost result = commandRepository.save(new MindSharePost(member,request));
-        MindSharePostCommentRequest commentRequest = MindSharePostCommentRequest.builder()
-                .postId(result.getId())
-                .content("content")
-                .build();
-        List<MindSharePostComment> comments = new ArrayList<>();
-        MindSharePostComment comment = commentCommandRepository.save(new MindSharePostComment(member,commentRequest));
+    public void searchMindSharePostChildCommentFetchJoinTest() {
+        MindSharePostCategory category = MindSharePostCategory.DAILY;
+        MindSharePostRequest request = getMindSharePostRequest(category);
+        MindSharePost post = commandRepository.save(new MindSharePost(member, request));
+        List<MindSharePostComment> comments = getMindSharePostComments(member, post.getId(), 1);
+        MindSharePostComment comment = commentCommandRepository.save(comments.get(0));
         comments.add(comment);
-        result.addChildComment(comments);
-        MindSharePostChildCommentRequest childCommentRequest = MindSharePostChildCommentRequest.builder()
-                .parentCommentId(comment.getId())
-                .content("content")
-                .build();
+        post.addChildComment(comments);
+
+        MindSharePostChildCommentRequest childCommentRequest = getMindSharePostChildCommentRequest(comment.getId());
         int commentSize = 20;
         List<MindSharePostChildComment> childComments = new ArrayList<>();
         for (int i = 0; i < commentSize; i++) {
-            childComments.add(childCommentCommandRepository.save(new MindSharePostChildComment(member,null,childCommentRequest)));
+            childComments.add(childCommentCommandRepository.save(new MindSharePostChildComment(member, null, childCommentRequest)));
         }
         comment.addChildComment(childComments);
-        MindSharePost searchResult = repository.searchMindSharePost(result.getId()).get();
+        MindSharePost searchResult = repository.searchMindSharePost(post.getId()).get();
         MindSharePostComment searchComment = searchResult.getComments().stream().toList().get(0);
         Assertions.assertThat(searchComment.getChildComments().size()).isEqualTo(commentSize);
     }
 
     @Test
-    public void searchMindSharePostsCommentSizeTest(){
-        MindSharePostRequest request = MindSharePostRequest
-                .builder()
-                .category(MindSharePostCategory.DAILY)
-                .title("title")
-                .content("content")
-                .build();
-        MindSharePost result = commandRepository.save(new MindSharePost(member,request));
-        MindSharePostCommentRequest commentRequest = MindSharePostCommentRequest.builder()
-                .postId(result.getId())
-                .content("content")
-                .build();
-        List<MindSharePostComment> comments = new ArrayList<>();
-        MindSharePostComment comment = commentCommandRepository.save(new MindSharePostComment(member,commentRequest));
-        comments.add(comment);
-        result.addChildComment(comments);
-        MindSharePostChildCommentRequest childCommentRequest = MindSharePostChildCommentRequest.builder()
-                .parentCommentId(comment.getId())
-                .content("content")
-                .build();
+    public void searchMindSharePostsCommentSizeTest() {
+        MindSharePostCategory category = MindSharePostCategory.DAILY;
+        MindSharePost post = commandRepository.save(new MindSharePost(member, getMindSharePostRequest(category)));
+        List<MindSharePostComment> comments = getMindSharePostComments(member, post.getId(), 1);
+        MindSharePostComment comment = commentCommandRepository.save(comments.get(0));
+        post.addChildComment(comments);
         int commentSize = 20;
-        List<MindSharePostChildComment> childComments = new ArrayList<>();
+        List<MindSharePostChildComment> childComments = getMindSharePostChildComments(member, comment.getId(), commentSize);
         for (int i = 0; i < commentSize; i++) {
-            childComments.add(childCommentCommandRepository.save(new MindSharePostChildComment(member,null,childCommentRequest)));
+            childCommentCommandRepository.save(childComments.get(i));
         }
         comment.addChildComment(childComments);
-        MindSharePostsRequest postsRequest = MindSharePostsRequest.builder()
-                .category(MindSharePostCategory.DAILY)
-                .pageSize(10)
-                .pageOffset(0L)
-                .build();
+        MindSharePostsRequest postsRequest = getMindSharePostsRequest(category);
         MindSharePostResponse searchResult = repository.searchMindSharePosts(postsRequest).get(0);
-        Assertions.assertThat(searchResult.getCommentCount()).isEqualTo(commentSize+1);
+        Assertions.assertThat(searchResult.getCommentCount()).isEqualTo(commentSize + 1);
     }
 
-    private void saveMindSharePosts(int size,MindSharePostCategory category){
-        MindSharePostRequest request = MindSharePostRequest
-                .builder()
-                .category(category)
-                .title("title")
-                .content("content")
-                .build();
+    private void saveMindSharePosts(int size, MindSharePostCategory category) {
+        MindSharePostRequest request = getMindSharePostRequest(category);
         for (int i = 0; i < size; i++) {
-            MindSharePost post = new MindSharePost(member,request);
+            MindSharePost post = new MindSharePost(member, request);
             commandRepository.save(post);
         }
     }

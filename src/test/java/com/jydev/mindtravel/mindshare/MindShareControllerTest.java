@@ -2,7 +2,10 @@ package com.jydev.mindtravel.mindshare;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.ControllerTest;
-import com.jydev.mindtravel.service.mind.share.model.*;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostRequest;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostsRequest;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostsResponse;
 import com.jydev.mindtravel.service.mind.share.service.MindShareService;
 import com.jydev.mindtravel.util.ControllerTestHelper;
 import com.jydev.mindtravel.web.controller.MindShareController;
@@ -19,12 +22,9 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentRequest;
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentResponse;
+import static com.jydev.mindtravel.mindshare.MindShareMockFactory.getMindSharePostsResponse;
 import static com.jydev.mindtravel.util.ControllerTestHelper.baseRequestBuilder;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -53,11 +53,7 @@ public class MindShareControllerTest {
 
     @Test
     public void saveMindSharePostTest() throws Exception {
-        MindSharePostRequest request = MindSharePostRequest.builder()
-                .title("title")
-                .content("content")
-                .category(MindSharePostCategory.TROUBLE_COUNSELING)
-                .build();
+        MindSharePostRequest request = MindShareMockFactory.getMindSharePostRequest(MindSharePostCategory.DAILY);
         given(httpUtils.makeEmptyResponse()).willReturn(
                 ResponseEntity.ok(new HttpResponse<EmptyResponse>(HttpServletResponse.SC_OK, "", null))
         );
@@ -86,29 +82,18 @@ public class MindShareControllerTest {
 
     @Test
     public void searchMindSharePostsTest() throws Exception {
-        MindSharePostResponse mindSharePostResponse = MindSharePostResponse.builder()
-                .postId(0L)
-                .viewCount(20L)
-                .nickname("nickname")
-                .likeCount(20L)
-                .title("title")
-                .createdDate(LocalDateTime.now())
-                .build();
-        List<MindSharePostResponse> responses = new ArrayList<>();
-        responses.add(mindSharePostResponse);
-        MindSharePostsResponse mindSharePostsResponse = MindSharePostsResponse.builder()
-                        .posts(responses).totalPostSize(1L).build();
+        MindSharePostsResponse mindSharePostsResponse = getMindSharePostsResponse(1);
         HttpResponse<MindSharePostsResponse> response = new HttpResponse<>(HttpServletResponse.SC_OK, "", mindSharePostsResponse);
         given(service.searchMindSharePosts(any(MindSharePostsRequest.class))).willReturn(mindSharePostsResponse);
-        given(httpUtils.makeHttpResponse(any(Integer.class),any(String.class),any(MindSharePostsResponse.class))).willReturn(
+        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(MindSharePostsResponse.class))).willReturn(
                 ResponseEntity.ok(response)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
                         get("/v1/mind/share/post")
-                                .queryParam("pageOffset","0")
-                                .queryParam("pageSize","10")
-                                .queryParam("category","TROUBLE_COUNSELING")
+                                .queryParam("pageOffset", "0")
+                                .queryParam("pageSize", "10")
+                                .queryParam("category", "TROUBLE_COUNSELING")
                 )
         );
         resultActions.andExpect(status().isOk())
@@ -130,6 +115,7 @@ public class MindShareControllerTest {
                                 fieldWithPath("data.posts[].title").type(JsonFieldType.STRING).description("제목"),
                                 fieldWithPath("data.posts[].likeCount").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                 fieldWithPath("data.posts[].viewCount").type(JsonFieldType.NUMBER).description("방문 수"),
+                                fieldWithPath("data.posts[].commentCount").type(JsonFieldType.NUMBER).description("댓글 수"),
                                 fieldWithPath("data.posts[].createdDate").type(JsonFieldType.STRING).description("생성 날짜")
                         )));
     }
