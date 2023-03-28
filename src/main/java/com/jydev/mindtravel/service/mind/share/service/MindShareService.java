@@ -31,10 +31,10 @@ public class MindShareService {
     }
 
     public MindSharePostsResponse searchMindSharePosts(MindSharePostsRequest request) {
-        List<MindSharePostResponse> mindSharePosts = mindSharePostQueryRepository.searchMindSharePosts(request)
-                .stream()
-                .map(MindSharePostResponse::new).toList();
+        List<MindSharePostResponse> mindSharePosts = mindSharePostQueryRepository.searchMindSharePosts(request);
         Long totalSize = mindSharePostQueryRepository.searchMindSharePostsTotalSize();
         return new MindSharePostsResponse(totalSize, mindSharePosts);
     }
+
+
 }

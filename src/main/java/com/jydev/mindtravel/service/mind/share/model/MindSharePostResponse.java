@@ -18,15 +18,6 @@ public class MindSharePostResponse {
     private String title;
     private Long likeCount;
     private Long viewCount;
+    private Long commentCount;
     private LocalDateTime createdDate;
-
-
-    public MindSharePostResponse(MindSharePost mindSharePost) {
-        this.nickname = mindSharePost.getMember().getNickname();
-        this.title = mindSharePost.getTitle();
-        this.likeCount = mindSharePost.getLikeCount();
-        this.viewCount = mindSharePost.getViewCount();
-        this.createdDate = mindSharePost.getCreatedDate();
-        this.postId = mindSharePost.getId();
-    }
 }

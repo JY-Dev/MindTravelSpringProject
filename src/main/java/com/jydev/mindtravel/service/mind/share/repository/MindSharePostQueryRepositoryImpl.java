@@ -1,7 +1,12 @@
 package com.jydev.mindtravel.service.mind.share.repository;
 
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostResponse;
 import com.jydev.mindtravel.service.mind.share.model.MindSharePostsRequest;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -15,15 +20,31 @@ import static com.jydev.mindtravel.service.mind.share.domain.QMindSharePostComme
 
 @RequiredArgsConstructor
 @Repository
-public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepository{
+public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepository {
     private final JPAQueryFactory queryFactory;
 
 
     @Override
-    public List<MindSharePost> searchMindSharePosts(MindSharePostsRequest request) {
-        return queryFactory.selectFrom(mindSharePost)
+    public List<MindSharePostResponse> searchMindSharePosts(MindSharePostsRequest request) {
+        return queryFactory.select(Projections.fields(MindSharePostResponse.class, mindSharePost.id,
+                        mindSharePost.member.nickname,
+                        mindSharePost.title,
+                        mindSharePost.likeCount,
+                        mindSharePost.viewCount,
+                        ExpressionUtils.as(
+                                JPAExpressions.select(
+                                                Expressions.asNumber(
+                                                        mindSharePostComment.countDistinct().add(mindSharePostChildComment.countDistinct())
+                                                ))
+                                        .from(mindSharePostComment)
+                                        .leftJoin(mindSharePostComment.childComments, mindSharePostChildComment)
+                                        .where(mindSharePostComment.postId.eq(mindSharePost.id)),
+                                "commentCount"
+                        ),
+                        mindSharePost.createdDate))
+                .from(mindSharePost)
                 .where(mindSharePost.category.eq(request.getCategory()))
-                .offset(request.getPageOffset()*request.getPageSize())
+                .offset(request.getPageOffset() * request.getPageSize())
                 .limit(request.getPageSize())
                 .orderBy(mindSharePost.id.desc())
                 .fetch();
