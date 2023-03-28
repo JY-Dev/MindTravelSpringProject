@@ -45,3 +45,5 @@
 [Spring Security 이용해서 SNS 로그인 Rest API 환경으로 구현하기](https://velog.io/@kjy0302014/Spring-Security-이용해서-SNS-로그인-Rest-API-환경으로-구현하기)
 
 [QueryDsl Date 조건 처리](https://velog.io/@kjy0302014/QueryDsl-Date-조건-처리)
+
+[Jpa MultipleBagFetchException](https://velog.io/@kjy0302014/Jpa-MultipleBagFetchException)
