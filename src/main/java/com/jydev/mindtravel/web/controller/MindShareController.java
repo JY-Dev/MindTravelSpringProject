@@ -1,10 +1,7 @@
 package com.jydev.mindtravel.web.controller;
 
 import com.jydev.mindtravel.service.member.model.MemberDto;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostsRequest;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostsResponse;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostRequest;
+import com.jydev.mindtravel.service.mind.share.model.*;
 import com.jydev.mindtravel.service.mind.share.service.MindShareService;
 import com.jydev.mindtravel.web.http.EmptyResponse;
 import com.jydev.mindtravel.web.http.HttpResponse;
@@ -37,6 +34,12 @@ public class MindShareController {
                 .category(category)
                 .build();
         MindSharePostsResponse data = mindShareService.searchMindSharePosts(request);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK,"",data);
+    }
+
+    @GetMapping("/post/{postId}")
+    public ResponseEntity<HttpResponse<MindSharePostDetailResponse>> searchMindSharePost(@PathVariable Long postId) {
+        MindSharePostDetailResponse data = mindShareService.searchMindSharePost(postId);
         return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK,"",data);
     }
 }
