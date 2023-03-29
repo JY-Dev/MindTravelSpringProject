@@ -35,7 +35,8 @@ public class MindShareService {
     public MindSharePostDetailResponse searchMindSharePost(long postId){
         MindSharePost post = mindSharePostQueryRepository
                 .searchMindSharePost(postId).orElseThrow(() -> new ClientException("글 정보가 없습니다."));
-        return new MindSharePostDetailResponse(post);
+        Long viewCount = mindSharePostQueryRepository.increaseViewCount(postId);
+        return new MindSharePostDetailResponse(viewCount,post);
     }
 
 }
