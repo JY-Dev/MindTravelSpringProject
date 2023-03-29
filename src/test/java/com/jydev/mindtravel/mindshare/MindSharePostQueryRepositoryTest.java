@@ -11,6 +11,7 @@ import com.jydev.mindtravel.service.mind.share.repository.MindSharePostChildComm
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommandRepository;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommentCommandRepository;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostQueryRepository;
+import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.jydev.mindtravel.member.MemberMockFactory.getMember;
 import static com.jydev.mindtravel.mindshare.MindShareMockFactory.*;
@@ -41,6 +41,8 @@ public class MindSharePostQueryRepositoryTest {
     private MindSharePostChildCommentCommandRepository childCommentCommandRepository;
     private Member member;
 
+    @Autowired
+    private EntityManager entityManager;
     @BeforeEach
     public void init() {
         member = memberCommandRepository.save(getMember());
@@ -138,8 +140,21 @@ public class MindSharePostQueryRepositoryTest {
         MindSharePostRequest request = getMindSharePostRequest(MindSharePostCategory.DAILY);
         MindSharePost post = commandRepository.save(new MindSharePost(member, request));
         repository.increaseViewCount(post.getId());
+        entityManager.clear();
         MindSharePost result = repository.searchMindSharePost(post.getId()).get();
         Assertions.assertThat(result.getViewCount()).isEqualTo(1);
+    }
+
+    @Test
+    public void deleteMindSharePostCommentTest(){
+        MindSharePostCategory category = MindSharePostCategory.DAILY;
+        MindSharePost post = commandRepository.save(new MindSharePost(member, getMindSharePostRequest(category)));
+        List<MindSharePostComment> comments = getMindSharePostComments(member, post.getId(), 1);
+        MindSharePostComment comment = commentCommandRepository.save(comments.get(0));
+        repository.deleteMindSharePostComment(comment.getId());
+        entityManager.clear();
+        MindSharePostComment result = commentCommandRepository.findById(comment.getId()).get();
+        Assertions.assertThat(result.getIsDeleted()).isTrue();
     }
 
     private void saveMindSharePosts(int size, MindSharePostCategory category) {

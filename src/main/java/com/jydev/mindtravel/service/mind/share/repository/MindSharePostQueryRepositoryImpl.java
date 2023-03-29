@@ -63,7 +63,7 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
                 .leftJoin(mindSharePost.comments, mindSharePostComment).fetchJoin()
                 .leftJoin(mindSharePostComment.childComments, mindSharePostChildComment).fetchJoin()
                 .where(mindSharePost.id.eq(postId))
-                .fetchFirst();
+                .fetchOne();
         return Optional.ofNullable(post);
     }
 
@@ -72,6 +72,13 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
         return queryFactory.update(mindSharePost)
                 .set(mindSharePost.viewCount,mindSharePost.viewCount.add(1))
                 .where(mindSharePost.id.eq(postId))
+                .execute();
+    }
+
+    @Override
+    public void deleteMindSharePostComment(Long commentId) {
+        queryFactory.update(mindSharePostComment)
+                .set(mindSharePostComment.isDeleted,Expressions.asBoolean(true))
                 .execute();
     }
 }
