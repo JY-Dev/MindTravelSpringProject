@@ -5,10 +5,8 @@ import com.jydev.mindtravel.service.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
-@DynamicUpdate
 @NoArgsConstructor
 @Entity
 public class MindSharePostLike extends BaseEntity {

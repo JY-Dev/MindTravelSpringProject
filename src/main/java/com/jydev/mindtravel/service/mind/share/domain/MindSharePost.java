@@ -13,7 +13,6 @@ import org.hibernate.annotations.DynamicUpdate;
 import java.util.*;
 
 @Getter
-@DynamicUpdate
 @NoArgsConstructor
 @ToString
 @Entity
@@ -26,7 +25,6 @@ public class MindSharePost extends BaseEntity {
     private MindSharePostCategory category;
     private String title;
     private String content;
-    private Long likeCount;
     private Long viewCount;
 
     @ManyToOne
@@ -41,7 +39,6 @@ public class MindSharePost extends BaseEntity {
         this.category = request.getCategory();
         this.title = request.getTitle();
         this.content = request.getContent();
-        this.likeCount = 0L;
         this.viewCount = 0L;
         this.member = member;
     }

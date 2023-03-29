@@ -6,15 +6,12 @@ import com.jydev.mindtravel.service.mind.share.model.MindSharePostCommentRequest
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
-@DynamicUpdate
 @NoArgsConstructor
 @Entity
 public class MindSharePostComment extends BaseEntity {
