@@ -11,13 +11,11 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
 @DynamicUpdate
 @NoArgsConstructor
-@ToString
 @Entity
 public class MindSharePostComment extends BaseEntity {
     @Id
