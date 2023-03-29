@@ -47,3 +47,5 @@
 [QueryDsl Date 조건 처리](https://velog.io/@kjy0302014/QueryDsl-Date-조건-처리)
 
 [Jpa MultipleBagFetchException](https://velog.io/@kjy0302014/Jpa-MultipleBagFetchException)
+
+[Jpa QueryDsl로 대댓글 구현하기](https://velog.io/@kjy0302014/Jpa-QueryDsl로-대댓글-구현하기)
