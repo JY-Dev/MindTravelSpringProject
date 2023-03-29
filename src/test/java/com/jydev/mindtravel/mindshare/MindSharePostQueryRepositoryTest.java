@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.jydev.mindtravel.member.MemberMockFactory.getMember;
 import static com.jydev.mindtravel.mindshare.MindShareMockFactory.*;
@@ -130,6 +131,15 @@ public class MindSharePostQueryRepositoryTest {
         MindSharePostsRequest postsRequest = getMindSharePostsRequest(category);
         MindSharePostResponse searchResult = repository.searchMindSharePosts(postsRequest).get(0);
         Assertions.assertThat(searchResult.getCommentCount()).isEqualTo(commentSize + 1);
+    }
+
+    @Test
+    public void searchMindSharePostIncreaseViewCountTest() {
+        MindSharePostRequest request = getMindSharePostRequest(MindSharePostCategory.DAILY);
+        MindSharePost post = commandRepository.save(new MindSharePost(member, request));
+        repository.increaseViewCount(post.getId());
+        MindSharePost result = repository.searchMindSharePost(post.getId()).get();
+        Assertions.assertThat(result.getViewCount()).isEqualTo(1);
     }
 
     private void saveMindSharePosts(int size, MindSharePostCategory category) {

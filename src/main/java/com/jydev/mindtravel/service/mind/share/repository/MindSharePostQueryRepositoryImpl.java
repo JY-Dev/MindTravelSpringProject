@@ -66,4 +66,12 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
                 .fetchFirst();
         return Optional.ofNullable(post);
     }
+
+    @Override
+    public Long increaseViewCount(Long postId) {
+        return queryFactory.update(mindSharePost)
+                .set(mindSharePost.viewCount,mindSharePost.viewCount.add(1))
+                .where(mindSharePost.id.eq(postId))
+                .execute();
+    }
 }
