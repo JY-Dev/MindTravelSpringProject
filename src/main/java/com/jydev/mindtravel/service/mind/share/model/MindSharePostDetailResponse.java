@@ -17,6 +17,7 @@ public class MindSharePostDetailResponse {
     private Long postId;
     private String nickname;
     private String title;
+    private String content;
     private Long likeCount;
     private Long viewCount;
     private Long commentCount;
@@ -27,6 +28,7 @@ public class MindSharePostDetailResponse {
         this.postId = mindSharePost.getId();
         this.nickname = mindSharePost.getMember().getNickname();
         this.title = mindSharePost.getTitle();
+        this.content = mindSharePost.getContent();
         this.likeCount = mindSharePost.getLikeCount();
         this.viewCount = mindSharePost.getViewCount();
         this.commentCount = mindSharePost.getComments().stream().map(c -> c.getChildComments().size() + 1L).reduce(Long::sum).orElse(0L);
