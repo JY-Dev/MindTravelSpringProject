@@ -30,7 +30,7 @@ public class MindShareService {
 
     public MindSharePostsResponse searchMindSharePosts(MindSharePostsRequest request) {
         List<MindSharePostResponse> mindSharePosts = mindSharePostQueryRepository.searchMindSharePosts(request);
-        Long totalSize = mindSharePostQueryRepository.searchMindSharePostsTotalSize();
+        Long totalSize = mindSharePostQueryRepository.searchMindSharePostsTotalSize(request.getCategory());
         return new MindSharePostsResponse(totalSize, mindSharePosts);
     }
 

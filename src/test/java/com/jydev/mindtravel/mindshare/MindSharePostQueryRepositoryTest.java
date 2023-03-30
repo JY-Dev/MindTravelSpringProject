@@ -82,7 +82,7 @@ public class MindSharePostQueryRepositoryTest {
     public void searchMindSharePostsTotalSizeTest() {
         MindSharePostCategory category = MindSharePostCategory.DAILY;
         saveMindSharePosts(10, category);
-        Long result = repository.searchMindSharePostsTotalSize();
+        Long result = repository.searchMindSharePostsTotalSize(category);
         Assertions.assertThat(result).isEqualTo(10);
     }
 

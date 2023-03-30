@@ -4,6 +4,7 @@ import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostLike;
 import com.jydev.mindtravel.service.mind.share.domain.QMindSharePostLike;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostResponse;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsRequest;
 import com.querydsl.core.types.ExpressionUtils;
@@ -54,8 +55,9 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
     }
 
     @Override
-    public Long searchMindSharePostsTotalSize() {
+    public Long searchMindSharePostsTotalSize(MindSharePostCategory category) {
         return queryFactory.select(mindSharePost.count())
+                .where(mindSharePost.category.eq(category))
                 .from(mindSharePost)
                 .fetchOne();
     }
