@@ -48,7 +48,7 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
                 .leftJoin(mindSharePostComment.childComments, mindSharePostChildComment)
                 .where(mindSharePostComment.postId.eq(mindSharePost.id));
         return queryFactory.select(Projections.fields(MindSharePostResponse.class,
-                        mindSharePost.id,
+                        ExpressionUtils.as(mindSharePost.id,"postId"),
                         ExpressionUtils.as(memberResponseQBean,"member"),
                         mindSharePost.title,
                         mindSharePost.viewCount,

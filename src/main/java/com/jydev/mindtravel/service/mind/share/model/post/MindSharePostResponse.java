@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @ToString
 @Getter
 public class MindSharePostResponse {
-    private Long id;
+    private Long postId;
     private MemberResponse member;
     private String title;
     private Long viewCount;
