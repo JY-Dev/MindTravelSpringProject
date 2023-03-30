@@ -1,5 +1,6 @@
 package com.jydev.mindtravel.service.mind.share.model.post;
 
+import com.jydev.mindtravel.service.member.model.MemberResponse;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentResponse;
 import com.jydev.mindtravel.service.mind.share.model.like.MindSharePostLikeResponse;
@@ -17,18 +18,18 @@ import java.util.List;
 @Getter
 public class MindSharePostDetailResponse {
     private Long postId;
-    private String nickname;
     private String title;
     private String content;
     private Long viewCount;
     private Long commentCount;
     private LocalDateTime createdDate;
+    private MemberResponse member;
     private List<MindSharePostCommentResponse> comments;
     private List<MindSharePostLikeResponse> likes;
 
     public MindSharePostDetailResponse(Long viewCount,MindSharePost mindSharePost) {
         this.postId = mindSharePost.getId();
-        this.nickname = mindSharePost.getMember().getNickname();
+        this.member = new MemberResponse(mindSharePost.getMember());
         this.title = mindSharePost.getTitle();
         this.content = mindSharePost.getContent();
         this.likes = mindSharePost.getLikes().stream()

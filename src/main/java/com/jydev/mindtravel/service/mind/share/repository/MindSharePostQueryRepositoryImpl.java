@@ -1,5 +1,6 @@
 package com.jydev.mindtravel.service.mind.share.repository;
 
+import com.jydev.mindtravel.service.member.model.MemberResponse;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostLike;
@@ -9,8 +10,10 @@ import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostResponse;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsRequest;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.QBean;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -31,21 +34,25 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
 
     @Override
     public List<MindSharePostResponse> searchMindSharePosts(MindSharePostsRequest request) {
+        QBean<MemberResponse> memberResponseQBean = Projections.fields(MemberResponse.class,
+                    mindSharePost.member.email,
+                    mindSharePost.member.nickname,
+                    mindSharePost.member.profileImgUrl,
+                    mindSharePost.member.role
+                );
+        JPQLQuery<Long> commentCountExpressions = JPAExpressions.select(
+                        Expressions.asNumber(
+                                mindSharePostComment.countDistinct().add(mindSharePostChildComment.countDistinct())
+                        ))
+                .from(mindSharePostComment)
+                .leftJoin(mindSharePostComment.childComments, mindSharePostChildComment)
+                .where(mindSharePostComment.postId.eq(mindSharePost.id));
         return queryFactory.select(Projections.fields(MindSharePostResponse.class,
                         mindSharePost.id,
-                        mindSharePost.member.nickname,
+                        ExpressionUtils.as(memberResponseQBean,"member"),
                         mindSharePost.title,
                         mindSharePost.viewCount,
-                        ExpressionUtils.as(
-                                JPAExpressions.select(
-                                                Expressions.asNumber(
-                                                        mindSharePostComment.countDistinct().add(mindSharePostChildComment.countDistinct())
-                                                ))
-                                        .from(mindSharePostComment)
-                                        .leftJoin(mindSharePostComment.childComments, mindSharePostChildComment)
-                                        .where(mindSharePostComment.postId.eq(mindSharePost.id)),
-                                "commentCount"
-                        ),
+                        ExpressionUtils.as(commentCountExpressions, "commentCount"),
                         mindSharePost.createdDate))
                 .from(mindSharePost)
                 .where(mindSharePost.category.eq(request.getCategory()))

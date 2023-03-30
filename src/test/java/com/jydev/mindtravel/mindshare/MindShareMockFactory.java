@@ -1,6 +1,8 @@
 package com.jydev.mindtravel.mindshare;
 
 import com.jydev.mindtravel.service.member.domain.Member;
+import com.jydev.mindtravel.service.member.model.MemberResponse;
+import com.jydev.mindtravel.service.member.model.MemberRole;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostChildComment;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
 import com.jydev.mindtravel.service.mind.share.model.*;
@@ -17,33 +19,19 @@ import java.util.List;
 
 public class MindShareMockFactory {
     public static MindSharePostDetailResponse getMindSharePostDetailResponse() {
-
-        MindSharePostChildCommentResponse childCommentResponse = MindSharePostChildCommentResponse.builder()
-                .commentId(0L)
-                .nickname("nickname")
-                .content("content")
-                .tagNickname("tagNickname")
-                .createdDate(LocalDateTime.now())
-                .build();
         List<MindSharePostChildCommentResponse> childComments = new ArrayList<>();
-        childComments.add(childCommentResponse);
-        MindSharePostCommentResponse commentResponse = MindSharePostCommentResponse.builder()
-                .childComments(childComments)
-                .content("content")
-                .commentId(0L)
-                .nickname("nickname")
-                .childComments(childComments)
-                .createdDate(LocalDateTime.now()).build();
+        childComments.add(getMindSharePostChildCommentResponse());
+
         List<MindSharePostCommentResponse> comments = new ArrayList<>();
-        MindSharePostLikeResponse likeResponse = MindSharePostLikeResponse.builder()
-                        .postId(0L).nickname("nickname").build();
-        comments.add(commentResponse);
+        comments.add(getMindSharePostCommentResponse(childComments));
+
         List<MindSharePostLikeResponse> likes = new ArrayList<>();
-        likes.add(likeResponse);
+        likes.add(getMindSharePostLikeResponse());
+
         return MindSharePostDetailResponse.builder()
                 .comments(comments)
                 .postId(0L)
-                .nickname("nickname")
+                .member(getMemberResponse())
                 .viewCount(20L)
                 .likes(likes)
                 .commentCount(2L)
@@ -57,10 +45,20 @@ public class MindShareMockFactory {
         return MindSharePostResponse.builder()
                 .id(0L)
                 .viewCount(20L)
-                .nickname("nickname")
+                .member(getMemberResponse())
                 .title("title")
                 .commentCount(30L)
                 .createdDate(LocalDateTime.now())
+                .build();
+    }
+
+    public static MemberResponse getMemberResponse(){
+        return MemberResponse
+                .builder()
+                .nickname("nickname")
+                .id(0L)
+                .profileImgUrl("profileImage")
+                .role(MemberRole.USER)
                 .build();
     }
 
@@ -91,6 +89,31 @@ public class MindShareMockFactory {
     public static MindSharePostsResponse getMindSharePostsResponse(long size) {
         return MindSharePostsResponse.builder()
                 .posts(getMindSharePostResponses(size)).totalPostSize(size).build();
+    }
+
+    public static MindSharePostLikeResponse getMindSharePostLikeResponse() {
+        return MindSharePostLikeResponse.builder()
+                .postId(0L).member(getMemberResponse()).createdDate(LocalDateTime.now()).build();
+    }
+
+    public static MindSharePostCommentResponse getMindSharePostCommentResponse(List<MindSharePostChildCommentResponse> childComments) {
+        return MindSharePostCommentResponse.builder()
+                .childComments(childComments)
+                .content("content")
+                .commentId(0L)
+                .member(getMemberResponse())
+                .childComments(childComments)
+                .createdDate(LocalDateTime.now()).build();
+    }
+
+    public static MindSharePostChildCommentResponse getMindSharePostChildCommentResponse() {
+        return MindSharePostChildCommentResponse.builder()
+                .commentId(0L)
+                .member(getMemberResponse())
+                .content("content")
+                .tagNickname("tagNickname")
+                .createdDate(LocalDateTime.now())
+                .build();
     }
 
     public static MindSharePostCommentRequest getMindSharePostCommentRequest(long postId) {
