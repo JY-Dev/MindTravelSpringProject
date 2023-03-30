@@ -1,6 +1,9 @@
 package com.jydev.mindtravel.service.mind.share.repository;
 
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
+import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
+import com.jydev.mindtravel.service.mind.share.domain.MindSharePostLike;
+import com.jydev.mindtravel.service.mind.share.domain.QMindSharePostLike;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostResponse;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsRequest;
 import com.querydsl.core.types.ExpressionUtils;
@@ -17,6 +20,7 @@ import java.util.Optional;
 import static com.jydev.mindtravel.service.mind.share.domain.QMindSharePost.mindSharePost;
 import static com.jydev.mindtravel.service.mind.share.domain.QMindSharePostChildComment.mindSharePostChildComment;
 import static com.jydev.mindtravel.service.mind.share.domain.QMindSharePostComment.mindSharePostComment;
+import static com.jydev.mindtravel.service.mind.share.domain.QMindSharePostLike.mindSharePostLike;
 
 @RequiredArgsConstructor
 @Repository
@@ -61,6 +65,7 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
         MindSharePost post = queryFactory.selectFrom(mindSharePost)
                 .leftJoin(mindSharePost.comments, mindSharePostComment).fetchJoin()
                 .leftJoin(mindSharePostComment.childComments, mindSharePostChildComment).fetchJoin()
+                .leftJoin(mindSharePost.likes,mindSharePostLike).fetchJoin()
                 .where(mindSharePost.id.eq(postId))
                 .fetchOne();
         return Optional.ofNullable(post);
@@ -79,5 +84,20 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
         queryFactory.update(mindSharePostComment)
                 .set(mindSharePostComment.isDeleted,Expressions.asBoolean(true))
                 .execute();
+    }
+
+    @Override
+    public List<MindSharePostLike> getPostLikes(Long postId) {
+        return queryFactory.selectFrom(mindSharePostLike)
+                .where(mindSharePostLike.postId.eq(postId))
+                .fetch();
+    }
+
+    @Override
+    public List<MindSharePostComment> getPostComments(Long postId) {
+        return queryFactory.selectFrom(mindSharePostComment)
+                .where(mindSharePostComment.postId.eq(postId))
+                .leftJoin(mindSharePostComment.childComments,mindSharePostChildComment).fetchJoin()
+                .fetch();
     }
 }
