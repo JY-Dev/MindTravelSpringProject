@@ -8,11 +8,13 @@ import com.jydev.mindtravel.service.mind.travel.model.MoodRecordRequest;
 import com.jydev.mindtravel.service.mind.travel.model.MoodRecordResponse;
 import com.jydev.mindtravel.service.mind.travel.repository.MoodRecordCommandRepository;
 import com.jydev.mindtravel.service.mind.travel.repository.MoodRecordQueryRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class MindTravelService {
     private final MemberQueryRepository memberQueryRepository;

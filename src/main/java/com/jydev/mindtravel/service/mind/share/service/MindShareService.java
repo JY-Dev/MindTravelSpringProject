@@ -9,12 +9,14 @@ import com.jydev.mindtravel.service.mind.share.model.like.MindSharePostLikeRespo
 import com.jydev.mindtravel.service.mind.share.model.post.*;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommandRepository;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostQueryRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class MindShareService {
     private final MemberQueryRepository memberQueryRepository;
