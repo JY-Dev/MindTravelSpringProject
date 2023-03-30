@@ -55,7 +55,7 @@ public class MindShareMockFactory {
 
     public static MindSharePostResponse getMindSharePostResponse() {
         return MindSharePostResponse.builder()
-                .postId(0L)
+                .id(0L)
                 .viewCount(20L)
                 .nickname("nickname")
                 .title("title")

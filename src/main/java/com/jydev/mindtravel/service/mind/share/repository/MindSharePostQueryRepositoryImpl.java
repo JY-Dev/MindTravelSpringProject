@@ -31,7 +31,8 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
 
     @Override
     public List<MindSharePostResponse> searchMindSharePosts(MindSharePostsRequest request) {
-        return queryFactory.select(Projections.fields(MindSharePostResponse.class, mindSharePost.id,
+        return queryFactory.select(Projections.fields(MindSharePostResponse.class,
+                        mindSharePost.id,
                         mindSharePost.member.nickname,
                         mindSharePost.title,
                         mindSharePost.viewCount,
