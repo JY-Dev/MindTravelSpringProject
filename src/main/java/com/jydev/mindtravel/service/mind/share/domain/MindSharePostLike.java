@@ -20,4 +20,9 @@ public class MindSharePostLike extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+    public MindSharePostLike(Long postId, Member member){
+        this.postId = postId;
+        this.member = member;
+    }
 }
