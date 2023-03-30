@@ -1,5 +1,6 @@
-package com.jydev.mindtravel.service.mind.share.model;
+package com.jydev.mindtravel.service.mind.share.model.post;
 
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

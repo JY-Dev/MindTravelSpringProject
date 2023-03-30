@@ -1,8 +1,8 @@
 package com.jydev.mindtravel.service.mind.share.repository;
 
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostResponse;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostsRequest;
+import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostResponse;
+import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsRequest;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;

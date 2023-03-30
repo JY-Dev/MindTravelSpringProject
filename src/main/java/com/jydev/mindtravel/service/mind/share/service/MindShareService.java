@@ -4,7 +4,7 @@ import com.jydev.mindtravel.service.exception.ClientException;
 import com.jydev.mindtravel.service.member.domain.Member;
 import com.jydev.mindtravel.service.member.repository.MemberQueryRepository;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
-import com.jydev.mindtravel.service.mind.share.model.*;
+import com.jydev.mindtravel.service.mind.share.model.post.*;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommandRepository;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostQueryRepository;
 import lombok.RequiredArgsConstructor;

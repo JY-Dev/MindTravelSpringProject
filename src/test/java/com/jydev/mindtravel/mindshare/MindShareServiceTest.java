@@ -2,7 +2,7 @@ package com.jydev.mindtravel.mindshare;
 
 import com.jydev.mindtravel.service.member.domain.Member;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostDetailResponse;
+import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostDetailResponse;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostQueryRepository;
 import com.jydev.mindtravel.service.mind.share.service.MindShareService;
 import org.assertj.core.api.Assertions;

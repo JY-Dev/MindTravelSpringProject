@@ -3,7 +3,7 @@ package com.jydev.mindtravel.service.mind.share.domain;
 import com.jydev.mindtravel.service.base.BaseEntity;
 import com.jydev.mindtravel.service.member.domain.Member;
 import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostRequest;
+import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

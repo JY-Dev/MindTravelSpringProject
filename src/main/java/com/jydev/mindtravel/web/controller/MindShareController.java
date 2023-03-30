@@ -2,6 +2,10 @@ package com.jydev.mindtravel.web.controller;
 
 import com.jydev.mindtravel.service.member.model.MemberDto;
 import com.jydev.mindtravel.service.mind.share.model.*;
+import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostDetailResponse;
+import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostRequest;
+import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsRequest;
+import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsResponse;
 import com.jydev.mindtravel.service.mind.share.service.MindShareService;
 import com.jydev.mindtravel.web.http.EmptyResponse;
 import com.jydev.mindtravel.web.http.HttpResponse;

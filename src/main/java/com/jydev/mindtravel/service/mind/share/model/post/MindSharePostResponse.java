@@ -1,4 +1,4 @@
-package com.jydev.mindtravel.service.mind.share.model;
+package com.jydev.mindtravel.service.mind.share.model.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

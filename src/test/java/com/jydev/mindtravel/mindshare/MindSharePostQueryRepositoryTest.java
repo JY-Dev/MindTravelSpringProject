@@ -7,10 +7,11 @@ import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostChildComment;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
 import com.jydev.mindtravel.service.mind.share.model.*;
-import com.jydev.mindtravel.service.mind.share.repository.MindSharePostChildCommentCommandRepository;
-import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommandRepository;
-import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommentCommandRepository;
-import com.jydev.mindtravel.service.mind.share.repository.MindSharePostQueryRepository;
+import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentRequest;
+import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostRequest;
+import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostResponse;
+import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsRequest;
+import com.jydev.mindtravel.service.mind.share.repository.*;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,6 +40,10 @@ public class MindSharePostQueryRepositoryTest {
 
     @Autowired
     private MindSharePostChildCommentCommandRepository childCommentCommandRepository;
+
+    @Autowired
+    private MindSharePostLikeCommandRepository likeCommandRepository;
+
     private Member member;
 
     @Autowired
@@ -115,6 +120,15 @@ public class MindSharePostQueryRepositoryTest {
         MindSharePost searchResult = repository.searchMindSharePost(post.getId()).get();
         MindSharePostComment searchComment = searchResult.getComments().stream().toList().get(0);
         Assertions.assertThat(searchComment.getChildComments().size()).isEqualTo(commentSize);
+    }
+
+    @Test
+    public void searchMindSharePostLikesFetchJoinTest() {
+        MindSharePostCategory category = MindSharePostCategory.DAILY;
+        MindSharePostRequest request = getMindSharePostRequest(category);
+        MindSharePost post = commandRepository.save(new MindSharePost(member, request));
+        MindSharePost searchResult = repository.searchMindSharePost(post.getId()).get();
+
     }
 
     @Test

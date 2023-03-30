@@ -1,4 +1,4 @@
-package com.jydev.mindtravel.service.mind.share.model;
+package com.jydev.mindtravel.service.mind.share.model.like;
 
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostLike;
 import lombok.AllArgsConstructor;

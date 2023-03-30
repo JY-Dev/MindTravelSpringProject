@@ -4,6 +4,12 @@ import com.jydev.mindtravel.service.member.domain.Member;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostChildComment;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
 import com.jydev.mindtravel.service.mind.share.model.*;
+import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentRequest;
+import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentResponse;
+import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentRequest;
+import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentResponse;
+import com.jydev.mindtravel.service.mind.share.model.like.MindSharePostLikeResponse;
+import com.jydev.mindtravel.service.mind.share.model.post.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

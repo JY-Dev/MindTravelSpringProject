@@ -2,11 +2,10 @@ package com.jydev.mindtravel.service.mind.share.domain;
 
 import com.jydev.mindtravel.service.base.BaseEntity;
 import com.jydev.mindtravel.service.member.domain.Member;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostChildCommentRequest;
+import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
 @NoArgsConstructor
