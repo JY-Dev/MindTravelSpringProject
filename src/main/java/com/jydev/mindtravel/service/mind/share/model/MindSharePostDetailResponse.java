@@ -18,18 +18,19 @@ public class MindSharePostDetailResponse {
     private String nickname;
     private String title;
     private String content;
-    private Long likeCount;
     private Long viewCount;
     private Long commentCount;
     private LocalDateTime createdDate;
     private List<MindSharePostCommentResponse> comments;
+    private List<MindSharePostLikeResponse> likes;
 
     public MindSharePostDetailResponse(Long viewCount,MindSharePost mindSharePost) {
         this.postId = mindSharePost.getId();
         this.nickname = mindSharePost.getMember().getNickname();
         this.title = mindSharePost.getTitle();
         this.content = mindSharePost.getContent();
-        this.likeCount = mindSharePost.getLikeCount();
+        this.likes = mindSharePost.getLikes().stream()
+                .map(MindSharePostLikeResponse::new).toList();
         this.viewCount = viewCount;
         this.commentCount = mindSharePost.getComments().stream().map(c -> c.getChildComments().size() + 1L).reduce(Long::sum).orElse(0L);
         this.createdDate = mindSharePost.getCreatedDate();

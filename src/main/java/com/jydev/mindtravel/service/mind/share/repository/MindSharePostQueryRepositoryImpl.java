@@ -29,7 +29,6 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
         return queryFactory.select(Projections.fields(MindSharePostResponse.class, mindSharePost.id,
                         mindSharePost.member.nickname,
                         mindSharePost.title,
-                        mindSharePost.likeCount,
                         mindSharePost.viewCount,
                         ExpressionUtils.as(
                                 JPAExpressions.select(

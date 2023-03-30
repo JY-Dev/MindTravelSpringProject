@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.*;
 
@@ -34,6 +33,10 @@ public class MindSharePost extends BaseEntity {
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "post_id")
     private Set<MindSharePostComment> comments = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "post_id")
+    private Set<MindSharePostLike> likes = new HashSet<>();
 
     public MindSharePost(Member member, MindSharePostRequest request){
         this.category = request.getCategory();

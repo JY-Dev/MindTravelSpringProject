@@ -110,7 +110,6 @@ public class MindShareControllerTest {
                                 fieldWithPath("data.posts[].postId").type(JsonFieldType.NUMBER).description("id"),
                                 fieldWithPath("data.posts[].nickname").type(JsonFieldType.STRING).description("닉네임"),
                                 fieldWithPath("data.posts[].title").type(JsonFieldType.STRING).description("제목"),
-                                fieldWithPath("data.posts[].likeCount").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                 fieldWithPath("data.posts[].viewCount").type(JsonFieldType.NUMBER).description("방문 수"),
                                 fieldWithPath("data.posts[].commentCount").type(JsonFieldType.NUMBER).description("댓글 수"),
                                 fieldWithPath("data.posts[].createdDate").type(JsonFieldType.STRING).description("생성 날짜")
@@ -145,7 +144,6 @@ public class MindShareControllerTest {
                                 fieldWithPath("data.nickname").type(JsonFieldType.STRING).description("글 작성자 닉네임"),
                                 fieldWithPath("data.title").type(JsonFieldType.STRING).description("글 제목"),
                                 fieldWithPath("data.content").type(JsonFieldType.STRING).description("글 내용"),
-                                fieldWithPath("data.likeCount").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                 fieldWithPath("data.viewCount").type(JsonFieldType.NUMBER).description("조회수"),
                                 fieldWithPath("data.commentCount").type(JsonFieldType.NUMBER).description("댓글 수"),
                                 fieldWithPath("data.createdDate").type(JsonFieldType.STRING).description("글 생성일"),
@@ -157,7 +155,9 @@ public class MindShareControllerTest {
                                 fieldWithPath("data.comments[].childComments[].content").type(JsonFieldType.STRING).description("대댓글 내용"),
                                 fieldWithPath("data.comments[].childComments[].nickname").type(JsonFieldType.STRING).description("대댓글 작성자 닉네임"),
                                 fieldWithPath("data.comments[].childComments[].tagNickname").type(JsonFieldType.STRING).description("대댓글 태그 대상 닉네임"),
-                                fieldWithPath("data.comments[].childComments[].createdDate").type(JsonFieldType.STRING).description("대댓글 생성일")
+                                fieldWithPath("data.comments[].childComments[].createdDate").type(JsonFieldType.STRING).description("대댓글 생성일"),
+                                fieldWithPath("data.likes[].postId").type(JsonFieldType.NUMBER).description("글 Id"),
+                                fieldWithPath("data.likes[].nickname").type(JsonFieldType.STRING).description("좋아요 누른 사람 닉네임")
                         )));
     }
 }

@@ -1,7 +1,6 @@
 package com.jydev.mindtravel.mindshare;
 
 import com.jydev.mindtravel.service.member.domain.Member;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostChildComment;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
 import com.jydev.mindtravel.service.mind.share.model.*;
@@ -9,8 +8,6 @@ import com.jydev.mindtravel.service.mind.share.model.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.jydev.mindtravel.member.MemberMockFactory.getMember;
 
 public class MindShareMockFactory {
     public static MindSharePostDetailResponse getMindSharePostDetailResponse() {
@@ -32,13 +29,17 @@ public class MindShareMockFactory {
                 .childComments(childComments)
                 .createdDate(LocalDateTime.now()).build();
         List<MindSharePostCommentResponse> comments = new ArrayList<>();
+        MindSharePostLikeResponse likeResponse = MindSharePostLikeResponse.builder()
+                        .postId(0L).nickname("nickname").build();
         comments.add(commentResponse);
+        List<MindSharePostLikeResponse> likes = new ArrayList<>();
+        likes.add(likeResponse);
         return MindSharePostDetailResponse.builder()
                 .comments(comments)
                 .postId(0L)
                 .nickname("nickname")
-                .likeCount(20L)
                 .viewCount(20L)
+                .likes(likes)
                 .commentCount(2L)
                 .title("title")
                 .content("content")
@@ -51,7 +52,6 @@ public class MindShareMockFactory {
                 .postId(0L)
                 .viewCount(20L)
                 .nickname("nickname")
-                .likeCount(20L)
                 .title("title")
                 .commentCount(30L)
                 .createdDate(LocalDateTime.now())

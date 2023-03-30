@@ -14,9 +14,10 @@ public class MindSharePostLike extends BaseEntity {
     @GeneratedValue
     @Column(name = "like_id")
     private Long id;
+
+    @Column(name = "post_id")
     private Long postId;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
-    private Boolean status;
 }
