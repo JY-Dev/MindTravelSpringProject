@@ -2,7 +2,10 @@ package com.jydev.mindtravel.mindshare;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.ControllerTest;
-import com.jydev.mindtravel.service.mind.share.model.*;
+import com.jydev.mindtravel.service.mind.share.domain.MindSharePostLike;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
+import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentResponse;
+import com.jydev.mindtravel.service.mind.share.model.like.MindSharePostLikeResponse;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostDetailResponse;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostRequest;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsRequest;
@@ -23,10 +26,11 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.List;
+
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentRequest;
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentResponse;
-import static com.jydev.mindtravel.mindshare.MindShareMockFactory.getMindSharePostDetailResponse;
-import static com.jydev.mindtravel.mindshare.MindShareMockFactory.getMindSharePostsResponse;
+import static com.jydev.mindtravel.mindshare.MindShareMockFactory.*;
 import static com.jydev.mindtravel.util.ControllerTestHelper.baseRequestBuilder;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -128,12 +132,13 @@ public class MindShareControllerTest {
     public void searchMindSharePostTest() throws Exception {
         MindSharePostDetailResponse postDetail = getMindSharePostDetailResponse();
         HttpResponse<MindSharePostDetailResponse> response = new HttpResponse<>(HttpServletResponse.SC_OK, "", postDetail);
+        given(service.searchMindSharePost(any(Long.class))).willReturn(postDetail);
         given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(MindSharePostDetailResponse.class))).willReturn(
                 ResponseEntity.ok(response)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
-                        get("/v1/mind/share/post/{postId}",1)
+                        get("/v1/mind/share/post/{postId}", 1)
                 )
         );
         resultActions.andExpect(status().isOk())
@@ -179,6 +184,79 @@ public class MindShareControllerTest {
                                 fieldWithPath("data.likes[].member.profileImgUrl").type(JsonFieldType.STRING).description("좋아요 누른 사람 프로필 이미지"),
                                 fieldWithPath("data.likes[].member.role").type(JsonFieldType.STRING).description("좋아요 누른 사람 Role"),
                                 fieldWithPath("data.likes[].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시")
+                        )));
+    }
+
+    @Test
+    public void getMindSharePostCommentsTest() throws Exception {
+        List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
+        given(service.getPostComments(any(Long.class))).willReturn(comments);
+        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
+                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", comments))
+        );
+        ResultActions resultActions = this.mockMvc.perform(
+                baseRequestBuilder(
+                        get("/v1/mind/share/post/{postId}/comments", 1)
+                )
+        );
+        resultActions.andExpect(status().isOk())
+                .andDo(document("get-mind-share-post-comments",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Access Token")),
+                        pathParameters(
+                                parameterWithName("postId").description("글 Id")),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
+                                fieldWithPath("data[].commentId").type(JsonFieldType.NUMBER).description("댓글 Id"),
+                                fieldWithPath("data[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("data[].member.id").type(JsonFieldType.NUMBER).description("댓글 작성자 idx"),
+                                fieldWithPath("data[].member.nickname").type(JsonFieldType.STRING).description("댓글 작성자 닉네임"),
+                                fieldWithPath("data[].member.profileImgUrl").type(JsonFieldType.STRING).description("댓글 작성자 프로필 이미지"),
+                                fieldWithPath("data[].member.role").type(JsonFieldType.STRING).description("댓글 작성자 Role"),
+                                fieldWithPath("data[].createdDate").type(JsonFieldType.STRING).description("댓글 생성일"),
+                                fieldWithPath("data[].childComments[].commentId").type(JsonFieldType.NUMBER).description("대댓글 Id"),
+                                fieldWithPath("data[].childComments[].content").type(JsonFieldType.STRING).description("대댓글 내용"),
+                                fieldWithPath("data[].childComments[].member.id").type(JsonFieldType.NUMBER).description("대댓글 작성자 idx"),
+                                fieldWithPath("data[].childComments[].member.nickname").type(JsonFieldType.STRING).description("대댓글 작성자 닉네임"),
+                                fieldWithPath("data[].childComments[].member.profileImgUrl").type(JsonFieldType.STRING).description("대댓글 작성자 프로필 이미지"),
+                                fieldWithPath("data[].childComments[].member.role").type(JsonFieldType.STRING).description("대댓글 작성자 Role"),
+                                fieldWithPath("data[].childComments[].tagNickname").type(JsonFieldType.STRING).description("대댓글 태그 대상 닉네임"),
+                                fieldWithPath("data[].childComments[].createdDate").type(JsonFieldType.STRING).description("대댓글 생성일")
+                        )));
+    }
+
+    @Test
+    public void getMindSharePostLikesTest() throws Exception {
+        List<MindSharePostLikeResponse> likes = getMindSharePostLikeResponses();
+        given(service.getPostLikes(any(Long.class))).willReturn(likes);
+        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
+                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", likes))
+        );
+        ResultActions resultActions = this.mockMvc.perform(
+                baseRequestBuilder(
+                        get("/v1/mind/share/post/{postId}/likes", 1)
+                )
+        );
+        resultActions.andExpect(status().isOk())
+                .andDo(document("get-mind-share-post-likes",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Access Token")),
+                        pathParameters(
+                                parameterWithName("postId").description("글 Id")),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
+                                fieldWithPath("data[].postId").type(JsonFieldType.NUMBER).description("글 Id"),
+                                fieldWithPath("data[].member.id").type(JsonFieldType.NUMBER).description("좋아요 누른 사람 idx"),
+                                fieldWithPath("data[].member.nickname").type(JsonFieldType.STRING).description("좋아요 누른 사람 닉네임"),
+                                fieldWithPath("data[].member.profileImgUrl").type(JsonFieldType.STRING).description("좋아요 누른 사람 프로필 이미지"),
+                                fieldWithPath("data[].member.role").type(JsonFieldType.STRING).description("좋아요 누른 사람 Role"),
+                                fieldWithPath("data[].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시")
                         )));
     }
 }

@@ -2,6 +2,8 @@ package com.jydev.mindtravel.web.controller;
 
 import com.jydev.mindtravel.service.member.model.MemberDto;
 import com.jydev.mindtravel.service.mind.share.model.*;
+import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentResponse;
+import com.jydev.mindtravel.service.mind.share.model.like.MindSharePostLikeResponse;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostDetailResponse;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostRequest;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsRequest;
@@ -15,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/v1/mind/share")
@@ -44,6 +48,18 @@ public class MindShareController {
     @GetMapping("/post/{postId}")
     public ResponseEntity<HttpResponse<MindSharePostDetailResponse>> searchMindSharePost(@PathVariable Long postId) {
         MindSharePostDetailResponse data = mindShareService.searchMindSharePost(postId);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK,"",data);
+    }
+
+    @GetMapping("/post/{postId}/comments")
+    public ResponseEntity<HttpResponse<List<MindSharePostCommentResponse>>> getMindSharePostComments(@PathVariable Long postId) {
+        List<MindSharePostCommentResponse> data = mindShareService.getPostComments(postId);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK,"",data);
+    }
+
+    @GetMapping("/post/{postId}/likes")
+    public ResponseEntity<HttpResponse<List<MindSharePostLikeResponse>>> getMindSharePostLikes(@PathVariable Long postId) {
+        List<MindSharePostLikeResponse> data = mindShareService.getPostLikes(postId);
         return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK,"",data);
     }
 }

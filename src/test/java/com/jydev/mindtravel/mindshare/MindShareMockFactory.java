@@ -19,14 +19,9 @@ import java.util.List;
 
 public class MindShareMockFactory {
     public static MindSharePostDetailResponse getMindSharePostDetailResponse() {
-        List<MindSharePostChildCommentResponse> childComments = new ArrayList<>();
-        childComments.add(getMindSharePostChildCommentResponse());
+        List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
 
-        List<MindSharePostCommentResponse> comments = new ArrayList<>();
-        comments.add(getMindSharePostCommentResponse(childComments));
-
-        List<MindSharePostLikeResponse> likes = new ArrayList<>();
-        likes.add(getMindSharePostLikeResponse());
+        List<MindSharePostLikeResponse> likes = getMindSharePostLikeResponses();
 
         return MindSharePostDetailResponse.builder()
                 .comments(comments)
@@ -157,5 +152,20 @@ public class MindShareMockFactory {
             result.add(comment);
         }
         return result;
+    }
+
+    public static List<MindSharePostCommentResponse> getMindSharePostCommentResponses(){
+        List<MindSharePostChildCommentResponse> childComments = new ArrayList<>();
+        childComments.add(getMindSharePostChildCommentResponse());
+
+        List<MindSharePostCommentResponse> comments = new ArrayList<>();
+        comments.add(getMindSharePostCommentResponse(childComments));
+        return comments;
+    }
+
+    public static List<MindSharePostLikeResponse> getMindSharePostLikeResponses(){
+        List<MindSharePostLikeResponse> likes = new ArrayList<>();
+        likes.add(getMindSharePostLikeResponse());
+        return likes;
     }
 }
