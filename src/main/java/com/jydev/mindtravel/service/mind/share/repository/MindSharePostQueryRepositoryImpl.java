@@ -35,7 +35,7 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
     @Override
     public List<MindSharePostResponse> searchMindSharePosts(MindSharePostsRequest request) {
         QBean<MemberResponse> memberResponseQBean = Projections.fields(MemberResponse.class,
-                    mindSharePost.member.email,
+                    mindSharePost.member.id,
                     mindSharePost.member.nickname,
                     mindSharePost.member.profileImgUrl,
                     mindSharePost.member.role
@@ -51,6 +51,7 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
                         ExpressionUtils.as(mindSharePost.id,"postId"),
                         ExpressionUtils.as(memberResponseQBean,"member"),
                         mindSharePost.title,
+                        mindSharePost.category,
                         mindSharePost.viewCount,
                         ExpressionUtils.as(commentCountExpressions, "commentCount"),
                         mindSharePost.createdDate))
