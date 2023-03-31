@@ -14,7 +14,7 @@ public interface MindSharePostQueryRepository {
     List<MindSharePostResponse> searchMindSharePosts(MindSharePostsRequest request);
     Long searchMindSharePostsTotalSize(MindSharePostCategory category);
     Optional<MindSharePost> searchMindSharePost(Long postId);
-    Long increaseViewCount(Long postId);
+    void increaseViewCount(Long postId);
     void deleteMindSharePostComment(Long commentId);
     List<MindSharePostLike> getPostLikes(Long postId);
     List<MindSharePostComment> getPostComments(Long postId);

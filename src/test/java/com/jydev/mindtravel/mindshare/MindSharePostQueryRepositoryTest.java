@@ -157,10 +157,11 @@ public class MindSharePostQueryRepositoryTest {
         MindSharePostRequest request = getMindSharePostRequest(MindSharePostCategory.DAILY);
         MindSharePost post = commandRepository.save(new MindSharePost(member, request));
         repository.increaseViewCount(post.getId());
+        repository.increaseViewCount(post.getId());
         entityManager.flush();
         entityManager.clear();
         MindSharePost result = repository.searchMindSharePost(post.getId()).get();
-        Assertions.assertThat(result.getViewCount()).isEqualTo(1);
+        Assertions.assertThat(result.getViewCount()).isEqualTo(2);
     }
 
     @Test

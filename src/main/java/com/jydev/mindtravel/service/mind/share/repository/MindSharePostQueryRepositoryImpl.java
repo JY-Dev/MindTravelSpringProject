@@ -83,8 +83,8 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
     }
 
     @Override
-    public Long increaseViewCount(Long postId) {
-        return queryFactory.update(mindSharePost)
+    public void increaseViewCount(Long postId) {
+        queryFactory.update(mindSharePost)
                 .set(mindSharePost.viewCount,mindSharePost.viewCount.add(1))
                 .where(mindSharePost.id.eq(postId))
                 .execute();

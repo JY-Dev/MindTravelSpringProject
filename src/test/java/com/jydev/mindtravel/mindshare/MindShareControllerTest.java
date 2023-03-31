@@ -128,7 +128,6 @@ public class MindShareControllerTest {
     public void searchMindSharePostTest() throws Exception {
         MindSharePostDetailResponse postDetail = getMindSharePostDetailResponse();
         HttpResponse<MindSharePostDetailResponse> response = new HttpResponse<>(HttpServletResponse.SC_OK, "", postDetail);
-        given(service.searchMindSharePost(any(Long.class))).willReturn(postDetail);
         given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(MindSharePostDetailResponse.class))).willReturn(
                 ResponseEntity.ok(response)
         );
