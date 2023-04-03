@@ -1,10 +1,10 @@
 package com.jydev.mindtravel.service.mind.share.repository;
 
+import com.jydev.mindtravel.service.member.domain.QMember;
 import com.jydev.mindtravel.service.member.model.MemberResponse;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostLike;
-import com.jydev.mindtravel.service.mind.share.domain.QMindSharePostLike;
 import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostResponse;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsRequest;
@@ -30,7 +30,6 @@ import static com.jydev.mindtravel.service.mind.share.domain.QMindSharePostLike.
 @Repository
 public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepository {
     private final JPAQueryFactory queryFactory;
-
 
     @Override
     public List<MindSharePostResponse> searchMindSharePosts(MindSharePostsRequest request) {
@@ -110,5 +109,13 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
                 .where(mindSharePostComment.postId.eq(postId))
                 .leftJoin(mindSharePostComment.childComments,mindSharePostChildComment).fetchJoin()
                 .fetch();
+    }
+
+    @Override
+    public void deleteMindSharePostLike(Long postId, Long memberId) {
+
+        queryFactory.delete(mindSharePostLike)
+                .where(mindSharePostLike.member.id.eq(memberId))
+                .execute();
     }
 }

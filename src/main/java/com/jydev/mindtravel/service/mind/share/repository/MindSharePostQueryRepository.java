@@ -18,4 +18,5 @@ public interface MindSharePostQueryRepository {
     void deleteMindSharePostComment(Long commentId);
     List<MindSharePostLike> getPostLikes(Long postId);
     List<MindSharePostComment> getPostComments(Long postId);
+    void deleteMindSharePostLike(Long postId, Long memberId);
 }

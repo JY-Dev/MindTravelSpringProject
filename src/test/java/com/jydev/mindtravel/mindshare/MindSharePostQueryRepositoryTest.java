@@ -18,13 +18,15 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.jydev.mindtravel.member.MemberMockFactory.getMember;
 import static com.jydev.mindtravel.mindshare.MindShareMockFactory.*;
 
+@Import(MindSharePostQueryRepositoryImpl.class)
 @RepositoryTest
 public class MindSharePostQueryRepositoryTest {
     @Autowired
@@ -203,6 +205,17 @@ public class MindSharePostQueryRepositoryTest {
         List<MindSharePostComment> searchComments = repository.getPostComments(postId);
         Assertions.assertThat(searchComments.size()).isEqualTo(1);
         Assertions.assertThat(searchComments.get(0).getChildComments().size()).isEqualTo(commentSize);
+    }
+
+    @Test
+    public void deleteMindSharePostLikeTest(){
+        MindSharePostCategory category = MindSharePostCategory.DAILY;
+        MindSharePostRequest request = getMindSharePostRequest(category);
+        Long postId = commandRepository.save(new MindSharePost(member, request)).getId();
+        likeCommandRepository.save(new MindSharePostLike(postId,member));
+        Assertions.assertThat(repository.getPostLikes(postId).size()).isEqualTo(1);
+        repository.deleteMindSharePostLike(postId,member.getId());
+        Assertions.assertThat(repository.getPostLikes(postId).size()).isEqualTo(0);
     }
 
     private void saveMindSharePosts(int size, MindSharePostCategory category) {

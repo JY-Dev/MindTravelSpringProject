@@ -24,6 +24,8 @@ import java.util.List;
 public class MoodRecordQueryRepositoryTest {
 
     @Autowired
+    private MemberService memberService;
+    @Autowired
     private MindTravelService mindTravelService;
 
     @Autowired
@@ -31,6 +33,7 @@ public class MoodRecordQueryRepositoryTest {
 
     @BeforeEach
     void init(){
+        memberService.socialLogin(OauthServerType.TEST,new OauthInfo("id","test@naver.com"));
         MoodRecordRequest moodRecordRequest = MoodRecordRequest.builder()
                 .mood(Mood.GOOD)
                 .content("컨텐츠").build();
