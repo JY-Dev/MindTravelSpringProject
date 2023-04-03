@@ -37,8 +37,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -242,6 +241,70 @@ public class MindShareControllerTest {
         );
         resultActions.andExpect(status().isOk())
                 .andDo(document("get-mind-share-post-likes",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Access Token")),
+                        pathParameters(
+                                parameterWithName("postId").description("글 Id")),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
+                                fieldWithPath("data[].postId").type(JsonFieldType.NUMBER).description("글 Id"),
+                                fieldWithPath("data[].member.id").type(JsonFieldType.NUMBER).description("좋아요 누른 사람 idx"),
+                                fieldWithPath("data[].member.nickname").type(JsonFieldType.STRING).description("좋아요 누른 사람 닉네임"),
+                                fieldWithPath("data[].member.profileImgUrl").type(JsonFieldType.STRING).description("좋아요 누른 사람 프로필 이미지"),
+                                fieldWithPath("data[].member.role").type(JsonFieldType.STRING).description("좋아요 누른 사람 Role"),
+                                fieldWithPath("data[].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시")
+                        )));
+    }
+
+    @Test
+    public void insertMindSharePostLikeTest() throws Exception {
+        List<MindSharePostLikeResponse> likes = getMindSharePostLikeResponses();
+        given(service.getPostLikes(any(Long.class))).willReturn(likes);
+        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
+                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", likes))
+        );
+        ResultActions resultActions = this.mockMvc.perform(
+                baseRequestBuilder(
+                        post("/v1/mind/share/post/{postId}/like", 1)
+                )
+        );
+        resultActions.andExpect(status().isOk())
+                .andDo(document("insert-mind-share-post-like",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Access Token")),
+                        pathParameters(
+                                parameterWithName("postId").description("글 Id")),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
+                                fieldWithPath("data[].postId").type(JsonFieldType.NUMBER).description("글 Id"),
+                                fieldWithPath("data[].member.id").type(JsonFieldType.NUMBER).description("좋아요 누른 사람 idx"),
+                                fieldWithPath("data[].member.nickname").type(JsonFieldType.STRING).description("좋아요 누른 사람 닉네임"),
+                                fieldWithPath("data[].member.profileImgUrl").type(JsonFieldType.STRING).description("좋아요 누른 사람 프로필 이미지"),
+                                fieldWithPath("data[].member.role").type(JsonFieldType.STRING).description("좋아요 누른 사람 Role"),
+                                fieldWithPath("data[].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시")
+                        )));
+    }
+
+    @Test
+    public void deleteMindSharePostLikeTest() throws Exception {
+        List<MindSharePostLikeResponse> likes = getMindSharePostLikeResponses();
+        given(service.getPostLikes(any(Long.class))).willReturn(likes);
+        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
+                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", likes))
+        );
+        ResultActions resultActions = this.mockMvc.perform(
+                baseRequestBuilder(
+                        delete("/v1/mind/share/post/{postId}/like", 1)
+                )
+        );
+        resultActions.andExpect(status().isOk())
+                .andDo(document("delete-mind-share-post-like",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestHeaders(

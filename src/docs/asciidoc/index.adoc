@@ -137,3 +137,21 @@ include::{snippets}/get-mind-share-post-likes/path-parameters.adoc[]
 ==== Response
 include::{snippets}/get-mind-share-post-likes/response-body.adoc[]
 include::{snippets}/get-mind-share-post-likes/response-fields.adoc[]
+
+=== 마음 공유 글 좋아요
+==== Request
+include::{snippets}/insert-mind-share-post-like/http-request.adoc[]
+include::{snippets}/insert-mind-share-post-like/request-headers.adoc[]
+include::{snippets}/insert-mind-share-post-like/path-parameters.adoc[]
+==== Response
+include::{snippets}/insert-mind-share-post-like/response-body.adoc[]
+include::{snippets}/insert-mind-share-post-like/response-fields.adoc[]
+
+=== 마음 공유 글 좋아요 삭제
+==== Request
+include::{snippets}/delete-mind-share-post-like/http-request.adoc[]
+include::{snippets}/delete-mind-share-post-like/request-headers.adoc[]
+include::{snippets}/delete-mind-share-post-like/path-parameters.adoc[]
+==== Response
+include::{snippets}/delete-mind-share-post-like/response-body.adoc[]
+include::{snippets}/delete-mind-share-post-like/response-fields.adoc[]
