@@ -8,15 +8,14 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
+@IdClass(MindSharePostLikePK.class)
 @Entity
 public class MindSharePostLike extends BaseEntity {
     @Id
-    @GeneratedValue
-    @Column(name = "like_id")
-    private Long id;
-
     @Column(name = "post_id")
     private Long postId;
+
+    @Id
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
