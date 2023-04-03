@@ -1,7 +1,7 @@
 package com.jydev.mindtravel.web.controller;
 
 import com.jydev.mindtravel.service.member.model.MemberDto;
-import com.jydev.mindtravel.service.mind.share.model.*;
+import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
 import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentResponse;
 import com.jydev.mindtravel.service.mind.share.model.like.MindSharePostLikeResponse;
 import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostDetailResponse;
@@ -42,24 +42,40 @@ public class MindShareController {
                 .category(category)
                 .build();
         MindSharePostsResponse data = mindShareService.searchMindSharePosts(request);
-        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK,"",data);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK, "", data);
     }
 
     @GetMapping("/post/{postId}")
     public ResponseEntity<HttpResponse<MindSharePostDetailResponse>> searchMindSharePost(@PathVariable Long postId) {
         MindSharePostDetailResponse data = mindShareService.searchMindSharePost(postId);
-        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK,"",data);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK, "", data);
     }
 
     @GetMapping("/post/{postId}/comments")
     public ResponseEntity<HttpResponse<List<MindSharePostCommentResponse>>> getMindSharePostComments(@PathVariable Long postId) {
         List<MindSharePostCommentResponse> data = mindShareService.getPostComments(postId);
-        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK,"",data);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK, "", data);
     }
 
     @GetMapping("/post/{postId}/likes")
     public ResponseEntity<HttpResponse<List<MindSharePostLikeResponse>>> getMindSharePostLikes(@PathVariable Long postId) {
         List<MindSharePostLikeResponse> data = mindShareService.getPostLikes(postId);
-        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK,"",data);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK, "", data);
+    }
+
+    @PostMapping("/post/{postId}/like")
+    public ResponseEntity<HttpResponse<List<MindSharePostLikeResponse>>> insertMindSharePostLike(@PathVariable Long postId,
+                                                                                                 @RequestAttribute("member") MemberDto member) {
+        mindShareService.insertPostLike(postId,member.getEmail());
+        List<MindSharePostLikeResponse> data = mindShareService.getPostLikes(postId);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK, "", data);
+    }
+
+    @DeleteMapping("/post/{postId}/like")
+    public ResponseEntity<HttpResponse<List<MindSharePostLikeResponse>>> deleteMindSharePostLike(@PathVariable Long postId,
+                                                                                                 @RequestAttribute("member") MemberDto member) {
+        mindShareService.deletePostLike(postId,member.getMemberIdx());
+        List<MindSharePostLikeResponse> data = mindShareService.getPostLikes(postId);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK, "", data);
     }
 }
