@@ -130,6 +130,7 @@ public class MindShareMockFactory {
 
     public static MindSharePostChildCommentRequest getMindSharePostChildCommentRequest(long parentCommentId) {
         return MindSharePostChildCommentRequest.builder()
+                .tagMemberId(0L)
                 .parentCommentId(parentCommentId)
                 .content("content")
                 .build();

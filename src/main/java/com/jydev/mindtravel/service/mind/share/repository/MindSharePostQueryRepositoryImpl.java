@@ -1,6 +1,5 @@
 package com.jydev.mindtravel.service.mind.share.repository;
 
-import com.jydev.mindtravel.service.member.domain.QMember;
 import com.jydev.mindtravel.service.member.model.MemberResponse;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
@@ -34,11 +33,11 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
     @Override
     public List<MindSharePostResponse> searchMindSharePosts(MindSharePostsRequest request) {
         QBean<MemberResponse> memberResponseQBean = Projections.fields(MemberResponse.class,
-                    mindSharePost.member.id,
-                    mindSharePost.member.nickname,
-                    mindSharePost.member.profileImgUrl,
-                    mindSharePost.member.role
-                );
+                mindSharePost.member.id,
+                mindSharePost.member.nickname,
+                mindSharePost.member.profileImgUrl,
+                mindSharePost.member.role
+        );
         JPQLQuery<Long> commentCountExpressions = JPAExpressions.select(
                         Expressions.asNumber(
                                 mindSharePostComment.countDistinct().add(mindSharePostChildComment.countDistinct())
@@ -47,8 +46,8 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
                 .leftJoin(mindSharePostComment.childComments, mindSharePostChildComment)
                 .where(mindSharePostComment.postId.eq(mindSharePost.id));
         return queryFactory.select(Projections.fields(MindSharePostResponse.class,
-                        ExpressionUtils.as(mindSharePost.id,"postId"),
-                        ExpressionUtils.as(memberResponseQBean,"member"),
+                        ExpressionUtils.as(mindSharePost.id, "postId"),
+                        ExpressionUtils.as(memberResponseQBean, "member"),
                         mindSharePost.title,
                         mindSharePost.category,
                         mindSharePost.viewCount,
@@ -75,24 +74,24 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
         MindSharePost post = queryFactory.selectFrom(mindSharePost)
                 .leftJoin(mindSharePost.comments, mindSharePostComment).fetchJoin()
                 .leftJoin(mindSharePostComment.childComments, mindSharePostChildComment).fetchJoin()
-                .leftJoin(mindSharePost.likes,mindSharePostLike).fetchJoin()
+                .leftJoin(mindSharePost.likes, mindSharePostLike).fetchJoin()
                 .where(mindSharePost.id.eq(postId))
                 .fetchOne();
         return Optional.ofNullable(post);
     }
 
     @Override
-    public void increaseViewCount(Long postId) {
-        queryFactory.update(mindSharePost)
-                .set(mindSharePost.viewCount,mindSharePost.viewCount.add(1))
-                .where(mindSharePost.id.eq(postId))
-                .execute();
+    public Optional<MindSharePostLike> searchMindSharePostLike(Long postId, Long memberId) {
+        return Optional.ofNullable(queryFactory.selectFrom(mindSharePostLike)
+                .where(mindSharePostLike.member.id.eq(memberId).and(mindSharePostLike.postId.eq(postId)))
+                .fetchOne());
     }
 
     @Override
-    public void deleteMindSharePostComment(Long commentId) {
-        queryFactory.update(mindSharePostComment)
-                .set(mindSharePostComment.isDeleted,Expressions.asBoolean(true))
+    public void increaseViewCount(Long postId) {
+        queryFactory.update(mindSharePost)
+                .set(mindSharePost.viewCount, mindSharePost.viewCount.add(1))
+                .where(mindSharePost.id.eq(postId))
                 .execute();
     }
 
@@ -107,15 +106,7 @@ public class MindSharePostQueryRepositoryImpl implements MindSharePostQueryRepos
     public List<MindSharePostComment> getPostComments(Long postId) {
         return queryFactory.selectFrom(mindSharePostComment)
                 .where(mindSharePostComment.postId.eq(postId))
-                .leftJoin(mindSharePostComment.childComments,mindSharePostChildComment).fetchJoin()
+                .leftJoin(mindSharePostComment.childComments, mindSharePostChildComment).fetchJoin()
                 .fetch();
-    }
-
-    @Override
-    public void deleteMindSharePostLike(Long postId, Long memberId) {
-
-        queryFactory.delete(mindSharePostLike)
-                .where(mindSharePostLike.member.id.eq(memberId))
-                .execute();
     }
 }

@@ -167,19 +167,6 @@ public class MindSharePostQueryRepositoryTest {
     }
 
     @Test
-    public void deleteMindSharePostCommentTest(){
-        MindSharePostCategory category = MindSharePostCategory.DAILY;
-        MindSharePost post = commandRepository.save(new MindSharePost(member, getMindSharePostRequest(category)));
-        List<MindSharePostComment> comments = getMindSharePostComments(member, post.getId(), 1);
-        MindSharePostComment comment = commentCommandRepository.save(comments.get(0));
-        repository.deleteMindSharePostComment(comment.getId());
-        entityManager.flush();
-        entityManager.clear();
-        MindSharePostComment result = commentCommandRepository.findById(comment.getId()).get();
-        Assertions.assertThat(result.getIsDeleted()).isTrue();
-    }
-
-    @Test
     public void getMindSharePostLikesTest(){
         MindSharePostCategory category = MindSharePostCategory.DAILY;
         Long postId = commandRepository.save(new MindSharePost(member, getMindSharePostRequest(category))).getId();
@@ -205,17 +192,6 @@ public class MindSharePostQueryRepositoryTest {
         List<MindSharePostComment> searchComments = repository.getPostComments(postId);
         Assertions.assertThat(searchComments.size()).isEqualTo(1);
         Assertions.assertThat(searchComments.get(0).getChildComments().size()).isEqualTo(commentSize);
-    }
-
-    @Test
-    public void deleteMindSharePostLikeTest(){
-        MindSharePostCategory category = MindSharePostCategory.DAILY;
-        MindSharePostRequest request = getMindSharePostRequest(category);
-        Long postId = commandRepository.save(new MindSharePost(member, request)).getId();
-        likeCommandRepository.save(new MindSharePostLike(postId,member));
-        Assertions.assertThat(repository.getPostLikes(postId).size()).isEqualTo(1);
-        repository.deleteMindSharePostLike(postId,member.getId());
-        Assertions.assertThat(repository.getPostLikes(postId).size()).isEqualTo(0);
     }
 
     private void saveMindSharePosts(int size, MindSharePostCategory category) {
