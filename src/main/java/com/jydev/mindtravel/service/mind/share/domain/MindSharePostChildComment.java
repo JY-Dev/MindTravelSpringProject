@@ -35,4 +35,8 @@ public class MindSharePostChildComment extends BaseEntity {
         this.parentCommentId = request.getParentCommentId();
         this.content = request.getContent();
     }
+
+    public boolean isCreator(Long memberId){
+        return this.member.getId().equals(memberId);
+    }
 }
