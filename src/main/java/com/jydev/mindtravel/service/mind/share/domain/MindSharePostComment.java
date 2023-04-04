@@ -43,6 +43,10 @@ public class MindSharePostComment extends BaseEntity {
         return this.member.getId().equals(memberId);
     }
 
+    public void delete(){
+        isDeleted = true;
+    }
+
     public void addChildComment(Collection<MindSharePostChildComment> comments){
         this.childComments.addAll(comments);
     }
