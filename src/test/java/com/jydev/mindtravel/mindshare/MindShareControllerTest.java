@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,6 +33,7 @@ import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentRequest;
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentResponse;
 import static com.jydev.mindtravel.mindshare.MindShareMockFactory.*;
 import static com.jydev.mindtravel.util.ControllerTestHelper.baseRequestBuilder;
+import static com.jydev.mindtravel.util.ControllerTestHelper.memberDto;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
@@ -322,6 +324,94 @@ public class MindShareControllerTest {
                                 fieldWithPath("data[].member.profileImgUrl").type(JsonFieldType.STRING).description("좋아요 누른 사람 프로필 이미지"),
                                 fieldWithPath("data[].member.role").type(JsonFieldType.STRING).description("좋아요 누른 사람 Role"),
                                 fieldWithPath("data[].createdDate").type(JsonFieldType.STRING).description("좋아요 누른 시")
+                        )));
+    }
+
+    @Test
+    public void insertMindSharePostCommentTest() throws Exception {
+        List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
+        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
+                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", comments))
+        );
+        ResultActions resultActions = this.mockMvc.perform(
+                post("/v1/mind/share/post/{postId}/comment", 1)
+                        .header("Authorization", "Bearer Token")
+                        .requestAttr("member", memberDto)
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("content","Content")
+        );
+        resultActions.andExpect(status().isOk())
+                .andDo(document("insert-mind-share-post-comment",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        formParameters(
+                                parameterWithName("content").description("댓글 내용")
+                        ),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Access Token")),
+                        pathParameters(
+                                parameterWithName("postId").description("글 Id")),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
+                                fieldWithPath("data[].commentId").type(JsonFieldType.NUMBER).description("댓글 Id"),
+                                fieldWithPath("data[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("data[].isDeleted").type(JsonFieldType.BOOLEAN).description("댓글 삭제 여부"),
+                                fieldWithPath("data[].member.id").type(JsonFieldType.NUMBER).description("댓글 작성자 idx"),
+                                fieldWithPath("data[].member.nickname").type(JsonFieldType.STRING).description("댓글 작성자 닉네임"),
+                                fieldWithPath("data[].member.profileImgUrl").type(JsonFieldType.STRING).description("댓글 작성자 프로필 이미지"),
+                                fieldWithPath("data[].member.role").type(JsonFieldType.STRING).description("댓글 작성자 Role"),
+                                fieldWithPath("data[].createdDate").type(JsonFieldType.STRING).description("댓글 생성일"),
+                                fieldWithPath("data[].childComments[].commentId").type(JsonFieldType.NUMBER).description("대댓글 Id"),
+                                fieldWithPath("data[].childComments[].content").type(JsonFieldType.STRING).description("대댓글 내용"),
+                                fieldWithPath("data[].childComments[].member.id").type(JsonFieldType.NUMBER).description("대댓글 작성자 idx"),
+                                fieldWithPath("data[].childComments[].member.nickname").type(JsonFieldType.STRING).description("대댓글 작성자 닉네임"),
+                                fieldWithPath("data[].childComments[].member.profileImgUrl").type(JsonFieldType.STRING).description("대댓글 작성자 프로필 이미지"),
+                                fieldWithPath("data[].childComments[].member.role").type(JsonFieldType.STRING).description("대댓글 작성자 Role"),
+                                fieldWithPath("data[].childComments[].tagNickname").type(JsonFieldType.STRING).description("대댓글 태그 대상 닉네임"),
+                                fieldWithPath("data[].childComments[].createdDate").type(JsonFieldType.STRING).description("대댓글 생성일")
+                        )));
+    }
+
+    @Test
+    public void deleteMindSharePostCommentTest() throws Exception {
+        List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
+        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
+                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", comments))
+        );
+        ResultActions resultActions = this.mockMvc.perform(
+                baseRequestBuilder(
+                        delete("/v1/mind/share/post/{postId}/comment/{commentId}", 1,1)
+                )
+        );
+        resultActions.andExpect(status().isOk())
+                .andDo(document("delete-mind-share-post-comment",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("Access Token")),
+                        pathParameters(
+                                parameterWithName("postId").description("글 Id"),
+                                parameterWithName("commentId").description("댓글 Id")),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
+                                fieldWithPath("data[].commentId").type(JsonFieldType.NUMBER).description("댓글 Id"),
+                                fieldWithPath("data[].content").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("data[].isDeleted").type(JsonFieldType.BOOLEAN).description("댓글 삭제 여부"),
+                                fieldWithPath("data[].member.id").type(JsonFieldType.NUMBER).description("댓글 작성자 idx"),
+                                fieldWithPath("data[].member.nickname").type(JsonFieldType.STRING).description("댓글 작성자 닉네임"),
+                                fieldWithPath("data[].member.profileImgUrl").type(JsonFieldType.STRING).description("댓글 작성자 프로필 이미지"),
+                                fieldWithPath("data[].member.role").type(JsonFieldType.STRING).description("댓글 작성자 Role"),
+                                fieldWithPath("data[].createdDate").type(JsonFieldType.STRING).description("댓글 생성일"),
+                                fieldWithPath("data[].childComments[].commentId").type(JsonFieldType.NUMBER).description("대댓글 Id"),
+                                fieldWithPath("data[].childComments[].content").type(JsonFieldType.STRING).description("대댓글 내용"),
+                                fieldWithPath("data[].childComments[].member.id").type(JsonFieldType.NUMBER).description("대댓글 작성자 idx"),
+                                fieldWithPath("data[].childComments[].member.nickname").type(JsonFieldType.STRING).description("대댓글 작성자 닉네임"),
+                                fieldWithPath("data[].childComments[].member.profileImgUrl").type(JsonFieldType.STRING).description("대댓글 작성자 프로필 이미지"),
+                                fieldWithPath("data[].childComments[].member.role").type(JsonFieldType.STRING).description("대댓글 작성자 Role"),
+                                fieldWithPath("data[].childComments[].tagNickname").type(JsonFieldType.STRING).description("대댓글 태그 대상 닉네임"),
+                                fieldWithPath("data[].childComments[].createdDate").type(JsonFieldType.STRING).description("대댓글 생성일")
                         )));
     }
 }

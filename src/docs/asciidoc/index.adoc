@@ -155,3 +155,22 @@ include::{snippets}/delete-mind-share-post-like/path-parameters.adoc[]
 ==== Response
 include::{snippets}/delete-mind-share-post-like/response-body.adoc[]
 include::{snippets}/delete-mind-share-post-like/response-fields.adoc[]
+
+=== 마음 공유 댓글 등록
+==== Request
+include::{snippets}/insert-mind-share-post-comment/http-request.adoc[]
+include::{snippets}/insert-mind-share-post-comment/request-headers.adoc[]
+include::{snippets}/insert-mind-share-post-comment/form-parameters.adoc[]
+include::{snippets}/insert-mind-share-post-comment/path-parameters.adoc[]
+==== Response
+include::{snippets}/insert-mind-share-post-comment/response-body.adoc[]
+include::{snippets}/insert-mind-share-post-comment/response-fields.adoc[]
+
+=== 마음 공유 댓글 삭제
+==== Request
+include::{snippets}/delete-mind-share-post-comment/http-request.adoc[]
+include::{snippets}/delete-mind-share-post-comment/request-headers.adoc[]
+include::{snippets}/delete-mind-share-post-comment/path-parameters.adoc[]
+==== Response
+include::{snippets}/delete-mind-share-post-comment/response-body.adoc[]
+include::{snippets}/delete-mind-share-post-comment/response-fields.adoc[]
