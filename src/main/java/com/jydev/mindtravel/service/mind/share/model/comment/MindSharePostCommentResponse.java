@@ -17,11 +17,13 @@ import java.util.List;
 public class MindSharePostCommentResponse {
     private Long commentId;
     private String content;
+    private Boolean isDeleted;
     private MemberResponse member;
     private LocalDateTime createdDate;
     private List<MindSharePostChildCommentResponse> childComments;
 
     public MindSharePostCommentResponse(MindSharePostComment comment) {
+        this.isDeleted = comment.getIsDeleted();
         this.commentId = comment.getId();
         this.content = comment.getContent();
         this.member = new MemberResponse(comment.getMember());

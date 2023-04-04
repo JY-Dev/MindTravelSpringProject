@@ -98,6 +98,7 @@ public class MindShareMockFactory {
                 .childComments(childComments)
                 .content("content")
                 .commentId(0L)
+                .isDeleted(false)
                 .member(getMemberResponse())
                 .childComments(childComments)
                 .createdDate(LocalDateTime.now()).build();
@@ -115,6 +116,7 @@ public class MindShareMockFactory {
 
     public static MindSharePostCommentRequest getMindSharePostCommentRequest(long postId) {
         return MindSharePostCommentRequest.builder()
+                .memberId(0L)
                 .postId(postId)
                 .content("content")
                 .build();
