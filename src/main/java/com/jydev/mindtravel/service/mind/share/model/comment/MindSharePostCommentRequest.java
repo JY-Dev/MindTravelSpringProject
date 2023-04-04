@@ -6,6 +6,7 @@ import lombok.Getter;
 @Builder
 @Getter
 public class MindSharePostCommentRequest {
-    private String content;
+    private Long memberId;
     private Long postId;
+    private String content;
 }

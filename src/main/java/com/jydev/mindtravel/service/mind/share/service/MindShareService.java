@@ -79,8 +79,8 @@ public class MindShareService {
     }
 
 
-    public void insertPostComment(MindSharePostCommentRequest request, Long memberId) {
-        Member member = memberCommandRepository.findById(memberId)
+    public void insertPostComment(MindSharePostCommentRequest request) {
+        Member member = memberCommandRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new ClientException("유저 정보가 없습니다."));
         MindSharePostComment comment = new MindSharePostComment(member, request);
         commentCommandRepository.save(comment);
