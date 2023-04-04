@@ -7,5 +7,6 @@ import lombok.Getter;
 @Getter
 public class MindSharePostChildCommentRequest {
     private String content;
+    private Long tagMemberId;
     private Long parentCommentId;
 }
