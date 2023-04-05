@@ -31,6 +31,7 @@ public class MindSharePostComment extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "parent_comment_id")
+    @OrderBy("createdDate DESC")
     private Set<MindSharePostChildComment> childComments = new HashSet<>();
 
     public MindSharePostComment(Member member,MindSharePostCommentRequest request){
