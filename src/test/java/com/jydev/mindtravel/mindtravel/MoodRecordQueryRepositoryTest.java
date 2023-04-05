@@ -22,9 +22,9 @@ import java.util.List;
 @SpringBootTest
 @Transactional
 public class MoodRecordQueryRepositoryTest {
+
     @Autowired
     private MemberService memberService;
-
     @Autowired
     private MindTravelService mindTravelService;
 
@@ -33,26 +33,25 @@ public class MoodRecordQueryRepositoryTest {
 
     @BeforeEach
     void init(){
-        OauthInfo oauthInfo = new OauthInfo("id", "email");
-        memberService.socialLogin(OauthServerType.GOOGLE, oauthInfo);
+        memberService.socialLogin(OauthServerType.TEST,new OauthInfo("id","test@naver.com"));
         MoodRecordRequest moodRecordRequest = MoodRecordRequest.builder()
                 .mood(Mood.GOOD)
                 .content("컨텐츠").build();
-        mindTravelService.recordMood("email",moodRecordRequest);
+        mindTravelService.recordMood("test@naver.com",moodRecordRequest);
     }
     @Test
     public void searchMoodRecordsTest() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        List<MoodRecord> email = repository.searchMoodRecords("email", formatter.format(LocalDateTime.now()));
+        List<MoodRecord> email = repository.searchMoodRecords("test@naver.com", formatter.format(LocalDateTime.now()));
         System.out.println(email.get(0).getId());
     }
 
     @Test
     public void findMoodRecord(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        List<MoodRecord> email = repository.searchMoodRecords("email", formatter.format(LocalDateTime.now()));
+        List<MoodRecord> email = repository.searchMoodRecords("test@naver.com", formatter.format(LocalDateTime.now()));
         Long id = email.get(0).getId();
-        MoodRecord result = repository.findMoodRecord("email", id).get();
+        MoodRecord result = repository.findMoodRecord("test@naver.com", id).get();
         Assertions.assertThat(result).isNotNull();
         Assertions.assertThat(result.getId()).isEqualTo(id);
     }

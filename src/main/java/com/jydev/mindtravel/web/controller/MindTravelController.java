@@ -28,9 +28,9 @@ public class MindTravelController {
         return httpUtils.makeEmptyResponse();
     }
 
-    @DeleteMapping("/record-mood")
+    @DeleteMapping("/record-mood/{moodRecordId}")
     public ResponseEntity<HttpResponse<EmptyResponse>> deleteRecordMood(@RequestAttribute("member") MemberDto member,
-                                                                  Long moodRecordId) {
+                                                                  @PathVariable Long moodRecordId) {
         mindTravelService.deleteRecordMood(member.getEmail(), moodRecordId);
         return httpUtils.makeEmptyResponse();
     }

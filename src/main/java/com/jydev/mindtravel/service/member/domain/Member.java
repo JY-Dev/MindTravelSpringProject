@@ -15,7 +15,6 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-@DynamicUpdate
 @Entity
 public class Member extends BaseEntity {
     @Id

@@ -59,7 +59,7 @@ include::{snippets}/get-member/response-fields.adoc[]
 === 닉네임 수정
 ==== Request
 include::{snippets}/edit-nickname/http-request.adoc[]
-include::{snippets}/edit-nickname/form-parameters.adoc[]
+include::{snippets}/edit-nickname/path-parameters.adoc[]
 include::{snippets}/edit-nickname/request-headers.adoc[]
 ==== Response
 include::{snippets}/edit-nickname/response-body.adoc[]
@@ -86,8 +86,130 @@ include::{snippets}/get-record-moods/response-fields.adoc[]
 === 기분 삭제하기
 ==== Request
 include::{snippets}/delete-record-mood/http-request.adoc[]
+include::{snippets}/delete-record-mood/path-parameters.adoc[]
 include::{snippets}/delete-record-mood/request-headers.adoc[]
-include::{snippets}/delete-record-mood/form-parameters.adoc[]
 ==== Response
 include::{snippets}/delete-record-mood/response-body.adoc[]
 include::{snippets}/delete-record-mood/response-fields.adoc[]
+
+=== 마음 공유 글 작성
+==== Request
+include::{snippets}/save-mind-share-post/http-request.adoc[]
+include::{snippets}/save-mind-share-post/request-headers.adoc[]
+include::{snippets}/save-mind-share-post/request-body.adoc[]
+include::{snippets}/save-mind-share-post/request-fields.adoc[]
+==== Response
+include::{snippets}/save-mind-share-post/response-body.adoc[]
+include::{snippets}/save-mind-share-post/response-fields.adoc[]
+
+=== 마음 공유 글 목록 조회
+==== Request
+include::{snippets}/search-mind-share-posts/http-request.adoc[]
+include::{snippets}/search-mind-share-posts/request-headers.adoc[]
+include::{snippets}/search-mind-share-posts/query-parameters.adoc[]
+==== Response
+include::{snippets}/search-mind-share-posts/response-body.adoc[]
+include::{snippets}/search-mind-share-posts/response-fields.adoc[]
+
+=== 마음 공유 글 상세 조회
+==== Request
+include::{snippets}/search-mind-share-post-detail/http-request.adoc[]
+include::{snippets}/search-mind-share-post-detail/request-headers.adoc[]
+include::{snippets}/search-mind-share-post-detail/path-parameters.adoc[]
+==== Response
+include::{snippets}/search-mind-share-post-detail/response-body.adoc[]
+include::{snippets}/search-mind-share-post-detail/response-fields.adoc[]
+
+=== 마음 공유 글 댓글 조회
+==== Request
+include::{snippets}/get-mind-share-post-comments/http-request.adoc[]
+include::{snippets}/get-mind-share-post-comments/request-headers.adoc[]
+include::{snippets}/get-mind-share-post-comments/path-parameters.adoc[]
+==== Response
+include::{snippets}/get-mind-share-post-comments/response-body.adoc[]
+include::{snippets}/get-mind-share-post-comments/response-fields.adoc[]
+
+=== 마음 공유 글 좋아요 조회
+==== Request
+include::{snippets}/get-mind-share-post-likes/http-request.adoc[]
+include::{snippets}/get-mind-share-post-likes/request-headers.adoc[]
+include::{snippets}/get-mind-share-post-likes/path-parameters.adoc[]
+==== Response
+include::{snippets}/get-mind-share-post-likes/response-body.adoc[]
+include::{snippets}/get-mind-share-post-likes/response-fields.adoc[]
+
+=== 마음 공유 글 좋아요
+==== Request
+include::{snippets}/insert-mind-share-post-like/http-request.adoc[]
+include::{snippets}/insert-mind-share-post-like/request-headers.adoc[]
+include::{snippets}/insert-mind-share-post-like/path-parameters.adoc[]
+==== Response
+include::{snippets}/insert-mind-share-post-like/response-body.adoc[]
+include::{snippets}/insert-mind-share-post-like/response-fields.adoc[]
+
+=== 마음 공유 글 좋아요 삭제
+==== Request
+include::{snippets}/delete-mind-share-post-like/http-request.adoc[]
+include::{snippets}/delete-mind-share-post-like/request-headers.adoc[]
+include::{snippets}/delete-mind-share-post-like/path-parameters.adoc[]
+==== Response
+include::{snippets}/delete-mind-share-post-like/response-body.adoc[]
+include::{snippets}/delete-mind-share-post-like/response-fields.adoc[]
+
+=== 마음 공유 댓글 등록
+==== Request
+include::{snippets}/insert-mind-share-post-comment/http-request.adoc[]
+include::{snippets}/insert-mind-share-post-comment/request-headers.adoc[]
+include::{snippets}/insert-mind-share-post-comment/form-parameters.adoc[]
+include::{snippets}/insert-mind-share-post-comment/path-parameters.adoc[]
+==== Response
+include::{snippets}/insert-mind-share-post-comment/response-body.adoc[]
+include::{snippets}/insert-mind-share-post-comment/response-fields.adoc[]
+
+=== 마음 공유 댓글 삭제
+==== Request
+include::{snippets}/delete-mind-share-post-comment/http-request.adoc[]
+include::{snippets}/delete-mind-share-post-comment/request-headers.adoc[]
+include::{snippets}/delete-mind-share-post-comment/path-parameters.adoc[]
+==== Response
+include::{snippets}/delete-mind-share-post-comment/response-body.adoc[]
+include::{snippets}/delete-mind-share-post-comment/response-fields.adoc[]
+
+=== 마음 공유 댓글 수정
+==== Request
+include::{snippets}/edit-mind-share-post-comment/http-request.adoc[]
+include::{snippets}/edit-mind-share-post-comment/request-headers.adoc[]
+include::{snippets}/edit-mind-share-post-comment/form-parameters.adoc[]
+include::{snippets}/edit-mind-share-post-comment/path-parameters.adoc[]
+==== Response
+include::{snippets}/edit-mind-share-post-comment/response-body.adoc[]
+include::{snippets}/edit-mind-share-post-comment/response-fields.adoc[]
+
+=== 마음 공유 대댓글 등록
+==== Request
+include::{snippets}/insert-mind-share-post-child-comment/http-request.adoc[]
+include::{snippets}/insert-mind-share-post-child-comment/request-headers.adoc[]
+include::{snippets}/insert-mind-share-post-child-comment/request-fields.adoc[]
+include::{snippets}/insert-mind-share-post-child-comment/path-parameters.adoc[]
+==== Response-child
+include::{snippets}/insert-mind-share-post-child-comment/response-body.adoc[]
+include::{snippets}/insert-mind-share-post-child-comment/response-fields.adoc[]
+
+=== 마음 공유 대댓글 삭제
+==== Request
+include::{snippets}/delete-mind-share-post-child-comment/http-request.adoc[]
+include::{snippets}/delete-mind-share-post-child-comment/request-headers.adoc[]
+include::{snippets}/delete-mind-share-post-child-comment/path-parameters.adoc[]
+==== Response-child
+include::{snippets}/delete-mind-share-post-child-comment/response-body.adoc[]
+include::{snippets}/delete-mind-share-post-child-comment/response-fields.adoc[]
+
+=== 마음 공유 대댓글 수정
+==== Request
+include::{snippets}/edit-mind-share-post-child-comment/http-request.adoc[]
+include::{snippets}/edit-mind-share-post-child-comment/request-headers.adoc[]
+include::{snippets}/edit-mind-share-post-child-comment/form-parameters.adoc[]
+include::{snippets}/edit-mind-share-post-child-comment/path-parameters.adoc[]
+==== Response-child
+include::{snippets}/edit-mind-share-post-child-comment/response-body.adoc[]
+include::{snippets}/edit-mind-share-post-child-comment/response-fields.adoc[]

@@ -23,9 +23,9 @@ public class MemberController {
         return httpUtils.makeHttpResponse(HttpStatus.OK.value(), "", member);
     }
 
-    @PatchMapping("/nickname")
+    @PatchMapping("/{nickname}")
     public ResponseEntity<HttpResponse<MemberDto>> editMember(@RequestAttribute("member") MemberDto member,
-                                                              String nickname) {
+                                                              @PathVariable String nickname) {
         MemberDto editMember = memberService.editNickname(member.getEmail(), nickname);
         return httpUtils.makeHttpResponse(HttpStatus.OK.value(), "",editMember);
     }

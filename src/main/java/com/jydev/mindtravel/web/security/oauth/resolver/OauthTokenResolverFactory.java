@@ -12,8 +12,8 @@ import java.util.List;
 public class OauthTokenResolverFactory {
     private final List<OauthTokenResolver> resolvers = new ArrayList<>();
 
-    public OauthTokenResolverFactory(OauthTokenResolver... googleOauthTokenResolver) {
-        resolvers.addAll(List.of(googleOauthTokenResolver));
+    public OauthTokenResolverFactory(OauthTokenResolver... oauthTokenResolver) {
+        resolvers.addAll(List.of(oauthTokenResolver));
     }
 
     public OauthTokenResolver getResolver(OauthServerType type) {
