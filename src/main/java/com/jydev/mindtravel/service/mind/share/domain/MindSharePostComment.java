@@ -8,9 +8,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @NoArgsConstructor
@@ -31,8 +29,7 @@ public class MindSharePostComment extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "parent_comment_id")
-    @OrderBy("createdDate ASC")
-    private Set<MindSharePostChildComment> childComments = new HashSet<>();
+    private List<MindSharePostChildComment> childComments = new ArrayList<>();
 
     public MindSharePostComment(Member member,MindSharePostCommentRequest request){
         this.member = member;
