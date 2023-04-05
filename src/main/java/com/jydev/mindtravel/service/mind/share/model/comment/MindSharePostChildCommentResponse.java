@@ -17,6 +17,7 @@ public class MindSharePostChildCommentResponse {
     private Long commentId;
     private String content;
     private MemberResponse member;
+    private Long parentCommentId;
     private String tagNickname;
     private LocalDateTime createdDate;
 
@@ -24,6 +25,7 @@ public class MindSharePostChildCommentResponse {
         this.commentId = comment.getId();
         this.content = comment.getContent();
         this.member = new MemberResponse(comment.getMember());
+        this.parentCommentId = comment.getParentCommentId();
         if(comment.getTagMember() == null)
             this.tagNickname = "";
         else

@@ -107,6 +107,7 @@ public class MindShareMockFactory {
     public static MindSharePostChildCommentResponse getMindSharePostChildCommentResponse() {
         return MindSharePostChildCommentResponse.builder()
                 .commentId(0L)
+                .parentCommentId(1L)
                 .member(getMemberResponse())
                 .content("content")
                 .tagNickname("tagNickname")
