@@ -3,6 +3,7 @@ package com.jydev.mindtravel.service.mind.share.domain;
 import com.jydev.mindtravel.service.base.BaseEntity;
 import com.jydev.mindtravel.service.member.domain.Member;
 import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentRequest;
+import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentEditRequest;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,5 +39,9 @@ public class MindSharePostChildComment extends BaseEntity {
 
     public boolean isCreator(Long memberId){
         return this.member.getId().equals(memberId);
+    }
+
+    public void editComment(MindSharePostCommentEditRequest request){
+        this.content = request.getContent();
     }
 }

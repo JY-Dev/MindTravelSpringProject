@@ -9,6 +9,7 @@ import com.jydev.mindtravel.service.mind.share.domain.MindSharePostChildComment;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostLike;
 import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentRequest;
+import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentEditRequest;
 import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentRequest;
 import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentResponse;
 import com.jydev.mindtravel.service.mind.share.model.like.MindSharePostLikeResponse;
@@ -97,6 +98,17 @@ public class MindShareService {
         }
     }
 
+    public void editPostComment(MindSharePostCommentEditRequest request) {
+        MindSharePostComment comment = commentCommandRepository.findById(request.getCommentId())
+                .orElseThrow(() -> new ClientException("댓글 정보가 없습니다."));
+        boolean isCreator = comment.isCreator(request.getMemberId());
+        if (isCreator) {
+            comment.editComment(request);
+        } else {
+            throw new ClientException("댓글을 삭제 할 수 없습니다.");
+        }
+    }
+
     public void insertPostChildComment(MindSharePostChildCommentRequest request, Long memberId) {
         Member member = memberCommandRepository.findById(memberId)
                 .orElseThrow(() -> new ClientException("유저 정보가 없습니다."));
@@ -115,6 +127,17 @@ public class MindShareService {
         boolean isCreator = comment.isCreator(memberId);
         if (isCreator) {
             childCommentCommandRepository.delete(comment);
+        } else {
+            throw new ClientException("댓글을 삭제 할 수 없습니다.");
+        }
+    }
+
+    public void editPostChildComment(MindSharePostCommentEditRequest request) {
+        MindSharePostChildComment comment = childCommentCommandRepository.findById(request.getCommentId())
+                .orElseThrow(() -> new ClientException("댓글 정보가 없습니다."));
+        boolean isCreator = comment.isCreator(request.getMemberId());
+        if (isCreator) {
+            comment.editComment(request);
         } else {
             throw new ClientException("댓글을 삭제 할 수 없습니다.");
         }
