@@ -26,11 +26,6 @@ import static org.mockito.BDDMockito.given;
 @ExtendWith(MockitoExtension.class)
 public class MindTravelServiceTest {
     @Mock
-    private MemberQueryRepository memberQueryRepository;
-    @Mock
-    private MoodRecordCommandRepository moodRecordCommandRepository;
-
-    @Mock
     private MoodRecordQueryRepository moodRecordQueryRepository;
     @InjectMocks
     private MindTravelService mindTravelService;

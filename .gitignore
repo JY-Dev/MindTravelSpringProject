@@ -37,3 +37,4 @@ out/
 .vscode/
 /BOOT-INF/classes/static/docs/index.html
 /src/main/resources/static/docs/index.html
+/src/main/java/com/jydev/mindtravel/web/security/oauth/resolver/TestOauthTokenResolver.java
