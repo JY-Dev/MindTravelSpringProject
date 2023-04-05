@@ -2,6 +2,8 @@ package com.jydev.mindtravel.web.controller;
 
 import com.jydev.mindtravel.service.member.model.MemberDto;
 import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
+import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentRequest;
+import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentEditRequest;
 import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentRequest;
 import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentResponse;
 import com.jydev.mindtravel.service.mind.share.model.like.MindSharePostLikeResponse;
@@ -99,6 +101,54 @@ public class MindShareController {
                                                                                                        @PathVariable Long commentId,
                                                                                                        @RequestAttribute("member") MemberDto member) {
         mindShareService.deletePostComment(commentId, member.getMemberIdx());
+        List<MindSharePostCommentResponse> data = mindShareService.getPostComments(postId);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK, "", data);
+    }
+
+    @PatchMapping("/post/{postId}/comment/{commentId}")
+    public ResponseEntity<HttpResponse<List<MindSharePostCommentResponse>>> editMindSharePostComment(@PathVariable Long postId,
+                                                                                                     @PathVariable Long commentId,
+                                                                                                     String content,
+                                                                                                     @RequestAttribute("member") MemberDto member) {
+        MindSharePostCommentEditRequest request = MindSharePostCommentEditRequest.builder()
+                .commentId(commentId)
+                .content(content)
+                .memberId(member.getMemberIdx())
+                .build();
+        mindShareService.editPostComment(request);
+        List<MindSharePostCommentResponse> data = mindShareService.getPostComments(postId);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK, "", data);
+    }
+
+    @PostMapping("/post/{postId}/comment/child")
+    public ResponseEntity<HttpResponse<List<MindSharePostCommentResponse>>> insertMindSharePostChildComment(@PathVariable Long postId,
+                                                                                                            @RequestBody MindSharePostChildCommentRequest request,
+                                                                                                            @RequestAttribute("member") MemberDto member) {
+        mindShareService.insertPostChildComment(request, member.getMemberIdx());
+        List<MindSharePostCommentResponse> data = mindShareService.getPostComments(postId);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK, "", data);
+    }
+
+    @DeleteMapping("/post/{postId}/comment/child/{commentId}")
+    public ResponseEntity<HttpResponse<List<MindSharePostCommentResponse>>> deleteMindSharePostChildComment(@PathVariable Long postId,
+                                                                                                            @PathVariable Long commentId,
+                                                                                                            @RequestAttribute("member") MemberDto member) {
+        mindShareService.deletePostChildComment(commentId, member.getMemberIdx());
+        List<MindSharePostCommentResponse> data = mindShareService.getPostComments(postId);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK, "", data);
+    }
+
+    @PatchMapping("/post/{postId}/comment/child/{commentId}")
+    public ResponseEntity<HttpResponse<List<MindSharePostCommentResponse>>> editMindSharePostChildComment(@PathVariable Long postId,
+                                                                                                          @PathVariable Long commentId,
+                                                                                                          String content,
+                                                                                                          @RequestAttribute("member") MemberDto member) {
+        MindSharePostCommentEditRequest request = MindSharePostCommentEditRequest.builder()
+                .commentId(commentId)
+                .content(content)
+                .memberId(member.getMemberIdx())
+                .build();
+        mindShareService.editPostChildComment(request);
         List<MindSharePostCommentResponse> data = mindShareService.getPostComments(postId);
         return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK, "", data);
     }

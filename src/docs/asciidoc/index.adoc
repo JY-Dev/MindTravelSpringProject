@@ -174,3 +174,42 @@ include::{snippets}/delete-mind-share-post-comment/path-parameters.adoc[]
 ==== Response
 include::{snippets}/delete-mind-share-post-comment/response-body.adoc[]
 include::{snippets}/delete-mind-share-post-comment/response-fields.adoc[]
+
+=== 마음 공유 댓글 수정
+==== Request
+include::{snippets}/edit-mind-share-post-comment/http-request.adoc[]
+include::{snippets}/edit-mind-share-post-comment/request-headers.adoc[]
+include::{snippets}/edit-mind-share-post-comment/form-parameters.adoc[]
+include::{snippets}/edit-mind-share-post-comment/path-parameters.adoc[]
+==== Response
+include::{snippets}/edit-mind-share-post-comment/response-body.adoc[]
+include::{snippets}/edit-mind-share-post-comment/response-fields.adoc[]
+
+=== 마음 공유 대댓글 등록
+==== Request
+include::{snippets}/insert-mind-share-post-child-comment/http-request.adoc[]
+include::{snippets}/insert-mind-share-post-child-comment/request-headers.adoc[]
+include::{snippets}/insert-mind-share-post-child-comment/request-fields.adoc[]
+include::{snippets}/insert-mind-share-post-child-comment/path-parameters.adoc[]
+==== Response-child
+include::{snippets}/insert-mind-share-post-child-comment/response-body.adoc[]
+include::{snippets}/insert-mind-share-post-child-comment/response-fields.adoc[]
+
+=== 마음 공유 대댓글 삭제
+==== Request
+include::{snippets}/delete-mind-share-post-child-comment/http-request.adoc[]
+include::{snippets}/delete-mind-share-post-child-comment/request-headers.adoc[]
+include::{snippets}/delete-mind-share-post-child-comment/path-parameters.adoc[]
+==== Response-child
+include::{snippets}/delete-mind-share-post-child-comment/response-body.adoc[]
+include::{snippets}/delete-mind-share-post-child-comment/response-fields.adoc[]
+
+=== 마음 공유 대댓글 수정
+==== Request
+include::{snippets}/edit-mind-share-post-child-comment/http-request.adoc[]
+include::{snippets}/edit-mind-share-post-child-comment/request-headers.adoc[]
+include::{snippets}/edit-mind-share-post-child-comment/form-parameters.adoc[]
+include::{snippets}/edit-mind-share-post-child-comment/path-parameters.adoc[]
+==== Response-child
+include::{snippets}/edit-mind-share-post-child-comment/response-body.adoc[]
+include::{snippets}/edit-mind-share-post-child-comment/response-fields.adoc[]
