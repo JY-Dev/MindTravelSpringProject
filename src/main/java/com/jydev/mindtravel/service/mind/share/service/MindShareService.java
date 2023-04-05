@@ -105,7 +105,7 @@ public class MindShareService {
         if (isCreator) {
             comment.editComment(request);
         } else {
-            throw new ClientException("댓글을 삭제 할 수 없습니다.");
+            throw new ClientException("댓글을 수정 할 수 없습니다.");
         }
     }
 
@@ -139,7 +139,7 @@ public class MindShareService {
         if (isCreator) {
             comment.editComment(request);
         } else {
-            throw new ClientException("댓글을 삭제 할 수 없습니다.");
+            throw new ClientException("댓글을 수정 할 수 없습니다.");
         }
     }
 }
