@@ -32,7 +32,7 @@ public class MindSharePost extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "post_id")
-    @OrderBy("createdDate DESC")
+    @OrderBy("createdDate ASC")
     private Set<MindSharePostComment> comments = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.REMOVE)
