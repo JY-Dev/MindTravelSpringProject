@@ -51,6 +51,7 @@ public class JwtRefreshFilter extends OncePerRequestFilter {
         } catch (ExpiredJwtException e) {
             httpUtils.sendResponse(response, HttpServletResponse.SC_FORBIDDEN, "", null);
         } catch (Exception e) {
+            log.error("JwtRefresh Exception :", e);
             httpUtils.sendResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "", null);
         }
     }
