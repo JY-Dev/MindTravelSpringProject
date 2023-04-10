@@ -1,7 +1,7 @@
 <configuration scan="true" scanPeriod="60 seconds">
     <property name="LOG_PATH" value="log"/>
     <property name="LOG_FILE_NAME" value="errorLog"/>
-    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] [%logger{40}] - %msg%n"/>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [traceId=%X{traceId}] [%thread] [%logger{40}] - %msg%n"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
