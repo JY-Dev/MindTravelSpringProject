@@ -25,13 +25,13 @@ public class ExceptionHandlers {
 
     @ExceptionHandler(HttpErrorException.class)
     public ResponseEntity<HttpResponse<EmptyResponse>> handle(HttpErrorException exception) {
+        log.error("HttpErrorException : ",exception);
         return httpUtils.makeHttpResponse(exception.getHttpStatusCode(),exception.getMessage(),null);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<HttpResponse<EmptyResponse>> handle(Exception e){
-        e.printStackTrace();
-        log.error("서버 error : {}",e.getMessage());
+        log.error("Exception : ",e);
         return httpUtils.makeHttpResponse(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"서버 오류 입니다.",null);
     }
 }

@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (ExpiredJwtException e) {
             httpUtils.sendResponse(response, HttpServletResponse.SC_FORBIDDEN, "토큰 만료", null);
         } catch (Exception e) {
-            log.error("ErrorMessage : {}", e.getMessage());
+            log.error("Authentication Exception :", e);
             httpUtils.sendResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "인증 실패", null);
         }
     }
