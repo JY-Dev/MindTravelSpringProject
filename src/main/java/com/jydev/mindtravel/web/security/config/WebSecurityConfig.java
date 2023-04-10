@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.auth.repository.RefreshTokenRepository;
 import com.jydev.mindtravel.auth.jwt.JwtProvider;
 import com.jydev.mindtravel.service.member.service.MemberService;
+import com.jydev.mindtravel.web.filter.LoggingFilter;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import com.jydev.mindtravel.web.security.AuthenticationEntryPoint;
 import com.jydev.mindtravel.web.security.jwt.AuthenticationJwtReturnHandler;
@@ -43,6 +44,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 .anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(entryPoint);
+        http.addFilterBefore(new LoggingFilter(),UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(new JwtRefreshFilter(jwtProvider,httpUtils,mapper,refreshTokenRepository),UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(new Oauth2AuthenticationFilter(jwtProvider,jwtReturnHandler, provider), UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(new JwtAuthenticationFilter(jwtProvider,httpUtils,memberService,mapper), UsernamePasswordAuthenticationFilter.class);
