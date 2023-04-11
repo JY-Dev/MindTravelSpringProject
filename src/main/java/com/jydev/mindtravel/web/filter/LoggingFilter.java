@@ -1,5 +1,6 @@
 package com.jydev.mindtravel.web.filter;
 
+import com.jydev.mindtravel.web.utils.ReReadableRequestWrapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,73 +10,85 @@ import org.slf4j.MDC;
 import org.springframework.http.MediaType;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class LoggingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         MDC.put("traceId", UUID.randomUUID().toString());
-        doFilterWrapped(new ContentCachingRequestWrapper(request),new ContentCachingResponseWrapper(response),filterChain);
+        doFilterWrapped(request, response, filterChain);
         MDC.clear();
     }
 
-    public void doFilterWrapped(ContentCachingRequestWrapper requestWrapper, ContentCachingResponseWrapper responseWrapper, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilterWrapped(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest requestWrapper = getWrappedRequest(request);
+        ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
         try {
             logRequest(requestWrapper);
-            doFilter(requestWrapper,responseWrapper,filterChain);
+            doFilter(requestWrapper, responseWrapper, filterChain);
         } finally {
             logResponse(responseWrapper);
             responseWrapper.copyBodyToResponse();
         }
     }
 
-    public void logRequest(ContentCachingRequestWrapper request) throws IOException {
+    public void logRequest(HttpServletRequest request) throws IOException {
         String queryString = request.getQueryString();
+        String prefix = "Request";
         log.info("Request : {} uri=[{}] content-type=[{}]",
                 request.getMethod(),
                 queryString == null ? request.getRequestURI() : request.getRequestURI() + queryString,
                 request.getContentType()
         );
-        logPayload("Request",request.getContentType(), request.getInputStream());
+        if(request.getContentType() == null)
+            return;
+        if(request instanceof ReReadableRequestWrapper){
+            logPayload(prefix,request.getInputStream());
+        } else{
+            logPayload(prefix, request.getParameterMap());
+        }
+
     }
 
     public void logResponse(ContentCachingResponseWrapper response) throws IOException {
-        logPayload("Response", response.getContentType(), response.getContentInputStream());
+        logPayload("Response", response.getContentInputStream());
     }
 
-    private static void logPayload(String prefix, String contentType, InputStream inputStream) throws IOException {
-        boolean visible = isVisible(MediaType.valueOf(contentType == null ? "application/json" : contentType));
-        if (visible) {
-            byte[] content = StreamUtils.copyToByteArray(inputStream);
-            if (content.length > 0) {
-                String contentString = new String(content);
-                log.info("{} Payload: {}", prefix, contentString);
-            }
-        } else {
-            log.info("{} Payload: Binary Content", prefix);
+    private void logPayload(String prefix, InputStream inputStream) throws IOException {
+        byte[] content = StreamUtils.copyToByteArray(inputStream);
+        if (content.length > 0) {
+            String contentString = new String(content);
+            log.info("{} Payload: {}", prefix, contentString);
         }
     }
 
-    private static boolean isVisible(MediaType mediaType) {
-        final List<MediaType> VISIBLE_TYPES = Arrays.asList(
-                MediaType.valueOf("text/*"),
-                MediaType.APPLICATION_FORM_URLENCODED,
-                MediaType.APPLICATION_JSON,
-                MediaType.APPLICATION_XML,
-                MediaType.valueOf("application/*+json"),
-                MediaType.valueOf("application/*+xml"),
-                MediaType.MULTIPART_FORM_DATA
-        );
-
-        return VISIBLE_TYPES.stream()
-                .anyMatch(visibleType -> visibleType.includes(mediaType));
+    public HttpServletRequest getWrappedRequest(HttpServletRequest request) throws IOException {
+        if(request.getContentType() != null && !needParameterPayload(request.getContentType()))
+            return new ReReadableRequestWrapper(request);
+        else
+            return request;
     }
+
+    private boolean needParameterPayload(String contentType) {
+        return (contentType.equalsIgnoreCase(MediaType.APPLICATION_FORM_URLENCODED_VALUE) ||
+                contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE));
+    }
+
+    private void logPayload(String prefix, Map<String,String[]> parameter) throws IOException {
+        log.info("{} Payload: {}", prefix, getParameterString(parameter));
+    }
+
+    private String getParameterString(Map<String,String[]> parameter){
+        return parameter.entrySet().stream()
+                .map(e -> "["+e.getKey() + " : " + String.join(", ",e.getValue())+"]")
+                .collect(Collectors.joining(", "));
+    }
+
 }
