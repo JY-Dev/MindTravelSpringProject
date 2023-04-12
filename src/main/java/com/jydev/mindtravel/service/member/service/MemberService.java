@@ -37,6 +37,7 @@ public class MemberService {
                 .orElseThrow(() -> new ClientException("멤버 검색 실패"));
         member.updateRole(MemberRole.USER);
         validationDuplicationNickname(email, nickname, member);
+        member.editNickname(nickname);
         return new MemberDto(member);
     }
 
@@ -46,7 +47,6 @@ public class MemberService {
                 throw new ClientException("유효 하지 않은 닉네임 입니다.");
             if (queryRepository.isDuplicationNickname(email, nickname))
                 throw new ConflictException("중복된 닉네임 입니다.");
-            member.editNickname(nickname);
         }
     }
 
