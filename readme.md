@@ -13,6 +13,7 @@
 - 서버
     - Spring Boot
     - JPA
+    - QueryDsl
     - MySql
     - AWS
     - JAVA
