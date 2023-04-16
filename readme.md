@@ -12,6 +12,8 @@
 
 - 서버
     - Spring Boot
+    - Spring Security
+    - Spring Data Jpa
     - JPA
     - QueryDsl
     - MySql
