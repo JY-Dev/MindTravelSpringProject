@@ -39,3 +39,4 @@ out/
 /src/main/resources/static/docs/index.html
 /src/main/java/com/jydev/mindtravel/web/security/oauth/resolver/TestOauthTokenResolver.java
 /log/
+/firebase_admin_sdk.json
