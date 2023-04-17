@@ -13,6 +13,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -24,10 +25,11 @@ public class Oauth2AuthenticationFilter extends AbstractAuthenticationProcessing
     private static final String MATCH_URL_PREFIX = "/v1/login/oauth2/";
     private final JwtProvider jwtProvider;
 
-    public Oauth2AuthenticationFilter(JwtProvider jwtProvider, AuthenticationSuccessHandler authenticationSuccessHandler,
+    public Oauth2AuthenticationFilter(JwtProvider jwtProvider, AuthenticationSuccessHandler authenticationSuccessHandler, AuthenticationFailureHandler authenticationFailureHandler,
                                       AuthenticationProvider... authenticationProvider) {
         super(new AntPathRequestMatcher(MATCH_URL_PREFIX + "*"));
         this.jwtProvider = jwtProvider;
+        this.setAuthenticationFailureHandler(authenticationFailureHandler);
         this.setAuthenticationManager(new ProviderManager(authenticationProvider));
         this.setAuthenticationSuccessHandler(authenticationSuccessHandler);
     }
@@ -36,7 +38,20 @@ public class Oauth2AuthenticationFilter extends AbstractAuthenticationProcessing
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         OauthServerType serverType = extractOauthServerType(request);
         String accessToken = jwtProvider.extractToken(request);
-        return getAuthenticationManager().authenticate(new Oauth2AuthenticationToken(accessToken, serverType));
+        String fcmToken = extractFcmToken(request);
+        return getAuthenticationManager().authenticate(new Oauth2AuthenticationToken(accessToken, fcmToken, serverType));
+    }
+
+    public String extractFcmToken(HttpServletRequest request){
+        try{
+            String fcmToken = request.getHeader("FCM");
+            if(fcmToken.isEmpty())
+                throw new AuthenticationServiceException("");
+            return request.getHeader("FCM");
+        } catch (Exception e){
+            throw new AuthenticationServiceException("FCM 토큰이 없습니다.");
+        }
+
     }
 
     public OauthServerType extractOauthServerType(HttpServletRequest request) {

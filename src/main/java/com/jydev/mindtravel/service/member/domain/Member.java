@@ -38,6 +38,7 @@ public class Member extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private MemberRole role;
 
+    private String fcmToken;
     @OneToMany(mappedBy = "member")
     private List<MoodRecord> moodRecords = new ArrayList<>();
 
@@ -56,5 +57,9 @@ public class Member extends BaseEntity {
 
     public void updateRole(MemberRole role){
         this.role = role;
+    }
+
+    public void updateFcmToken(String fcmToken){
+        this.fcmToken = fcmToken;
     }
 }

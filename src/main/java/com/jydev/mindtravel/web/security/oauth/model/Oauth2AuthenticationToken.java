@@ -11,10 +11,12 @@ import java.util.Collection;
 @ToString
 public class Oauth2AuthenticationToken extends AbstractAuthenticationToken {
     private String accessToken;
+    private String fcmToken;
     private OauthServerType type;
 
-    public Oauth2AuthenticationToken(String accessToken, OauthServerType type){
+    public Oauth2AuthenticationToken(String accessToken, String fcmToken, OauthServerType type){
         super(null);
+        this.fcmToken = fcmToken;
         this.accessToken = accessToken;
         this.type = type;
     }

@@ -1,5 +1,6 @@
 package com.jydev.mindtravel.service.member.service;
 
+import com.jydev.mindtravel.auth.repository.RefreshTokenRepository;
 import com.jydev.mindtravel.service.exception.ClientException;
 import com.jydev.mindtravel.service.exception.ConflictException;
 import com.jydev.mindtravel.service.member.domain.Member;
@@ -20,10 +21,20 @@ public class MemberService {
     private final MemberCommandRepository commandRepository;
     private final MemberQueryRepository queryRepository;
 
-    public MemberDto socialLogin(OauthServerType type, OauthInfo info) {
+    private final RefreshTokenRepository refreshTokenRepository;
+
+    public MemberDto socialLogin(OauthServerType type, OauthInfo info, String fcmToken) {
         Member member = queryRepository.findByEmail(info.getEmail())
                 .orElseGet(() -> commandRepository.save(new Member(type, info)));
+        member.updateFcmToken(fcmToken);
         return new MemberDto(member);
+    }
+
+    public void logout(String email){
+        Member member = queryRepository.findByEmail(email)
+                        .orElseThrow(() -> new ClientException("멤버 검색 실패"));
+        refreshTokenRepository.deleteRefreshToken(email);
+        member.updateFcmToken("");
     }
 
     public MemberDto findMemberByEmail(String email) {

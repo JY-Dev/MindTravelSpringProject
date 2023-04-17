@@ -30,7 +30,7 @@ public class Oauth2AccessTokenAuthenticationProvider implements AuthenticationPr
         Oauth2AuthenticationToken token = (Oauth2AuthenticationToken) authentication;
         OauthTokenResolver resolver = factory.getResolver(token.getType());
         OauthInfo oauthInfo = resolver.resolve(token.getAccessToken());
-        MemberDto memberDto = memberService.socialLogin(token.getType(), oauthInfo);
+        MemberDto memberDto = memberService.socialLogin(token.getType(), oauthInfo,token.getFcmToken());
         List<GrantedAuthority> grantedAuthorityList = getAuthorities(memberDto);
         return new UsernamePasswordAuthenticationToken(memberDto.getEmail(),null,grantedAuthorityList);
     }

@@ -41,7 +41,7 @@ public class MemberServiceTest {
         MemberDto memberDto = new MemberDto(member);
         doReturn(Optional.empty()).when(memberQueryRepository).findByEmail(email);
         doReturn(member).when(memberCommandRepository).save(any(Member.class));
-        MemberDto result = memberService.socialLogin(OauthServerType.GOOGLE, oauthInfo);
+        MemberDto result = memberService.socialLogin(OauthServerType.GOOGLE, oauthInfo,"");
         Assertions.assertThat(result).isEqualTo(memberDto);
     }
 
@@ -53,7 +53,7 @@ public class MemberServiceTest {
         Member member = new Member(OauthServerType.GOOGLE, oauthInfo);
         MemberDto memberDto = new MemberDto(member);
         doReturn(Optional.of(member)).when(memberQueryRepository).findByEmail(email);
-        MemberDto result = memberService.socialLogin(OauthServerType.GOOGLE, oauthInfo);
+        MemberDto result = memberService.socialLogin(OauthServerType.GOOGLE, oauthInfo,"");
         Assertions.assertThat(result).isEqualTo(memberDto);
     }
 

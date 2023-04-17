@@ -64,7 +64,7 @@ public class JwtProvider {
         String ACCESS_TOKEN_HEADER = "Authorization";
         String header = request.getHeader(ACCESS_TOKEN_HEADER);
         String tokenType = "Bearer ";
-        if (!header.startsWith(tokenType))
+        if (header == null || !header.startsWith(tokenType))
             throw new AuthenticationServiceException("토큰이 존재하지 않습니다.");
         return header.substring(tokenType.length());
     }
