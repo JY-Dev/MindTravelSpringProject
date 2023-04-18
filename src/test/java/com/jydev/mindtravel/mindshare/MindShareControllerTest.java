@@ -486,6 +486,7 @@ public class MindShareControllerTest {
                         getDocumentResponse(),
                         requestFields(
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("postId").type(JsonFieldType.NUMBER).description("의미 없는 값이라 보내지 않아도 됨."),
                                 fieldWithPath("tagMemberId").type(JsonFieldType.NUMBER).description("Tag한 Member Idx \n Tag한 Member가 없는 경우 -1로 보내기"),
                                 fieldWithPath("parentCommentId").type(JsonFieldType.NUMBER).description("부모 댓글 Idx")
                         ),
