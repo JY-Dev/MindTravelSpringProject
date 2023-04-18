@@ -66,10 +66,10 @@ public class MindSharePostCommentEvent {
         sendReplyCommentPush(event, tagFcmToken);
     }
 
-    private void sendReplyCommentPush(MindSharePostCommentFcmEvent event, String tagFcmToken) throws FirebaseMessagingException {
+    private void sendReplyCommentPush(MindSharePostCommentFcmEvent event, String fcmToken) throws FirebaseMessagingException {
         String replyCommentWriterNickname = event.getCommentWriterMember().getNickname();
         String message = ms.getMessage("reply.comment.push", new Object[]{replyCommentWriterNickname, event.getContent()}, null);
-        Message commentMessage = getCommentMessage(message,tagFcmToken);
+        Message commentMessage = getCommentMessage(message,fcmToken);
         String response = FirebaseMessaging.getInstance().send(commentMessage);
         log.info("Fcm Response : {}",response);
     }
