@@ -17,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -34,6 +35,8 @@ public class MindShareServiceTest {
     private MindSharePostChildCommentCommandRepository childCommentCommandRepository;
     @Mock
     private MindSharePostQueryRepository postQueryRepository;
+    @Mock
+    private ApplicationEventPublisher applicationEventPublisher;
     @InjectMocks
     private MindShareService mindShareService;
 

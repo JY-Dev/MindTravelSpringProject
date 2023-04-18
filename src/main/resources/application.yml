@@ -4,6 +4,9 @@ spring:
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+  messages:
+    basename: fcm-messages
+    encoding: UTF-8
   jpa:
     hibernate:
       ddl-auto: update
