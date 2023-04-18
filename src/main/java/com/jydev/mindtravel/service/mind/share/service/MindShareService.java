@@ -116,7 +116,10 @@ public class MindShareService {
     public void insertPostChildComment(MindSharePostChildCommentRequest request, Long memberId) {
         Member member = memberCommandRepository.findById(memberId)
                 .orElseThrow(() -> new ClientException("유저 정보가 없습니다."));
-        //TODO PostID 검증 로직 추가
+        MindSharePostComment parentComment = commentCommandRepository.findById(request.getParentCommentId())
+                .orElseThrow(() -> new ClientException("댓글 정보가 없습니다."));
+        if(!parentComment.getPostId().equals(request.getPostId()))
+            throw new ClientException("올바르지 않은 요청입니다.");
         Member tagMember = null;
         if (request.hasTagMember()) {
             tagMember = memberCommandRepository.findById(request.getTagMemberId())
