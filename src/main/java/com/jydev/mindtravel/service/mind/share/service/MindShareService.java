@@ -8,6 +8,7 @@ import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostChildComment;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostLike;
+import com.jydev.mindtravel.service.mind.share.event.MindSharePostCommentFcmEvent;
 import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentRequest;
 import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentEditRequest;
 import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentRequest;
@@ -17,6 +18,7 @@ import com.jydev.mindtravel.service.mind.share.model.post.*;
 import com.jydev.mindtravel.service.mind.share.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +35,7 @@ public class MindShareService {
     private final MindSharePostCommentCommandRepository commentCommandRepository;
     private final MindSharePostChildCommentCommandRepository childCommentCommandRepository;
     private final MindSharePostLikeCommandRepository likeCommandRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public void saveMindSharePost(String email, MindSharePostRequest request) {
         Member member = memberQueryRepository.findByEmail(email)
@@ -85,6 +88,7 @@ public class MindShareService {
                 .orElseThrow(() -> new ClientException("유저 정보가 없습니다."));
         MindSharePostComment comment = new MindSharePostComment(member, request);
         commentCommandRepository.save(comment);
+        eventPublisher.publishEvent(new MindSharePostCommentFcmEvent(request,member));
     }
 
     public void deletePostComment(Long commentId, Long memberId) {
@@ -112,13 +116,16 @@ public class MindShareService {
     public void insertPostChildComment(MindSharePostChildCommentRequest request, Long memberId) {
         Member member = memberCommandRepository.findById(memberId)
                 .orElseThrow(() -> new ClientException("유저 정보가 없습니다."));
+        //TODO PostID 검증 로직 추가
         Member tagMember = null;
         if (request.hasTagMember()) {
             tagMember = memberCommandRepository.findById(request.getTagMemberId())
                     .orElse(null);
         }
+
         MindSharePostChildComment comment = new MindSharePostChildComment(member, tagMember, request);
         childCommentCommandRepository.save(comment);
+        eventPublisher.publishEvent(new MindSharePostCommentFcmEvent(request,member,tagMember));
     }
 
     public void deletePostChildComment(Long commentId, Long memberId) {

@@ -562,7 +562,6 @@ public class MindShareControllerTest {
     @Test
     public void editMindSharePostChildCommentTest() throws Exception {
         List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
-        MindSharePostChildCommentRequest request = getMindSharePostChildCommentRequest(1L);
         given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
                 ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", comments))
         );

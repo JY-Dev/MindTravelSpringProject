@@ -1,21 +1,25 @@
 package com.jydev.mindtravel.auth.repository;
 
-import com.jydev.mindtravel.auth.repository.RefreshTokenRepository;
+import com.jydev.mindtravel.redis.RedisManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
 public class RedisRefreshTokenRepository implements RefreshTokenRepository {
-    private final RedisTemplate<String,String> redisTemplate;
+    private final RedisManager redisManager;
     @Override
     public void saveRefreshToken(String key, String refreshToken) {
-        redisTemplate.opsForList().leftPush(key,refreshToken);
+        redisManager.save(RedisManager.Domain.JWT,key,refreshToken);
     }
 
     @Override
     public String findRefreshToken(String key) {
-        return redisTemplate.opsForList().leftPop(key);
+        return redisManager.get(RedisManager.Domain.JWT,key);
+    }
+
+    @Override
+    public void deleteRefreshToken(String key) {
+        redisManager.delete(RedisManager.Domain.JWT,key);
     }
 }

@@ -124,6 +124,7 @@ public class MindShareController {
     public ResponseEntity<HttpResponse<List<MindSharePostCommentResponse>>> insertMindSharePostChildComment(@PathVariable Long postId,
                                                                                                             @RequestBody MindSharePostChildCommentRequest request,
                                                                                                             @RequestAttribute("member") MemberDto member) {
+        request.setPostId(postId);
         mindShareService.insertPostChildComment(request, member.getMemberIdx());
         List<MindSharePostCommentResponse> data = mindShareService.getPostComments(postId);
         return httpUtils.makeHttpResponse(HttpServletResponse.SC_OK, "", data);

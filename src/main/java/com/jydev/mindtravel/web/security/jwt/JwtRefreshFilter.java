@@ -1,9 +1,11 @@
 package com.jydev.mindtravel.web.security.jwt;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.auth.repository.RefreshTokenRepository;
 import com.jydev.mindtravel.auth.jwt.Jwt;
 import com.jydev.mindtravel.auth.jwt.JwtProvider;
+import com.jydev.mindtravel.service.member.service.MemberService;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -22,6 +24,7 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtRefreshFilter extends OncePerRequestFilter {
+    private final MemberService memberService;
     private final JwtProvider jwtProvider;
     private final HttpUtils httpUtils;
     private final ObjectMapper mapper;
@@ -37,8 +40,7 @@ public class JwtRefreshFilter extends OncePerRequestFilter {
         try {
             String token = jwtProvider.extractToken(request);
             Claims claims = jwtProvider.getClaims(token);
-            String json = claims.get(JwtProvider.authKey, String.class);
-            JwtClaimsInfo claimsInfo = mapper.readValue(json, JwtClaimsInfo.class);
+            JwtClaimsInfo claimsInfo = getJwtClaimsInfo(claims);
             String email = claimsInfo.getEmail();
             String findToken = refreshTokenRepository.findRefreshToken(email);
             if (token.equals(findToken)) {
@@ -49,10 +51,17 @@ public class JwtRefreshFilter extends OncePerRequestFilter {
             } else
                 throw new IllegalArgumentException();
         } catch (ExpiredJwtException e) {
+            JwtClaimsInfo claimsInfo = getJwtClaimsInfo(e.getClaims());
+            memberService.logout(claimsInfo.getEmail());
             httpUtils.sendResponse(response, HttpServletResponse.SC_FORBIDDEN, "", null);
         } catch (Exception e) {
             log.error("JwtRefresh Exception :", e);
             httpUtils.sendResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "", null);
         }
+    }
+
+    private JwtClaimsInfo getJwtClaimsInfo(Claims claims) throws JsonProcessingException {
+        String json = claims.get(JwtProvider.authKey, String.class);
+        return mapper.readValue(json, JwtClaimsInfo.class);
     }
 }

@@ -7,6 +7,7 @@ import com.jydev.mindtravel.service.member.service.MemberService;
 import com.jydev.mindtravel.web.filter.LoggingFilter;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import com.jydev.mindtravel.web.security.AuthenticationEntryPoint;
+import com.jydev.mindtravel.web.security.AuthenticationFailureSendHttpUtilHandler;
 import com.jydev.mindtravel.web.security.jwt.AuthenticationJwtReturnHandler;
 import com.jydev.mindtravel.web.security.jwt.JwtAuthenticationFilter;
 import com.jydev.mindtravel.web.security.jwt.JwtRefreshFilter;
@@ -28,6 +29,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
+    private final AuthenticationFailureSendHttpUtilHandler failureSendHttpUtilHandler;
     private final AuthenticationEntryPoint entryPoint;
     private final Oauth2AccessTokenAuthenticationProvider provider;
     private final JwtProvider jwtProvider;
@@ -45,8 +47,8 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(entryPoint);
         http.addFilterBefore(new LoggingFilter(),UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(new JwtRefreshFilter(jwtProvider,httpUtils,mapper,refreshTokenRepository),UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(new Oauth2AuthenticationFilter(jwtProvider,jwtReturnHandler, provider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtRefreshFilter(memberService,jwtProvider,httpUtils,mapper,refreshTokenRepository),UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new Oauth2AuthenticationFilter(jwtProvider,jwtReturnHandler,failureSendHttpUtilHandler ,provider), UsernamePasswordAuthenticationFilter.class);
         http.addFilterAfter(new JwtAuthenticationFilter(jwtProvider,httpUtils,memberService,mapper), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
