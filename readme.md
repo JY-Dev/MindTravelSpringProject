@@ -43,6 +43,10 @@
 
 [https://github.com/JY-Dev/MindTravelApplication](https://github.com/JY-Dev/MindTravelApplication)
 
+### 로그인 및 회원가입 화면
+
+https://user-images.githubusercontent.com/45057493/233776913-e5f69149-e6de-4012-be9c-6a6b846e6a4e.mp4
+
 ### 프로젝트 진행하면서 작성한 글
 
 [Spring Security 이용해서 SNS 로그인 Rest API 환경으로 구현하기](https://velog.io/@kjy0302014/Spring-Security-이용해서-SNS-로그인-Rest-API-환경으로-구현하기)
