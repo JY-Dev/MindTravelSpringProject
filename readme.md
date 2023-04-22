@@ -45,7 +45,7 @@
 
 ### 로그인 및 회원가입 화면
 
-https://user-images.githubusercontent.com/45057493/233776913-e5f69149-e6de-4012-be9c-6a6b846e6a4e.mp4
+![로그인 및 회원가입](https://user-images.githubusercontent.com/45057493/233777008-3c666c4e-90d2-4dee-af43-3454617a399e.gif)
 
 ### 프로젝트 진행하면서 작성한 글
 
