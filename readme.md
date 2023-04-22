@@ -44,10 +44,17 @@
 [https://github.com/JY-Dev/MindTravelApplication](https://github.com/JY-Dev/MindTravelApplication)
 
 ### 로그인 및 회원가입 화면
+- 로그인 및 회원가입 화면입니다. 
+- 로그인은 Naver, Goolge Sns 로그인으로만 구성되어있습니다.
+- 간편한 회원가입으로 닉네임만 설정하면 자동으로 가입됩니다.
+- 그렇기 떄문에 닉네임은 고유하게 설정하였습니다.
 
 ![로그인 및 회원가입](https://user-images.githubusercontent.com/45057493/233777008-3c666c4e-90d2-4dee-af43-3454617a399e.gif)
 
 ### 기분 기록하기 화면
+- 현재의 기분을 기록하는 화면입니다.
+
+날짜 시간별로 구분하고 있습니다.
 
 ![기분기록하기](https://user-images.githubusercontent.com/45057493/233777037-e99920f2-5a31-4d4d-9199-53369f454026.gif)
 
