@@ -47,7 +47,7 @@ public class Member extends BaseEntity {
         this.email = info.getEmail();
         this.oauthId = info.getId();
         this.role = MemberRole.NEW_USER;
-        this.nickname = "";
+        this.nickname = null;
         this.profileImgUrl = "";
     }
 

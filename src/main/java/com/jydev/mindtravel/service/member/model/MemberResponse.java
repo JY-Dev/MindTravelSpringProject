@@ -20,7 +20,7 @@ public class MemberResponse {
 
     public MemberResponse(Member member){
         this.id = member.getId();
-        this.nickname = member.getNickname();
+        this.nickname = member.getNickname() != null ? member.getNickname() : "";
         this.profileImgUrl = member.getProfileImgUrl();
         this.role = member.getRole();
     }
