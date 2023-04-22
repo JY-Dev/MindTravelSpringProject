@@ -47,6 +47,18 @@
 
 ![로그인 및 회원가입](https://user-images.githubusercontent.com/45057493/233777008-3c666c4e-90d2-4dee-af43-3454617a399e.gif)
 
+### 기분 기록하기 화면
+
+![기분기록하기](https://user-images.githubusercontent.com/45057493/233777037-e99920f2-5a31-4d4d-9199-53369f454026.gif)
+
+### 글 작성 화면
+
+![글작성](https://user-images.githubusercontent.com/45057493/233777070-6d1395f2-597d-4e68-9c09-77912437b3e6.gif)
+
+### 댓글 좋아요 작성 화면
+
+![댓글 좋아요 작성](https://user-images.githubusercontent.com/45057493/233777105-6c22779e-a140-4ce9-86a4-792f0da2c5d4.gif)
+
 ### 프로젝트 진행하면서 작성한 글
 
 [Spring Security 이용해서 SNS 로그인 Rest API 환경으로 구현하기](https://velog.io/@kjy0302014/Spring-Security-이용해서-SNS-로그인-Rest-API-환경으로-구현하기)
