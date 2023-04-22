@@ -25,7 +25,7 @@ public class MemberFcmDto {
     public MemberFcmDto(Member member){
         this.memberIdx = member.getId();
         this.email = member.getEmail();
-        this.nickname = member.getNickname();
+        this.nickname = member.getNickname() != null ? member.getNickname() : "";
         this.fcmToken = member.getFcmToken();
         this.profileImgUrl = member.getProfileImgUrl();
         this.role = member.getRole();

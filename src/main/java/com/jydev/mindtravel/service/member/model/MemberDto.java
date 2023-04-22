@@ -25,7 +25,7 @@ public class MemberDto {
     public MemberDto(Member member){
         this.memberIdx = member.getId();
         this.email = member.getEmail();
-        this.nickname = member.getNickname();
+        this.nickname = member.getNickname() != null ? member.getNickname() : "";
         this.profileImgUrl = member.getProfileImgUrl();
         this.role = member.getRole();
         this.createdDate = member.getCreatedDate();

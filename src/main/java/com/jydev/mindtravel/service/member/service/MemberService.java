@@ -53,7 +53,7 @@ public class MemberService {
     }
 
     private void validationDuplicationNickname(String email, String nickname, Member member) {
-        if (!member.getNickname().equals(nickname)) {
+        if (member.getNickname() != null && !member.getNickname().equals(nickname)) {
             if (nickname.isEmpty() || nickname.length() > 16)
                 throw new ClientException("유효 하지 않은 닉네임 입니다.");
             if (queryRepository.isDuplicationNickname(email, nickname))
