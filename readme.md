@@ -43,6 +43,16 @@
 
 [https://github.com/JY-Dev/MindTravelApplication](https://github.com/JY-Dev/MindTravelApplication)
 
+### TODO
+- 프로필 사진 등록
+    - S3 이용
+- 상담사랑 채팅 기능
+    - 카카오페이 결제
+    - 상담사 선착순 매칭
+    - 채팅 시간제한
+- Github Action을 이용한 CI/CD
+- EC2 배포
+
 ### 로그인 및 회원가입 화면
 - 로그인 및 회원가입 화면입니다. 
 - 로그인은 Naver, Goolge Sns 로그인으로만 구성되어있습니다.
