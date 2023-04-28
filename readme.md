@@ -45,7 +45,6 @@
 
 ### TODO
 - Transaction Read Only 적용
-- Paging 처리할 떄 Limit 성능 이슈 해결
 - 프로필 사진 등록
     - S3 이용
 - 상담사랑 채팅 기능
