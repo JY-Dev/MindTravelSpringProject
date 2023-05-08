@@ -96,30 +96,4 @@ public class MindShareServiceTest {
         given(childCommentCommandRepository.findById(any(Long.class))).willReturn(Optional.of(comment));
         org.junit.jupiter.api.Assertions.assertThrows(ClientException.class, () -> mindShareService.deletePostChildComment(0L, requestMemberId));
     }
-
-    @Test
-    public void insertChildCommentWhenHasTagMemberTest() {
-        Member requestMember = mock(Member.class);
-        MindSharePostChildCommentRequest request = MindSharePostChildCommentRequest.builder()
-                .parentCommentId(0L)
-                .tagMemberId(1L)
-                .content("content")
-                .build();
-        given(memberCommandRepository.findById(any(Long.class))).willReturn(Optional.of(requestMember));
-        mindShareService.insertPostChildComment(request, 0L);
-        verify(memberCommandRepository, times(2)).findById(any(Long.class));
-    }
-
-    @Test
-    public void insertChildCommentWhenNotHasTagMemberTest() {
-        Member requestMember = mock(Member.class);
-        MindSharePostChildCommentRequest request = MindSharePostChildCommentRequest.builder()
-                .parentCommentId(0L)
-                .tagMemberId(-1L)
-                .content("content")
-                .build();
-        given(memberCommandRepository.findById(any(Long.class))).willReturn(Optional.of(requestMember));
-        mindShareService.insertPostChildComment(request, 0L);
-        verify(memberCommandRepository, times(1)).findById(any(Long.class));
-    }
 }

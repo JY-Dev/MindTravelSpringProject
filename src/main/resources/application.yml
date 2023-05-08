@@ -15,5 +15,9 @@ spring:
       format_sql: true
   profiles:
     include: oauth
+  data:
+    redis:
+      host: redis
+      port: 6379
 logging.level:
   org.hibernate.SQL: debug
