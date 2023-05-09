@@ -1,5 +1,4 @@
 FROM amazoncorretto:17
-EXPOSE 8080
 ARG JAR_PATH=./build/libs
 VOLUME ["/log"]
 COPY ./firebase_admin_sdk.json .

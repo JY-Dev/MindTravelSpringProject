@@ -19,6 +19,8 @@ then
     echo 배포시작 : $DEPLOY_APPLICATION
     docker-compose -p mind-travel up --build -d --no-deps $DEPLOY_APPLICATION
     
+    sleep 5
+    
     #배포 어플리케이션 Health Check
     for i in {1..10}; do
         DEPLOY_STATUS="$(docker-compose -p $APPLICATION ps $DEPLOY_APPLICATION | grep "Up" | sed 's/.*/true/')"
@@ -35,8 +37,8 @@ then
             sleep 1
         else
             echo 배포성공
+			docker-compose -p $APPLICATION exec nginx nginx -s reload
             docker-compose -p $APPLICATION exec nginx sh -c "export CUR_APPLICATION='$DEPLOY_APPLICATION'; env > /tmp/env"
-            echo $(docker-compose -p $APPLICATION exec nginx sh -c '. /tmp/env;echo $CUR_APPLICATION')
             break
         fi
     done
