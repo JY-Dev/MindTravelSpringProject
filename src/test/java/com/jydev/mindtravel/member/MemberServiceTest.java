@@ -65,7 +65,6 @@ public class MemberServiceTest {
         Member member = new Member(OauthServerType.GOOGLE, oauthInfo);
         String changeNickname = "changeNickname";
         doReturn(Optional.of(member)).when(memberQueryRepository).findByEmail(email);
-        doReturn(false).when(memberQueryRepository).isDuplicationNickname(email,changeNickname);
         MemberDto result = memberService.editNickname(email, changeNickname);
         Assertions.assertThat(result.getRole()).isEqualTo(MemberRole.USER);
         Assertions.assertThat(result.getNickname()).isEqualTo(changeNickname);
@@ -77,8 +76,9 @@ public class MemberServiceTest {
         String changeNickname = "changeNickname";
         OauthInfo oauthInfo = new OauthInfo("id", email);
         Member member = new Member(OauthServerType.GOOGLE, oauthInfo);
-        doReturn(Optional.of(member)).when(memberQueryRepository).findByEmail(email);
-        doReturn(true).when(memberQueryRepository).isDuplicationNickname(email,changeNickname);
+        member.editNickname("Nickname");
+        doReturn(Optional.of(member)).when(memberQueryRepository).findByEmail(any());
+        doReturn(true).when(memberQueryRepository).isDuplicationNickname(any(),any());
         org.junit.jupiter.api.Assertions.assertThrows(HttpErrorException.class, () -> memberService.editNickname(email, changeNickname));
     }
 }

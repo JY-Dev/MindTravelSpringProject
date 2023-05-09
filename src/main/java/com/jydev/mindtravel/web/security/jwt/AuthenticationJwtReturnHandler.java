@@ -31,7 +31,6 @@ public class AuthenticationJwtReturnHandler implements AuthenticationSuccessHand
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        log.info("로그인 성공 : {}", authentication);
         UsernamePasswordAuthenticationToken token = (UsernamePasswordAuthenticationToken) authentication;
         JwtClaimsInfo jwtClaimsInfo = new JwtClaimsInfo(token);
         String json = mapper.writeValueAsString(jwtClaimsInfo);
