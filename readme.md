@@ -31,11 +31,13 @@
     - Noton
     
 
-### 와이어프레임
+### 와이어프레임!
+[스크린샷 2023-05-11 오전 11 56 11](https://github.com/JY-Dev/MindTravelSpringProject/assets/45057493/9214a7f1-f2b5-4dc3-9608-406d06115534)
 
 [https://www.figma.com/file/eVrUVwfDzdrguUDE1JcFPJ/Untitled?node-id=89%3A33&t=m8gB7xtbHOGJhUgd-1](https://www.figma.com/file/eVrUVwfDzdrguUDE1JcFPJ/Untitled?node-id=89%3A33&t=m8gB7xtbHOGJhUgd-1)
 
 ### ERD
+![스크린샷 2023-05-11 오전 11 55 23](https://github.com/JY-Dev/MindTravelSpringProject/assets/45057493/be33cdfa-6710-426a-bce0-9c48de69a767)
 
 [MindTravel](https://www.erdcloud.com/d/TPdEDQWooRWKrJDnZ)
 
