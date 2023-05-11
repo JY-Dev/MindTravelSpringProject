@@ -7,8 +7,7 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
       - "80:80"
-    environment:
-      CUR_APPLICATION: blue
+    user: "$(id -u $USER):$(id -g $USER)"
 
   mysql:
     image: mysql:latest
