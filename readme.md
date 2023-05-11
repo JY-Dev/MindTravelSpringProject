@@ -32,7 +32,8 @@
     
 
 ### 와이어프레임!
-[스크린샷 2023-05-11 오전 11 56 11](https://github.com/JY-Dev/MindTravelSpringProject/assets/45057493/9214a7f1-f2b5-4dc3-9608-406d06115534)
+![스크린샷 2023-05-11 오전 11 56 11](https://github.com/JY-Dev/MindTravelSpringProject/assets/45057493/a48118da-72fd-4dab-8fc0-feb66118fdc4)
+
 
 [https://www.figma.com/file/eVrUVwfDzdrguUDE1JcFPJ/Untitled?node-id=89%3A33&t=m8gB7xtbHOGJhUgd-1](https://www.figma.com/file/eVrUVwfDzdrguUDE1JcFPJ/Untitled?node-id=89%3A33&t=m8gB7xtbHOGJhUgd-1)
 
