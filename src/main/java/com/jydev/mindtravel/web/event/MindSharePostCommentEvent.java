@@ -3,13 +3,15 @@ package com.jydev.mindtravel.web.event;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
-import com.jydev.mindtravel.service.member.domain.Member;
+import com.jydev.mindtravel.fcm.FcmPayload;
+import com.jydev.mindtravel.fcm.FcmService;
+import com.jydev.mindtravel.fcm.data.MindShareFcmData;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
 import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
 import com.jydev.mindtravel.service.mind.share.event.MindSharePostCommentFcmEvent;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommandRepository;
 import com.jydev.mindtravel.service.mind.share.repository.MindSharePostCommentCommandRepository;
+import com.jydev.mindtravel.fcm.FcmMessageFactory;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -26,6 +28,8 @@ public class MindSharePostCommentEvent {
     private final MindSharePostCommentCommandRepository postCommentCommandRepository;
     private final MessageSource ms;
 
+    private final FcmMessageFactory messageFactory;
+
     @Async
     @TransactionalEventListener
     public void sendPostWriterPush(MindSharePostCommentFcmEvent event) throws FirebaseMessagingException {
@@ -34,7 +38,10 @@ public class MindSharePostCommentEvent {
             return;
         MindSharePost post = postEntity.get();
         String message = ms.getMessage("post.writer.comment.push", new Object[]{event.getCommentWriterMember().getNickname(), post.getTitle(), event.getContent()}, null);
-        Message commentMessage = getCommentMessage(message,post.getMember().getFcmToken());
+        String title = ms.getMessage("comment.push.title",null,null);
+        FcmPayload fcmPayload = new FcmPayload(FcmService.MIND_SHARE,message,title);
+        MindShareFcmData mindShareFcmData = new MindShareFcmData(event.getPostId());
+        Message commentMessage = messageFactory.getCommentMessage(fcmPayload,mindShareFcmData,post.getMember().getFcmToken());
         String response = FirebaseMessaging.getInstance().send(commentMessage);
         log.info("Fcm Response : {}",response);
     }
@@ -67,20 +74,15 @@ public class MindSharePostCommentEvent {
     private void sendReplyCommentPush(MindSharePostCommentFcmEvent event, String fcmToken) throws FirebaseMessagingException {
         String replyCommentWriterNickname = event.getCommentWriterMember().getNickname();
         String message = ms.getMessage("reply.comment.push", new Object[]{replyCommentWriterNickname, event.getContent()}, null);
-        Message commentMessage = getCommentMessage(message,fcmToken);
+        String title = ms.getMessage("comment.push.title",null,null);
+        FcmPayload fcmPayload = getFcmPayload(title,message);
+        MindShareFcmData mindShareFcmData = new MindShareFcmData(event.getPostId());
+        Message commentMessage = messageFactory.getCommentMessage(fcmPayload,mindShareFcmData,fcmToken);
         String response = FirebaseMessaging.getInstance().send(commentMessage);
         log.info("Fcm Response : {}",response);
     }
 
-    private Message getCommentMessage(String message, String fcmToken){
-        String title = ms.getMessage("comment.push.title",null,null);
-        Notification notification = Notification.builder()
-                .setTitle(title)
-                .setBody(message)
-                .build();
-        return Message.builder()
-                .setNotification(notification)
-                .setToken(fcmToken)
-                .build();
+    private FcmPayload getFcmPayload(String title, String content){
+        return new FcmPayload(FcmService.MIND_SHARE, title, content);
     }
 }
