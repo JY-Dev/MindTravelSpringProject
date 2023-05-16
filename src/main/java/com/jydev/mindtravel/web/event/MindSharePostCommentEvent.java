@@ -33,9 +33,7 @@ public class MindSharePostCommentEvent {
         if (postEntity.isEmpty() || !event.hasCommentEvent(postEntity.get()))
             return;
         MindSharePost post = postEntity.get();
-        Member postWriter = post.getMember();
-
-        String message = ms.getMessage("post.writer.comment.push", new Object[]{postWriter.getNickname(), post.getTitle(), event.getContent()}, null);
+        String message = ms.getMessage("post.writer.comment.push", new Object[]{event.getCommentWriterMember().getNickname(), post.getTitle(), event.getContent()}, null);
         Message commentMessage = getCommentMessage(message,post.getMember().getFcmToken());
         String response = FirebaseMessaging.getInstance().send(commentMessage);
         log.info("Fcm Response : {}",response);
