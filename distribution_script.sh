@@ -20,9 +20,9 @@ then
 
     echo 사용하지 않는 이미지 정리
     sudo docker rmi $(sudo docker images -f "dangling=true" -q)
-
     echo 배포시작 : $DEPLOY_APPLICATION
-    sudo docker-compose -p mind-travel up --build -d --no-deps $DEPLOY_APPLICATION
+    sudo docker-compose -p $APPLICATION build --no-cache $DEPLOY_APPLICATION
+    sudo docker-compose -p mind-travel up -d --no-deps $DEPLOY_APPLICATION
 
     sleep 30
 
@@ -39,7 +39,7 @@ then
     fi
 else
     echo $APPLICATION 실행중이지 않음
-    sudo docker-compose build --no-cache green blue
+    sudo docker-compose -p $APPLICATION build --no-cache green blue
     sudo docker-compose -p $APPLICATION up -d
     sudo cp blue_nginx.conf nginx.conf
     sleep 30
