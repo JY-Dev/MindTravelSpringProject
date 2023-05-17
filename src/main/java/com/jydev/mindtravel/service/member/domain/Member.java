@@ -39,8 +39,6 @@ public class Member extends BaseEntity {
     private MemberRole role;
 
     private String fcmToken;
-    @OneToMany(mappedBy = "member")
-    private List<MoodRecord> moodRecords = new ArrayList<>();
 
     public Member(OauthServerType type , OauthInfo info){
         this.oauthServerType = type;
