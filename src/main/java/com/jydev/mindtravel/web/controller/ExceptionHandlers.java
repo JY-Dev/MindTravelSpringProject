@@ -7,6 +7,7 @@ import com.jydev.mindtravel.web.http.HttpUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,5 +34,11 @@ public class ExceptionHandlers {
     public ResponseEntity<HttpResponse<EmptyResponse>> handle(Exception e){
         log.error("Exception : ",e);
         return httpUtils.makeHttpResponse(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"서버 오류 입니다.",null);
+    }
+
+    @ExceptionHandler(OptimisticLockingFailureException.class)
+    public ResponseEntity<HttpResponse<EmptyResponse>> handle(OptimisticLockingFailureException exception){
+        log.error("OptimisticLockingFailureException : ", exception);
+        return httpUtils.makeHttpResponse(HttpServletResponse.SC_BAD_REQUEST,"처리 중인 작업이 있습니다.",null);
     }
 }
