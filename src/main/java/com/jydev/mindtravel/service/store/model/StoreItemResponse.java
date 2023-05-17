@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 public class StoreItemResponse {
     private Integer price;
     private Integer quantity;
-    private ItemResponse itemResponse;
+    private ItemResponse item;
 
     public StoreItemResponse(StoreItem storeItem){
         this.price = storeItem.getPrice();
         this.quantity = storeItem.getQuantity();
-        this.itemResponse = new ItemResponse(storeItem.getItem());
+        this.item = new ItemResponse(storeItem.getItem());
     }
 }
