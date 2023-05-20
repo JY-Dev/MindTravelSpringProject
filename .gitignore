@@ -40,3 +40,4 @@ out/
 /src/main/java/com/jydev/mindtravel/web/security/oauth/resolver/TestOauthTokenResolver.java
 /log/
 /firebase_admin_sdk.json
+/src/main/resources/application-kakao.yml

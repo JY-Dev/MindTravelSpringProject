@@ -14,7 +14,7 @@ spring:
       hibernate:
       format_sql: true
   profiles:
-    include: oauth
+    include: oauth,kakao
   data:
     redis:
       host: redis
