@@ -1,4 +1,4 @@
-package com.jydev.mindtravel.service.payment.utils;
+package com.jydev.mindtravel.web.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
