@@ -1,6 +1,5 @@
 package com.jydev.mindtravel.service.payment.service;
 
-import com.jydev.mindtravel.service.payment.model.KakaoPaymentDto;
 import com.jydev.mindtravel.service.payment.model.PaymentDto;
 import com.jydev.mindtravel.service.store.model.PaymentType;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +14,7 @@ public class PaymentCompositeService {
         PaymentType type = paymentDto.getPaymentType();
         switch (type) {
             case KAKAO_PAY -> {
-                KakaoPaymentDto dto = (KakaoPaymentDto) paymentDto;
-                kakaoPaymentService.payment(dto);
+                kakaoPaymentService.payment(paymentDto);
             }
         }
     }
