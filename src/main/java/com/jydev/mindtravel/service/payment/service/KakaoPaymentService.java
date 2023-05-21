@@ -1,20 +1,20 @@
 package com.jydev.mindtravel.service.payment.service;
 
-import com.jydev.mindtravel.service.payment.utils.PaymentValidator;
 import com.jydev.mindtravel.service.payment.model.KakaoPaymentDto;
 import com.jydev.mindtravel.service.payment.model.KakaoPaymentRequest;
 import com.jydev.mindtravel.service.payment.model.PaymentDto;
+import com.jydev.mindtravel.service.payment.utils.PaymentValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
-import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 
 @Slf4j
@@ -26,14 +26,15 @@ public class KakaoPaymentService {
     private String url = "https://kapi.kakao.com/v1/payment/approve";
     @Value("${kakao.admin-key}")
     private String adminKey;
-    public void payment(PaymentDto dto){
+
+    public void payment(PaymentDto dto) {
         validator.validationPaymentDtoTypeCast(dto);
         KakaoPaymentDto kakaoPaymentDto = (KakaoPaymentDto) dto;
         HttpHeaders headers = getHttpHeaders();
         KakaoPaymentRequest request = new KakaoPaymentRequest(kakaoPaymentDto);
         MultiValueMap<String, String> param = getParam(request);
-        HttpEntity<MultiValueMap<String, String>> requestHttpEntity = new HttpEntity<>(param,headers);
-        ResponseEntity response = restTemplate.postForEntity(url,requestHttpEntity,String.class);
+        HttpEntity<MultiValueMap<String, String>> requestHttpEntity = new HttpEntity<>(param, headers);
+        ResponseEntity response = restTemplate.postForEntity(url, requestHttpEntity, String.class);
         validator.validationPaymentResponse(response);
     }
 
@@ -51,7 +52,7 @@ public class KakaoPaymentService {
     private HttpHeaders getHttpHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("Authorization", "KakaoAK "+adminKey);
+        headers.set("Authorization", "KakaoAK " + adminKey);
         return headers;
     }
 }

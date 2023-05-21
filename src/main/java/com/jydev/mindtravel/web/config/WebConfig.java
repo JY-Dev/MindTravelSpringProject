@@ -1,7 +1,7 @@
 package com.jydev.mindtravel.web.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jydev.mindtravel.service.payment.utils.PaymentDtoMethodArgumentResolver;
+import com.jydev.mindtravel.web.resolver.PaymentDtoMethodArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

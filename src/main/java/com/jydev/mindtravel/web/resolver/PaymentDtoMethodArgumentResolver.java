@@ -34,9 +34,8 @@ public class PaymentDtoMethodArgumentResolver implements HandlerMethodArgumentRe
         try{
             Map json = mapper.readValue(request.getInputStream(), Map.class);
             Map paymentDtoJson = (Map) json.get("payment");
-            return jsonParser.parser(paymentDtoJson);
+            return jsonParser.parse(paymentDtoJson);
         }catch (Exception e){
-            log.info("에러 : ",e);
             throw new PaymentFailException("결제 데이터 파싱 오류");
         }
     }
