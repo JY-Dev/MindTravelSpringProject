@@ -104,3 +104,5 @@
 [Docker Compose Container Connection Fail](https://velog.io/@kjy0302014/Docker-Compose-Container-Connection-Fail)
 
 [Spring Boot Docker-Compose 무중단 배포](https://velog.io/@kjy0302014/Spring-Boot-Docker-Compose-%EB%AC%B4%EC%A4%91%EB%8B%A8-%EB%B0%B0%ED%8F%AC)
+
+[결제 처리는 어떻게 해주는게 좋을까?](https://velog.io/@kjy0302014/%EA%B2%B0%EC%A0%9C-%EC%B2%98%EB%A6%AC%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%ED%95%B4%EC%A3%BC%EB%8A%94%EA%B2%8C-%EC%A2%8B%EC%9D%84%EA%B9%8C)
