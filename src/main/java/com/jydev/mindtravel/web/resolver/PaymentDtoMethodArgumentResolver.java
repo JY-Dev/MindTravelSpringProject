@@ -24,8 +24,8 @@ public class PaymentDtoMethodArgumentResolver implements HandlerMethodArgumentRe
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasAnnotation = parameter.hasParameterAnnotation(Payment.class);
-        boolean hasUserType = PaymentDto.class.isAssignableFrom(parameter.getParameterType());
-        return hasAnnotation && hasUserType;
+        boolean hasPaymentDto = PaymentDto.class.isAssignableFrom(parameter.getParameterType());
+        return hasAnnotation && hasPaymentDto;
     }
 
     @Override
