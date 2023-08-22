@@ -17,4 +17,6 @@ public class Item extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private ItemType type;
+
+    private String name;
 }

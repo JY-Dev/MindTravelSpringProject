@@ -13,8 +13,10 @@ import lombok.NoArgsConstructor;
 public class ItemResponse {
     private Long id;
     private ItemType type;
+    private String name;
     public ItemResponse(Item item){
         this.id = item.getId();
         this.type = item.getType();
+        this.name = item.getName();
     }
 }
