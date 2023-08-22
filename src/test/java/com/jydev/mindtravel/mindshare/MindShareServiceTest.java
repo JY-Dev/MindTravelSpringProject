@@ -1,16 +1,18 @@
 package com.jydev.mindtravel.mindshare;
 
-import com.jydev.mindtravel.service.exception.ClientException;
-import com.jydev.mindtravel.service.member.domain.Member;
-import com.jydev.mindtravel.service.member.repository.MemberCommandRepository;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePostChildComment;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
-import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentRequest;
-import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentRequest;
-import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostDetailResponse;
-import com.jydev.mindtravel.service.mind.share.repository.*;
-import com.jydev.mindtravel.service.mind.share.service.MindShareService;
+import com.jydev.mindtravel.domain.member.domain.Member;
+import com.jydev.mindtravel.domain.member.repository.MemberCommandRepository;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePost;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePostChildComment;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePostComment;
+import com.jydev.mindtravel.domain.mind.share.dto.comment.MindSharePostChildCommentRequest;
+import com.jydev.mindtravel.domain.mind.share.dto.comment.MindSharePostCommentRequest;
+import com.jydev.mindtravel.domain.mind.share.dto.post.MindSharePostDetailResponse;
+import com.jydev.mindtravel.domain.mind.share.repository.MindSharePostChildCommentCommandRepository;
+import com.jydev.mindtravel.domain.mind.share.repository.MindSharePostCommentCommandRepository;
+import com.jydev.mindtravel.domain.mind.share.repository.MindSharePostQueryRepository;
+import com.jydev.mindtravel.domain.mind.share.service.MindShareService;
+import com.jydev.mindtravel.common.exception.BusinessException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -78,7 +80,7 @@ public class MindShareServiceTest {
         long commentCreatorId = 1L;
         given(commentCreatorMember.getId()).willReturn(commentCreatorId);
         given(commentCommandRepository.findById(any(Long.class))).willReturn(Optional.of(comment));
-        org.junit.jupiter.api.Assertions.assertThrows(ClientException.class, () -> mindShareService.deletePostComment(0L, requestMemberId));
+        org.junit.jupiter.api.Assertions.assertThrows(BusinessException.class, () -> mindShareService.deletePostComment(0L, requestMemberId));
     }
 
     @Test
@@ -94,6 +96,6 @@ public class MindShareServiceTest {
         long commentCreatorId = 1L;
         given(commentCreatorMember.getId()).willReturn(commentCreatorId);
         given(childCommentCommandRepository.findById(any(Long.class))).willReturn(Optional.of(comment));
-        org.junit.jupiter.api.Assertions.assertThrows(ClientException.class, () -> mindShareService.deletePostChildComment(0L, requestMemberId));
+        org.junit.jupiter.api.Assertions.assertThrows(BusinessException.class, () -> mindShareService.deletePostChildComment(0L, requestMemberId));
     }
 }

@@ -1,9 +1,9 @@
 package com.jydev.mindtravel.web.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jydev.mindtravel.auth.repository.RefreshTokenRepository;
-import com.jydev.mindtravel.auth.jwt.Jwt;
-import com.jydev.mindtravel.auth.jwt.JwtProvider;
+import com.jydev.mindtravel.domain.auth.jwt.Jwt;
+import com.jydev.mindtravel.domain.auth.jwt.JwtProvider;
+import com.jydev.mindtravel.domain.auth.repository.RefreshTokenRepository;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,7 +37,7 @@ public class AuthenticationJwtReturnHandler implements AuthenticationSuccessHand
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtProvider.authKey, json);
         Jwt jwt = jwtProvider.createJwt(claims);
-        repository.saveRefreshToken(jwtClaimsInfo.getEmail(),jwt.getRefreshToken());
+        repository.saveRefreshToken(jwtClaimsInfo.getEmail(), jwt.getRefreshToken());
         httpUtils.sendResponse(response, HttpServletResponse.SC_OK, "토큰 발급", jwt);
     }
 }

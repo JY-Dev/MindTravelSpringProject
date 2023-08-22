@@ -1,9 +1,9 @@
 package com.jydev.mindtravel.web.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jydev.mindtravel.auth.repository.RefreshTokenRepository;
-import com.jydev.mindtravel.auth.jwt.JwtProvider;
-import com.jydev.mindtravel.service.member.service.MemberService;
+import com.jydev.mindtravel.domain.auth.jwt.JwtProvider;
+import com.jydev.mindtravel.domain.auth.repository.RefreshTokenRepository;
+import com.jydev.mindtravel.domain.member.service.MemberService;
 import com.jydev.mindtravel.web.filter.LoggingFilter;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import com.jydev.mindtravel.web.security.AuthenticationEntryPoint;
@@ -46,10 +46,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                 .anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(entryPoint);
-        http.addFilterBefore(new LoggingFilter(),UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(new JwtRefreshFilter(memberService,jwtProvider,httpUtils,mapper,refreshTokenRepository),UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(new Oauth2AuthenticationFilter(jwtProvider,jwtReturnHandler,failureSendHttpUtilHandler ,provider), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterAfter(new JwtAuthenticationFilter(jwtProvider,httpUtils,memberService,mapper), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new LoggingFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtRefreshFilter(memberService, jwtProvider, httpUtils, mapper, refreshTokenRepository), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new Oauth2AuthenticationFilter(jwtProvider, jwtReturnHandler, failureSendHttpUtilHandler, provider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(new JwtAuthenticationFilter(jwtProvider, httpUtils, memberService, mapper), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

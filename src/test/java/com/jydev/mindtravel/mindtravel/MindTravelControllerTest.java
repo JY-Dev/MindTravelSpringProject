@@ -2,12 +2,10 @@ package com.jydev.mindtravel.mindtravel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.ControllerTest;
-import com.jydev.mindtravel.service.member.model.MemberDto;
-import com.jydev.mindtravel.service.member.model.MemberRole;
-import com.jydev.mindtravel.service.mind.travel.model.Mood;
-import com.jydev.mindtravel.service.mind.travel.model.MoodRecordRequest;
-import com.jydev.mindtravel.service.mind.travel.model.MoodRecordResponse;
-import com.jydev.mindtravel.service.mind.travel.service.MindTravelService;
+import com.jydev.mindtravel.domain.mind.travel.domain.Mood;
+import com.jydev.mindtravel.domain.mind.travel.dto.MoodRecordRequest;
+import com.jydev.mindtravel.domain.mind.travel.dto.MoodRecordResponse;
+import com.jydev.mindtravel.domain.mind.travel.service.MindTravelService;
 import com.jydev.mindtravel.util.ControllerTestHelper;
 import com.jydev.mindtravel.web.controller.MindTravelController;
 import com.jydev.mindtravel.web.http.EmptyResponse;
@@ -18,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -62,7 +59,7 @@ public class MindTravelControllerTest {
                 .build();
         String json = objectMapper.writeValueAsString(moodRecordRequest);
         given(httpUtils.makeEmptyResponse()).willReturn(
-                ResponseEntity.ok(new HttpResponse<EmptyResponse>(HttpServletResponse.SC_OK, "", null))
+                new HttpResponse<>("", null)
         );
 
         ResultActions resultActions = this.mockMvc.perform(
@@ -84,7 +81,6 @@ public class MindTravelControllerTest {
                                         .description("기분은 : BAD, A_LITTLE_BAD, NORMAL, GOOD 이렇게 구성 되어있습니다.")
                         ),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data").type(JsonFieldType.NULL).description("데이터")
                         )));
@@ -99,8 +95,8 @@ public class MindTravelControllerTest {
                 .createdDate(LocalDateTime.now()).build();
         List<MoodRecordResponse> moodRecordResponses = List.of(moodRecordResponse);
         given(mindTravelService.getRecordMoods(any(String.class), any(String.class))).willReturn(moodRecordResponses);
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", moodRecordResponses))
+        given(httpUtils.makeHttpResponse(any(String.class), any(List.class))).willReturn(
+                new HttpResponse<>("", moodRecordResponses)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
@@ -119,7 +115,6 @@ public class MindTravelControllerTest {
                                 parameterWithName("date").description("조회 날짜")
                         ),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data[].moodRecordId").description("아이디").type(JsonFieldType.NUMBER),
                                 fieldWithPath("data[].content").description("글 내용").type(JsonFieldType.STRING),
@@ -134,7 +129,7 @@ public class MindTravelControllerTest {
     public void deleteRecordMood() throws Exception {
 
         given(httpUtils.makeEmptyResponse()).willReturn(
-                ResponseEntity.ok(new HttpResponse<EmptyResponse>(HttpServletResponse.SC_OK, "", null))
+                new HttpResponse<EmptyResponse>("", null)
         );
 
         ResultActions resultActions = this.mockMvc.perform(
@@ -153,7 +148,6 @@ public class MindTravelControllerTest {
                                 parameterWithName("moodRecordId").description("RecordMood 아이디")
                         ),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data").type(JsonFieldType.NULL).description("데이터")
                         )));

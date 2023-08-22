@@ -1,17 +1,17 @@
 package com.jydev.mindtravel.mindshare;
 
-import com.jydev.mindtravel.service.member.domain.Member;
-import com.jydev.mindtravel.service.member.model.MemberResponse;
-import com.jydev.mindtravel.service.member.model.MemberRole;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePostChildComment;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
-import com.jydev.mindtravel.service.mind.share.model.*;
-import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentRequest;
-import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentResponse;
-import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentRequest;
-import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentResponse;
-import com.jydev.mindtravel.service.mind.share.model.like.MindSharePostLikeResponse;
-import com.jydev.mindtravel.service.mind.share.model.post.*;
+import com.jydev.mindtravel.domain.member.domain.Member;
+import com.jydev.mindtravel.domain.member.dto.MemberResponse;
+import com.jydev.mindtravel.domain.member.domain.MemberRole;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePostChildComment;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePostComment;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePostCategory;
+import com.jydev.mindtravel.domain.mind.share.dto.post.*;
+import com.jydev.mindtravel.domain.mind.share.dto.comment.MindSharePostChildCommentRequest;
+import com.jydev.mindtravel.domain.mind.share.dto.comment.MindSharePostChildCommentResponse;
+import com.jydev.mindtravel.domain.mind.share.dto.comment.MindSharePostCommentRequest;
+import com.jydev.mindtravel.domain.mind.share.dto.comment.MindSharePostCommentResponse;
+import com.jydev.mindtravel.domain.mind.share.dto.like.MindSharePostLikeResponse;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

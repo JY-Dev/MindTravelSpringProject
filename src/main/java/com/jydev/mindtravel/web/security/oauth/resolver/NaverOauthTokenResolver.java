@@ -22,11 +22,11 @@ public class NaverOauthTokenResolver implements OauthTokenResolver {
     @Override
     public OauthInfo resolve(String token) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer "+token);
+        headers.set("Authorization", "Bearer " + token);
         HttpEntity request = new HttpEntity(headers);
         ResponseEntity<Map> response = restTemplate.exchange("https://openapi.naver.com/v1/nid/me", HttpMethod.GET, request, Map.class);
         Map<String, Object> post = response.getBody();
-        Map<String,Object> result = (Map<String,Object>) post.get("response");
+        Map<String, Object> result = (Map<String, Object>) post.get("response");
         String email = (String) result.get("email");
         String id = (String) result.get("id");
         return new OauthInfo(id, email);

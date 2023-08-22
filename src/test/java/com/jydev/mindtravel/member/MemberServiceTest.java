@@ -1,12 +1,12 @@
 package com.jydev.mindtravel.member;
 
-import com.jydev.mindtravel.service.member.domain.Member;
-import com.jydev.mindtravel.service.member.model.MemberDto;
-import com.jydev.mindtravel.service.member.model.MemberRole;
-import com.jydev.mindtravel.service.member.repository.MemberCommandRepository;
-import com.jydev.mindtravel.service.member.repository.MemberQueryRepository;
-import com.jydev.mindtravel.service.member.service.MemberService;
-import com.jydev.mindtravel.web.http.HttpErrorException;
+import com.jydev.mindtravel.domain.member.domain.Member;
+import com.jydev.mindtravel.domain.member.dto.MemberDto;
+import com.jydev.mindtravel.domain.member.domain.MemberRole;
+import com.jydev.mindtravel.domain.member.repository.MemberCommandRepository;
+import com.jydev.mindtravel.domain.member.repository.MemberQueryRepository;
+import com.jydev.mindtravel.domain.member.service.MemberService;
+import com.jydev.mindtravel.common.exception.BusinessException;
 import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 import org.assertj.core.api.Assertions;
@@ -79,6 +79,6 @@ public class MemberServiceTest {
         member.editNickname("Nickname");
         doReturn(Optional.of(member)).when(memberQueryRepository).findByEmail(any());
         doReturn(true).when(memberQueryRepository).isDuplicationNickname(any(),any());
-        org.junit.jupiter.api.Assertions.assertThrows(HttpErrorException.class, () -> memberService.editNickname(email, changeNickname));
+        org.junit.jupiter.api.Assertions.assertThrows(BusinessException.class, () -> memberService.editNickname(email, changeNickname));
     }
 }

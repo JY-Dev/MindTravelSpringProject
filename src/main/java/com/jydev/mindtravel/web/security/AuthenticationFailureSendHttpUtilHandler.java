@@ -15,6 +15,7 @@ import java.io.IOException;
 @Component
 public class AuthenticationFailureSendHttpUtilHandler implements AuthenticationFailureHandler {
     private final HttpUtils httpUtils;
+
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         httpUtils.sendResponse(response, HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage(), null);

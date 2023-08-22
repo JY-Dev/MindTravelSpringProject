@@ -1,8 +1,8 @@
 package com.jydev.mindtravel.web.security.oauth;
 
-import com.jydev.mindtravel.service.member.model.MemberDto;
-import com.jydev.mindtravel.service.member.model.MemberRole;
-import com.jydev.mindtravel.service.member.service.MemberService;
+import com.jydev.mindtravel.domain.member.domain.MemberRole;
+import com.jydev.mindtravel.domain.member.dto.MemberDto;
+import com.jydev.mindtravel.domain.member.service.MemberService;
 import com.jydev.mindtravel.web.security.oauth.model.Oauth2AuthenticationToken;
 import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
 import com.jydev.mindtravel.web.security.oauth.resolver.OauthTokenResolver;
@@ -30,12 +30,12 @@ public class Oauth2AccessTokenAuthenticationProvider implements AuthenticationPr
         Oauth2AuthenticationToken token = (Oauth2AuthenticationToken) authentication;
         OauthTokenResolver resolver = factory.getResolver(token.getType());
         OauthInfo oauthInfo = resolver.resolve(token.getAccessToken());
-        MemberDto memberDto = memberService.socialLogin(token.getType(), oauthInfo,token.getFcmToken());
+        MemberDto memberDto = memberService.socialLogin(token.getType(), oauthInfo, token.getFcmToken());
         List<GrantedAuthority> grantedAuthorityList = getAuthorities(memberDto);
-        return new UsernamePasswordAuthenticationToken(memberDto.getEmail(),null,grantedAuthorityList);
+        return new UsernamePasswordAuthenticationToken(memberDto.getEmail(), null, grantedAuthorityList);
     }
 
-    private List<GrantedAuthority> getAuthorities(MemberDto memberDto){
+    private List<GrantedAuthority> getAuthorities(MemberDto memberDto) {
         List<GrantedAuthority> result = new ArrayList<>();
         MemberRole role = memberDto.getRole();
         result.add(new SimpleGrantedAuthority(role.name()));

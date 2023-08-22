@@ -4,7 +4,7 @@ import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -15,7 +15,7 @@ import java.util.Map;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class GoogleOauthTokenResolver implements OauthTokenResolver{
+public class GoogleOauthTokenResolver implements OauthTokenResolver {
     private final RestTemplate restTemplate;
 
     @Override
@@ -30,7 +30,7 @@ public class GoogleOauthTokenResolver implements OauthTokenResolver{
         Map<String, Object> post = response.getBody();
         String email = (String) post.get("email");
         String sub = (String) post.get("sub");
-        return new OauthInfo(sub,email);
+        return new OauthInfo(sub, email);
     }
 
     @Override

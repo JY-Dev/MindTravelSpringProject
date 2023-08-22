@@ -1,9 +1,9 @@
 package com.jydev.mindtravel.web.resolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jydev.mindtravel.service.exception.PaymentFailException;
-import com.jydev.mindtravel.service.payment.model.PaymentDto;
-import com.jydev.mindtravel.service.payment.utils.PaymentDtoJsonParser;
+import com.jydev.mindtravel.common.exception.PaymentFailException;
+import com.jydev.mindtravel.domain.payment.dto.PaymentDto;
+import com.jydev.mindtravel.domain.payment.utils.PaymentDtoJsonParser;
 import com.jydev.mindtravel.web.annotation.Payment;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +21,7 @@ import java.util.Map;
 public class PaymentDtoMethodArgumentResolver implements HandlerMethodArgumentResolver {
     private final ObjectMapper mapper;
     private final PaymentDtoJsonParser jsonParser = new PaymentDtoJsonParser();
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasAnnotation = parameter.hasParameterAnnotation(Payment.class);
@@ -31,11 +32,11 @@ public class PaymentDtoMethodArgumentResolver implements HandlerMethodArgumentRe
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        try{
+        try {
             Map json = mapper.readValue(request.getInputStream(), Map.class);
             Map paymentDtoJson = (Map) json.get("payment");
             return jsonParser.parse(paymentDtoJson);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new PaymentFailException("결제 데이터 파싱 오류");
         }
     }

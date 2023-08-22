@@ -1,11 +1,11 @@
 package com.jydev.mindtravel.mindshare;
 
-import com.jydev.mindtravel.service.member.domain.Member;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
-import com.jydev.mindtravel.service.mind.share.event.MindSharePostCommentFcmEvent;
-import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentRequest;
-import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentRequest;
+import com.jydev.mindtravel.domain.member.domain.Member;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePost;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePostComment;
+import com.jydev.mindtravel.domain.mind.share.event.MindSharePostCommentFcmEvent;
+import com.jydev.mindtravel.domain.mind.share.dto.comment.MindSharePostChildCommentRequest;
+import com.jydev.mindtravel.domain.mind.share.dto.comment.MindSharePostCommentRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

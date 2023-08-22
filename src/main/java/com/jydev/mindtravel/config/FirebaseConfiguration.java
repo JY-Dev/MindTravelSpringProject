@@ -18,8 +18,8 @@ public class FirebaseConfiguration {
     public void initFirebaseInstance() throws IOException {
         FileInputStream serviceAccount = new FileInputStream("firebase_admin_sdk.json");
         FirebaseOptions options = FirebaseOptions.builder()
-                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                        .build();
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .build();
         FirebaseApp.initializeApp(options);
         log.info("Firebase Init");
     }

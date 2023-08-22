@@ -1,10 +1,10 @@
 package com.jydev.mindtravel.payment;
 
-import com.jydev.mindtravel.service.exception.PaymentFailException;
-import com.jydev.mindtravel.service.payment.utils.PaymentValidator;
-import com.jydev.mindtravel.service.payment.model.KakaoPaymentDto;
-import com.jydev.mindtravel.service.payment.model.PaymentDto;
-import com.jydev.mindtravel.service.store.model.PaymentType;
+import com.jydev.mindtravel.common.exception.PaymentFailException;
+import com.jydev.mindtravel.domain.payment.utils.PaymentValidator;
+import com.jydev.mindtravel.domain.payment.dto.KakaoPaymentDto;
+import com.jydev.mindtravel.domain.payment.dto.PaymentDto;
+import com.jydev.mindtravel.domain.store.domain.PaymentType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

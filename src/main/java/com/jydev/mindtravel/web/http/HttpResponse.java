@@ -8,7 +8,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class HttpResponse<T> {
-    private Integer code;
     private String message;
     private T data;
 }

@@ -2,10 +2,10 @@ package com.jydev.mindtravel.web.security.jwt;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jydev.mindtravel.auth.repository.RefreshTokenRepository;
-import com.jydev.mindtravel.auth.jwt.Jwt;
-import com.jydev.mindtravel.auth.jwt.JwtProvider;
-import com.jydev.mindtravel.service.member.service.MemberService;
+import com.jydev.mindtravel.domain.auth.jwt.Jwt;
+import com.jydev.mindtravel.domain.auth.jwt.JwtProvider;
+import com.jydev.mindtravel.domain.auth.repository.RefreshTokenRepository;
+import com.jydev.mindtravel.domain.member.service.MemberService;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -46,7 +46,7 @@ public class JwtRefreshFilter extends OncePerRequestFilter {
             if (token.equals(findToken)) {
                 String accessToken = jwtProvider.createToken(claims, jwtProvider.getExpireDateAccessToken());
                 Jwt jwt = new Jwt(accessToken, token);
-                refreshTokenRepository.saveRefreshToken(email,token);
+                refreshTokenRepository.saveRefreshToken(email, token);
                 httpUtils.sendResponse(response, HttpServletResponse.SC_OK, "", jwt);
             } else
                 throw new IllegalArgumentException();
