@@ -2,15 +2,15 @@ package com.jydev.mindtravel.mindshare;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.ControllerTest;
-import com.jydev.mindtravel.service.mind.share.model.MindSharePostCategory;
-import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentRequest;
-import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostCommentResponse;
-import com.jydev.mindtravel.service.mind.share.model.like.MindSharePostLikeResponse;
-import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostDetailResponse;
-import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostRequest;
-import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsRequest;
-import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsResponse;
-import com.jydev.mindtravel.service.mind.share.service.MindShareService;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePostCategory;
+import com.jydev.mindtravel.domain.mind.share.dto.comment.MindSharePostChildCommentRequest;
+import com.jydev.mindtravel.domain.mind.share.dto.comment.MindSharePostCommentResponse;
+import com.jydev.mindtravel.domain.mind.share.dto.like.MindSharePostLikeResponse;
+import com.jydev.mindtravel.domain.mind.share.dto.post.MindSharePostDetailResponse;
+import com.jydev.mindtravel.domain.mind.share.dto.post.MindSharePostRequest;
+import com.jydev.mindtravel.domain.mind.share.dto.post.MindSharePostsRequest;
+import com.jydev.mindtravel.domain.mind.share.dto.post.MindSharePostsResponse;
+import com.jydev.mindtravel.domain.mind.share.service.MindShareService;
 import com.jydev.mindtravel.util.ControllerTestHelper;
 import com.jydev.mindtravel.web.controller.MindShareController;
 import com.jydev.mindtravel.web.http.EmptyResponse;
@@ -61,7 +61,7 @@ public class MindShareControllerTest {
     public void saveMindSharePostTest() throws Exception {
         MindSharePostRequest request = MindShareMockFactory.getMindSharePostRequest(MindSharePostCategory.DAILY);
         given(httpUtils.makeEmptyResponse()).willReturn(
-                ResponseEntity.ok(new HttpResponse<EmptyResponse>(HttpServletResponse.SC_OK, "", null))
+                new HttpResponse<>("", null)
         );
         ResultActions requestAction = mockMvc.perform(
                 ControllerTestHelper.baseRequestBuilder(
@@ -80,7 +80,6 @@ public class MindShareControllerTest {
                                 fieldWithPath("content").description("본문"),
                                 fieldWithPath("category").description("카테고리 종류 : TROUBLE_COUNSELING, DAILY")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data").type(JsonFieldType.NULL).description("데이터")
                         )));
@@ -89,10 +88,10 @@ public class MindShareControllerTest {
     @Test
     public void searchMindSharePostsTest() throws Exception {
         MindSharePostsResponse mindSharePostsResponse = getMindSharePostsResponse(1);
-        HttpResponse<MindSharePostsResponse> response = new HttpResponse<>(HttpServletResponse.SC_OK, "", mindSharePostsResponse);
+        HttpResponse<MindSharePostsResponse> response = new HttpResponse<>("", mindSharePostsResponse);
         given(service.searchMindSharePosts(any(MindSharePostsRequest.class))).willReturn(mindSharePostsResponse);
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(MindSharePostsResponse.class))).willReturn(
-                ResponseEntity.ok(response)
+        given(httpUtils.makeHttpResponse(any(String.class), any(MindSharePostsResponse.class))).willReturn(
+                response
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
@@ -113,7 +112,6 @@ public class MindShareControllerTest {
                                 parameterWithName("pageSize").description("pageSize"),
                                 parameterWithName("category").description("카테고리 종류 : TROUBLE_COUNSELING, DAILY")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data.totalPostSize").type(JsonFieldType.NUMBER).description("전체 글 사이즈"),
                                 fieldWithPath("data.posts[].postId").type(JsonFieldType.NUMBER).description("글 idx"),
@@ -132,10 +130,10 @@ public class MindShareControllerTest {
     @Test
     public void searchMindSharePostTest() throws Exception {
         MindSharePostDetailResponse postDetail = getMindSharePostDetailResponse();
-        HttpResponse<MindSharePostDetailResponse> response = new HttpResponse<>(HttpServletResponse.SC_OK, "", postDetail);
+        HttpResponse<MindSharePostDetailResponse> response = new HttpResponse<>( "", postDetail);
         given(service.searchMindSharePost(any(Long.class))).willReturn(postDetail);
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(MindSharePostDetailResponse.class))).willReturn(
-                ResponseEntity.ok(response)
+        given(httpUtils.makeHttpResponse(any(String.class), any(MindSharePostDetailResponse.class))).willReturn(
+                response
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
@@ -151,7 +149,6 @@ public class MindShareControllerTest {
                         pathParameters(
                                 parameterWithName("postId").description("글 Id")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data.postId").type(JsonFieldType.NUMBER).description("글 Id"),
                                 fieldWithPath("data.member.id").type(JsonFieldType.NUMBER).description("글 작성자 idx"),
@@ -194,8 +191,8 @@ public class MindShareControllerTest {
     public void getMindSharePostCommentsTest() throws Exception {
         List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
         given(service.getPostComments(any(Long.class))).willReturn(comments);
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", comments))
+        given(httpUtils.makeHttpResponse(any(String.class), any(List.class))).willReturn(
+                new HttpResponse<>( "", comments)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
@@ -211,7 +208,6 @@ public class MindShareControllerTest {
                         pathParameters(
                                 parameterWithName("postId").description("글 Id")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data[].commentId").type(JsonFieldType.NUMBER).description("댓글 Id"),
                                 fieldWithPath("data[].content").type(JsonFieldType.STRING).description("댓글 내용"),
@@ -237,8 +233,8 @@ public class MindShareControllerTest {
     public void getMindSharePostLikesTest() throws Exception {
         List<MindSharePostLikeResponse> likes = getMindSharePostLikeResponses();
         given(service.getPostLikes(any(Long.class))).willReturn(likes);
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", likes))
+        given(httpUtils.makeHttpResponse(any(String.class), any(List.class))).willReturn(
+                new HttpResponse<>("", likes)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
@@ -254,7 +250,6 @@ public class MindShareControllerTest {
                         pathParameters(
                                 parameterWithName("postId").description("글 Id")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data[].postId").type(JsonFieldType.NUMBER).description("글 Id"),
                                 fieldWithPath("data[].member.id").type(JsonFieldType.NUMBER).description("좋아요 누른 사람 idx"),
@@ -269,8 +264,8 @@ public class MindShareControllerTest {
     public void insertMindSharePostLikeTest() throws Exception {
         List<MindSharePostLikeResponse> likes = getMindSharePostLikeResponses();
         given(service.getPostLikes(any(Long.class))).willReturn(likes);
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", likes))
+        given(httpUtils.makeHttpResponse(any(String.class), any(List.class))).willReturn(
+                new HttpResponse<>( "", likes)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
@@ -286,7 +281,6 @@ public class MindShareControllerTest {
                         pathParameters(
                                 parameterWithName("postId").description("글 Id")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data[].postId").type(JsonFieldType.NUMBER).description("글 Id"),
                                 fieldWithPath("data[].member.id").type(JsonFieldType.NUMBER).description("좋아요 누른 사람 idx"),
@@ -301,8 +295,8 @@ public class MindShareControllerTest {
     public void deleteMindSharePostLikeTest() throws Exception {
         List<MindSharePostLikeResponse> likes = getMindSharePostLikeResponses();
         given(service.getPostLikes(any(Long.class))).willReturn(likes);
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", likes))
+        given(httpUtils.makeHttpResponse(any(String.class), any(List.class))).willReturn(
+                new HttpResponse<>( "", likes)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
@@ -318,7 +312,6 @@ public class MindShareControllerTest {
                         pathParameters(
                                 parameterWithName("postId").description("글 Id")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data[].postId").type(JsonFieldType.NUMBER).description("글 Id"),
                                 fieldWithPath("data[].member.id").type(JsonFieldType.NUMBER).description("좋아요 누른 사람 idx"),
@@ -332,8 +325,8 @@ public class MindShareControllerTest {
     @Test
     public void insertMindSharePostCommentTest() throws Exception {
         List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", comments))
+        given(httpUtils.makeHttpResponse(any(String.class), any(List.class))).willReturn(
+                new HttpResponse<>( "", comments)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 post("/v1/mind/share/post/{postId}/comment", 1)
@@ -354,7 +347,6 @@ public class MindShareControllerTest {
                         pathParameters(
                                 parameterWithName("postId").description("글 Id")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data[].commentId").type(JsonFieldType.NUMBER).description("댓글 Id"),
                                 fieldWithPath("data[].content").type(JsonFieldType.STRING).description("댓글 내용"),
@@ -379,8 +371,8 @@ public class MindShareControllerTest {
     @Test
     public void deleteMindSharePostCommentTest() throws Exception {
         List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", comments))
+        given(httpUtils.makeHttpResponse(any(String.class), any(List.class))).willReturn(
+                new HttpResponse<>("", comments)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
@@ -397,7 +389,6 @@ public class MindShareControllerTest {
                                 parameterWithName("postId").description("글 Id"),
                                 parameterWithName("commentId").description("댓글 Id")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data[].commentId").type(JsonFieldType.NUMBER).description("댓글 Id"),
                                 fieldWithPath("data[].content").type(JsonFieldType.STRING).description("댓글 내용"),
@@ -422,8 +413,8 @@ public class MindShareControllerTest {
     @Test
     public void editMindSharePostCommentTest() throws Exception {
         List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", comments))
+        given(httpUtils.makeHttpResponse(any(String.class), any(List.class))).willReturn(
+                new HttpResponse<>( "", comments)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 patch("/v1/mind/share/post/{postId}/comment/{commentId}", 1, 1)
@@ -445,7 +436,6 @@ public class MindShareControllerTest {
                                 parameterWithName("postId").description("글 Id"),
                                 parameterWithName("commentId").description("댓글 Id")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data[].commentId").type(JsonFieldType.NUMBER).description("댓글 Id"),
                                 fieldWithPath("data[].content").type(JsonFieldType.STRING).description("댓글 내용"),
@@ -471,8 +461,8 @@ public class MindShareControllerTest {
     public void insertMindSharePostChildCommentTest() throws Exception {
         List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
         MindSharePostChildCommentRequest request = getMindSharePostChildCommentRequest(1L);
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", comments))
+        given(httpUtils.makeHttpResponse( any(String.class), any(List.class))).willReturn(
+                new HttpResponse<>("", comments)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
@@ -495,7 +485,6 @@ public class MindShareControllerTest {
                         pathParameters(
                                 parameterWithName("postId").description("글 Id")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data[].commentId").type(JsonFieldType.NUMBER).description("댓글 Id"),
                                 fieldWithPath("data[].content").type(JsonFieldType.STRING).description("댓글 내용"),
@@ -520,8 +509,8 @@ public class MindShareControllerTest {
     @Test
     public void deleteMindSharePostChildCommentTest() throws Exception {
         List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", comments))
+        given(httpUtils.makeHttpResponse( any(String.class), any(List.class))).willReturn(
+                new HttpResponse<>("", comments)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
@@ -538,7 +527,6 @@ public class MindShareControllerTest {
                                 parameterWithName("postId").description("글 Id"),
                                 parameterWithName("commentId").description("댓글 Id")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data[].commentId").type(JsonFieldType.NUMBER).description("댓글 Id"),
                                 fieldWithPath("data[].content").type(JsonFieldType.STRING).description("댓글 내용"),
@@ -563,8 +551,8 @@ public class MindShareControllerTest {
     @Test
     public void editMindSharePostChildCommentTest() throws Exception {
         List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
-        given(httpUtils.makeHttpResponse(any(Integer.class), any(String.class), any(List.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(HttpServletResponse.SC_OK, "", comments))
+        given(httpUtils.makeHttpResponse( any(String.class), any(List.class))).willReturn(
+                new HttpResponse<>("", comments)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 patch("/v1/mind/share/post/{postId}/comment/child/{commentId}", 1, 1)
@@ -586,7 +574,6 @@ public class MindShareControllerTest {
                                 parameterWithName("postId").description("글 Id"),
                                 parameterWithName("commentId").description("댓글 Id")),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data[].commentId").type(JsonFieldType.NUMBER).description("댓글 Id"),
                                 fieldWithPath("data[].content").type(JsonFieldType.STRING).description("댓글 내용"),

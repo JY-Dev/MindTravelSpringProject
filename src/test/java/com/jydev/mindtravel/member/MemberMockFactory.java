@@ -1,6 +1,6 @@
 package com.jydev.mindtravel.member;
 
-import com.jydev.mindtravel.service.member.domain.Member;
+import com.jydev.mindtravel.domain.member.domain.Member;
 import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 

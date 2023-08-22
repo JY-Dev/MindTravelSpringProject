@@ -47,11 +47,11 @@ public class LoggingFilter extends OncePerRequestFilter {
                 queryString == null ? request.getRequestURI() : request.getRequestURI() + queryString,
                 request.getContentType()
         );
-        if(request.getContentType() == null)
+        if (request.getContentType() == null)
             return;
-        if(request instanceof ReReadableRequestWrapper){
-            logPayload(prefix,request.getInputStream());
-        } else{
+        if (request instanceof ReReadableRequestWrapper) {
+            logPayload(prefix, request.getInputStream());
+        } else {
             logPayload(prefix, request.getParameterMap());
         }
 
@@ -70,7 +70,7 @@ public class LoggingFilter extends OncePerRequestFilter {
     }
 
     public HttpServletRequest getWrappedRequest(HttpServletRequest request) throws IOException {
-        if(request.getContentType() != null && !needParameterPayload(request.getContentType()))
+        if (request.getContentType() != null && !needParameterPayload(request.getContentType()))
             return new ReReadableRequestWrapper(request);
         else
             return request;
@@ -81,13 +81,13 @@ public class LoggingFilter extends OncePerRequestFilter {
                 contentType.startsWith(MediaType.MULTIPART_FORM_DATA_VALUE));
     }
 
-    private void logPayload(String prefix, Map<String,String[]> parameter) throws IOException {
+    private void logPayload(String prefix, Map<String, String[]> parameter) throws IOException {
         log.info("{} Payload: {}", prefix, getParameterString(parameter));
     }
 
-    private String getParameterString(Map<String,String[]> parameter){
+    private String getParameterString(Map<String, String[]> parameter) {
         return parameter.entrySet().stream()
-                .map(e -> "["+e.getKey() + " : " + String.join(", ",e.getValue())+"]")
+                .map(e -> "[" + e.getKey() + " : " + String.join(", ", e.getValue()) + "]")
                 .collect(Collectors.joining(", "));
     }
 

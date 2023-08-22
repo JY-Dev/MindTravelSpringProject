@@ -1,9 +1,9 @@
 package com.jydev.mindtravel.web.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jydev.mindtravel.auth.jwt.JwtProvider;
-import com.jydev.mindtravel.service.member.model.MemberDto;
-import com.jydev.mindtravel.service.member.service.MemberService;
+import com.jydev.mindtravel.domain.auth.jwt.JwtProvider;
+import com.jydev.mindtravel.domain.member.dto.MemberDto;
+import com.jydev.mindtravel.domain.member.service.MemberService;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(email, null,
                             claimsInfo.getAuthorities().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())));
-            request.setAttribute("member",member);
+            request.setAttribute("member", member);
             doFilter(request, response, filterChain);
         } catch (ExpiredJwtException e) {
             httpUtils.sendResponse(response, HttpServletResponse.SC_FORBIDDEN, "토큰 만료", null);

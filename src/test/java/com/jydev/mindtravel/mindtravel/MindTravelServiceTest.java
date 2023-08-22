@@ -1,14 +1,12 @@
 package com.jydev.mindtravel.mindtravel;
 
-import com.jydev.mindtravel.service.member.domain.Member;
-import com.jydev.mindtravel.service.member.repository.MemberQueryRepository;
-import com.jydev.mindtravel.service.mind.travel.domain.MoodRecord;
-import com.jydev.mindtravel.service.mind.travel.model.Mood;
-import com.jydev.mindtravel.service.mind.travel.model.MoodRecordRequest;
-import com.jydev.mindtravel.service.mind.travel.model.MoodRecordResponse;
-import com.jydev.mindtravel.service.mind.travel.repository.MoodRecordCommandRepository;
-import com.jydev.mindtravel.service.mind.travel.repository.MoodRecordQueryRepository;
-import com.jydev.mindtravel.service.mind.travel.service.MindTravelService;
+import com.jydev.mindtravel.domain.member.domain.Member;
+import com.jydev.mindtravel.domain.mind.travel.domain.MoodRecord;
+import com.jydev.mindtravel.domain.mind.travel.domain.Mood;
+import com.jydev.mindtravel.domain.mind.travel.dto.MoodRecordRequest;
+import com.jydev.mindtravel.domain.mind.travel.dto.MoodRecordResponse;
+import com.jydev.mindtravel.domain.mind.travel.repository.MoodRecordQueryRepository;
+import com.jydev.mindtravel.domain.mind.travel.service.MindTravelService;
 import com.jydev.mindtravel.web.security.oauth.model.OauthInfo;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 import org.assertj.core.api.Assertions;

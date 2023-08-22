@@ -2,9 +2,8 @@ package com.jydev.mindtravel.member;
 
 
 import com.jydev.mindtravel.ControllerTest;
-import com.jydev.mindtravel.service.member.model.MemberDto;
-import com.jydev.mindtravel.service.member.model.MemberRole;
-import com.jydev.mindtravel.service.member.service.MemberService;
+import com.jydev.mindtravel.domain.member.dto.MemberDto;
+import com.jydev.mindtravel.domain.member.service.MemberService;
 import com.jydev.mindtravel.web.controller.MemberController;
 import com.jydev.mindtravel.web.http.HttpResponse;
 import com.jydev.mindtravel.web.http.HttpUtils;
@@ -12,13 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
-import java.time.LocalDateTime;
 
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentRequest;
 import static com.jydev.mindtravel.ApiDocumentUtils.getDocumentResponse;
@@ -50,9 +46,9 @@ public class MemberControllerTest {
     @Test
     public void getMember() throws Exception {
         //Given
-        given(httpUtils.makeHttpResponse(eq(200), eq(""), any(MemberDto.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(200, "", memberDto)
-        ));
+        given(httpUtils.makeHttpResponse( eq(""), any(MemberDto.class))).willReturn(
+                new HttpResponse<>("", memberDto)
+        );
 
         //when
         ResultActions result = this.mockMvc.perform(
@@ -67,7 +63,6 @@ public class MemberControllerTest {
                                 headerWithName("Authorization").description("Access Token")
                         ),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data.memberIdx").type(JsonFieldType.NUMBER).description("memberIdx"),
                                 fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
@@ -83,9 +78,9 @@ public class MemberControllerTest {
         //Given
         String changeNickname= "changeNickname";
         given(memberService.editNickname(any(String.class),any(String.class))).willReturn(memberDto);
-        given(httpUtils.makeHttpResponse(eq(200), eq(""), any(MemberDto.class))).willReturn(
-                ResponseEntity.ok(new HttpResponse<>(200, "", memberDto)
-                ));
+        given(httpUtils.makeHttpResponse( eq(""), any(MemberDto.class))).willReturn(
+                new HttpResponse<>( "", memberDto)
+        );
         ResultActions result = this.mockMvc.perform(
                 patch("/v1/member/{nickname}",changeNickname)
                         .header("Authorization", "Bearer Token")
@@ -101,7 +96,6 @@ public class MemberControllerTest {
                                 parameterWithName("nickname").description("닉네임")
                         ),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("결과코드"),
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("결과메시지"),
                                 fieldWithPath("data.memberIdx").type(JsonFieldType.NUMBER).description("memberIdx"),
                                 fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),

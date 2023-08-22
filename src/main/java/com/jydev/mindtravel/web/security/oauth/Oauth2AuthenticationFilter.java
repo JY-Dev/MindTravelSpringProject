@@ -1,6 +1,6 @@
 package com.jydev.mindtravel.web.security.oauth;
 
-import com.jydev.mindtravel.auth.jwt.JwtProvider;
+import com.jydev.mindtravel.domain.auth.jwt.JwtProvider;
 import com.jydev.mindtravel.web.security.oauth.model.Oauth2AuthenticationToken;
 import com.jydev.mindtravel.web.security.oauth.model.OauthServerType;
 import jakarta.servlet.ServletException;
@@ -42,13 +42,13 @@ public class Oauth2AuthenticationFilter extends AbstractAuthenticationProcessing
         return getAuthenticationManager().authenticate(new Oauth2AuthenticationToken(accessToken, fcmToken, serverType));
     }
 
-    public String extractFcmToken(HttpServletRequest request){
-        try{
+    public String extractFcmToken(HttpServletRequest request) {
+        try {
             String fcmToken = request.getHeader("FCM");
-            if(fcmToken.isEmpty())
+            if (fcmToken.isEmpty())
                 throw new AuthenticationServiceException("");
             return request.getHeader("FCM");
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new AuthenticationServiceException("FCM 토큰이 없습니다.");
         }
 

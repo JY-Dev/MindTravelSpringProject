@@ -1,6 +1,5 @@
 package com.jydev.mindtravel.web.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

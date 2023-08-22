@@ -1,24 +1,23 @@
 package com.jydev.mindtravel.mindshare;
 
 import com.jydev.mindtravel.RepositoryTest;
-import com.jydev.mindtravel.service.member.domain.Member;
-import com.jydev.mindtravel.service.member.repository.MemberCommandRepository;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePost;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePostChildComment;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePostComment;
-import com.jydev.mindtravel.service.mind.share.domain.MindSharePostLike;
-import com.jydev.mindtravel.service.mind.share.model.*;
-import com.jydev.mindtravel.service.mind.share.model.comment.MindSharePostChildCommentRequest;
-import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostRequest;
-import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostResponse;
-import com.jydev.mindtravel.service.mind.share.model.post.MindSharePostsRequest;
-import com.jydev.mindtravel.service.mind.share.repository.*;
+import com.jydev.mindtravel.domain.member.domain.Member;
+import com.jydev.mindtravel.domain.member.repository.MemberCommandRepository;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePost;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePostChildComment;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePostComment;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePostLike;
+import com.jydev.mindtravel.domain.mind.share.domain.MindSharePostCategory;
+import com.jydev.mindtravel.domain.mind.share.repository.*;
+import com.jydev.mindtravel.domain.mind.share.dto.comment.MindSharePostChildCommentRequest;
+import com.jydev.mindtravel.domain.mind.share.dto.post.MindSharePostRequest;
+import com.jydev.mindtravel.domain.mind.share.dto.post.MindSharePostResponse;
+import com.jydev.mindtravel.domain.mind.share.dto.post.MindSharePostsRequest;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
 import java.util.List;

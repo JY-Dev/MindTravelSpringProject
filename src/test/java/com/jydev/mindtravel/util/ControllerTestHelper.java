@@ -1,7 +1,7 @@
 package com.jydev.mindtravel.util;
 
-import com.jydev.mindtravel.service.member.model.MemberDto;
-import com.jydev.mindtravel.service.member.model.MemberRole;
+import com.jydev.mindtravel.domain.member.dto.MemberDto;
+import com.jydev.mindtravel.domain.member.domain.MemberRole;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
