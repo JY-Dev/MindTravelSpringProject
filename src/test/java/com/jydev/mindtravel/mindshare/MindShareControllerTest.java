@@ -64,7 +64,7 @@ public class MindShareControllerTest {
                 new HttpResponse<>("", null)
         );
         ResultActions requestAction = mockMvc.perform(
-                ControllerTestHelper.baseRequestBuilder(
+                baseRequestBuilder(
                         post("/v1/mind/share/post")
                                 .content(objectMapper.writeValueAsString(request))
                 )
@@ -88,10 +88,9 @@ public class MindShareControllerTest {
     @Test
     public void searchMindSharePostsTest() throws Exception {
         MindSharePostsResponse mindSharePostsResponse = getMindSharePostsResponse(1);
-        HttpResponse<MindSharePostsResponse> response = new HttpResponse<>("", mindSharePostsResponse);
         given(service.searchMindSharePosts(any(MindSharePostsRequest.class))).willReturn(mindSharePostsResponse);
         given(httpUtils.makeHttpResponse(any(String.class), any(MindSharePostsResponse.class))).willReturn(
-                response
+                new HttpResponse<>("", mindSharePostsResponse)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
@@ -130,10 +129,9 @@ public class MindShareControllerTest {
     @Test
     public void searchMindSharePostTest() throws Exception {
         MindSharePostDetailResponse postDetail = getMindSharePostDetailResponse();
-        HttpResponse<MindSharePostDetailResponse> response = new HttpResponse<>( "", postDetail);
         given(service.searchMindSharePost(any(Long.class))).willReturn(postDetail);
         given(httpUtils.makeHttpResponse(any(String.class), any(MindSharePostDetailResponse.class))).willReturn(
-                response
+                new HttpResponse<>( "", postDetail)
         );
         ResultActions resultActions = this.mockMvc.perform(
                 baseRequestBuilder(
@@ -461,7 +459,7 @@ public class MindShareControllerTest {
     public void insertMindSharePostChildCommentTest() throws Exception {
         List<MindSharePostCommentResponse> comments = getMindSharePostCommentResponses();
         MindSharePostChildCommentRequest request = getMindSharePostChildCommentRequest(1L);
-        given(httpUtils.makeHttpResponse( any(String.class), any(List.class))).willReturn(
+        given(httpUtils.makeHttpResponse(any(String.class), any(List.class))).willReturn(
                 new HttpResponse<>("", comments)
         );
         ResultActions resultActions = this.mockMvc.perform(

@@ -16,14 +16,13 @@ import com.jydev.mindtravel.web.http.EmptyResponse;
 import com.jydev.mindtravel.web.http.HttpResponse;
 import com.jydev.mindtravel.web.http.HttpUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/v1/mind/share")
-@Controller
+@RestController
 public class MindShareController {
     private final HttpUtils httpUtils;
     private final MindShareService mindShareService;
