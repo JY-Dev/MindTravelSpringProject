@@ -42,7 +42,6 @@
 [https://github.com/JY-Dev/MindTravelApplication](https://github.com/JY-Dev/MindTravelApplication)
 
 ### TODO
-- Transaction Read Only 적용
 - 프로필 사진 등록
     - S3 이용
 - 상담사랑 채팅 기능
